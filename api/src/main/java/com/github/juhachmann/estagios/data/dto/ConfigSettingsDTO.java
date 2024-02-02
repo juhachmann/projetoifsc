@@ -1,0 +1,68 @@
+package com.github.juhachmann.estagios.data.dto;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+import org.springframework.validation.annotation.Validated;
+
+import jakarta.validation.constraints.NotNull;
+
+@Validated
+public class ConfigSettingsDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
+	@NotNull
+	private String topic;
+	@NotNull
+	private SettingsDTO settings;
+	
+	
+	public ConfigSettingsDTO() {
+		super();
+	}
+	
+	public ConfigSettingsDTO(@NotNull String topic, @NotNull SettingsDTO settings) {
+		super();
+		this.topic = topic;
+		this.settings = settings;
+	}
+	
+	
+	public String getTopic() {
+		return topic;
+	}
+	public void setTopic(String topic) {
+		this.topic = topic;
+	}
+	
+	
+	public SettingsDTO getSettings() {
+		return settings;
+	}
+	public void setSettings(SettingsDTO settings) {
+		this.settings = settings;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(settings, topic);
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ConfigSettingsDTO other = (ConfigSettingsDTO) obj;
+		return Objects.equals(settings, other.settings) && Objects.equals(topic, other.topic);
+	}
+	
+	
+}
