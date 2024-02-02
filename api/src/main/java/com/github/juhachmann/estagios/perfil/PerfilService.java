@@ -1,4 +1,4 @@
-package com.github.juhachmann.estagios.services;
+package com.github.juhachmann.estagios.perfil;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -13,13 +13,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.juhachmann.estagios.controller.PerfilController;
-import com.github.juhachmann.estagios.controller.VagaController;
-import com.github.juhachmann.estagios.data.dto.ConfigDTO;
-import com.github.juhachmann.estagios.data.dto.PerfilDTO;
 import com.github.juhachmann.estagios.exceptions.InvalidRequestException;
-import com.github.juhachmann.estagios.repository.MockConfigRepository;
-import com.github.juhachmann.estagios.repository.MockPerfilRepository;
+import com.github.juhachmann.estagios.vagas.VagaController;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;

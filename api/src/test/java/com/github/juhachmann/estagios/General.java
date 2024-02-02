@@ -7,8 +7,9 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.juhachmann.estagios.data.dto.ConfigDTO;
-import com.github.juhachmann.estagios.data.dto.PerfilDTO;
+import com.github.juhachmann.estagios.perfil.ConfigDTO;
+import com.github.juhachmann.estagios.perfil.PerfilDTO;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 class General {

@@ -9,10 +9,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.github.juhachmann.estagios.data.dto.ConfigDTO;
-import com.github.juhachmann.estagios.data.mock.MockConfigDTO;
-import com.github.juhachmann.estagios.data.mock.NotificationSettingsFactory;
-import com.github.juhachmann.estagios.data.mock.SettingsFactory;
+import com.github.juhachmann.estagios.perfil.ConfigDTO;
+import com.github.juhachmann.estagios.perfil.MockConfigDTO;
+import com.github.juhachmann.estagios.perfil.NotificationSettingsFactory;
+import com.github.juhachmann.estagios.perfil.SettingsFactory;
 
 class ConfigDTOValidationTest extends ValidationTest<ConfigDTO> {
 

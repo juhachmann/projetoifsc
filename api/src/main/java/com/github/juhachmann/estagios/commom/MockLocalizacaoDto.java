@@ -1,12 +1,10 @@
-package com.github.juhachmann.estagios.data.mock;
+package com.github.juhachmann.estagios.commom;
 //import static com.github.juhachmann.estagios.data.mock.MockDatabasePerfil.enderecoDTOMockCollection;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
-import com.github.juhachmann.estagios.data.dto.LocalizacaoDTO;
 
 @Service
 public class MockLocalizacaoDto {

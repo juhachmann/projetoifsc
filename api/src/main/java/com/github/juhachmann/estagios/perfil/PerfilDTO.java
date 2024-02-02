@@ -1,4 +1,4 @@
-package com.github.juhachmann.estagios.data.dto;
+package com.github.juhachmann.estagios.perfil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,6 +14,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.github.juhachmann.estagios.commom.ContactDTO;
+import com.github.juhachmann.estagios.commom.LocalizacaoDTO;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

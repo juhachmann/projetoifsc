@@ -12,12 +12,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.github.juhachmann.estagios.data.dto.ContactDTO;
-import com.github.juhachmann.estagios.data.dto.LocalizacaoDTO;
-import com.github.juhachmann.estagios.data.dto.PerfilDTO;
-import com.github.juhachmann.estagios.data.mock.MockContactDto;
-import com.github.juhachmann.estagios.data.mock.MockLocalizacaoDto;
-import com.github.juhachmann.estagios.data.mock.MockPerfilDto;
+import com.github.juhachmann.estagios.commom.ContactDTO;
+import com.github.juhachmann.estagios.commom.LocalizacaoDTO;
+import com.github.juhachmann.estagios.commom.MockContactDto;
+import com.github.juhachmann.estagios.commom.MockLocalizacaoDto;
+import com.github.juhachmann.estagios.perfil.MockPerfilDto;
+import com.github.juhachmann.estagios.perfil.PerfilDTO;
 
 public class PerfilDTOValidationTest extends ValidationTest<PerfilDTO> {
 

@@ -1,4 +1,4 @@
-package com.github.juhachmann.estagios.controller;
+package com.github.juhachmann.estagios.perfil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,10 +17,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.juhachmann.estagios.data.dto.ConfigDTO;
-import com.github.juhachmann.estagios.data.dto.PerfilDTO;
-import com.github.juhachmann.estagios.repository.MockPerfilRepository;
-import com.github.juhachmann.estagios.services.PerfilService;
 import com.github.juhachmann.estagios.utils.MediaTypes;
 
 

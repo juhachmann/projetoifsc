@@ -1,4 +1,4 @@
-package com.github.juhachmann.estagios.data.dto;
+package com.github.juhachmann.estagios.perfil;
 
 import java.io.Serializable;
 import java.util.Objects;

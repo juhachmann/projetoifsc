@@ -1,7 +1,4 @@
-package com.github.juhachmann.estagios.data.mock;
-
-import com.github.juhachmann.estagios.data.dto.NotificationsSettingsDTO;
-import com.github.juhachmann.estagios.data.dto.SettingsDTO;
+package com.github.juhachmann.estagios.perfil;
 
 public class NotificationSettingsFactory implements SettingsFactory {
 

@@ -1,10 +1,6 @@
-package com.github.juhachmann.estagios.repository;
+package com.github.juhachmann.estagios.perfil;
 
 import org.springframework.stereotype.Component;
-
-import com.github.juhachmann.estagios.data.dto.ConfigDTO;
-import com.github.juhachmann.estagios.data.mock.MockConfigDTO;
-import com.github.juhachmann.estagios.data.mock.NotificationSettingsFactory;
 
 @Component
 public class MockConfigRepository {

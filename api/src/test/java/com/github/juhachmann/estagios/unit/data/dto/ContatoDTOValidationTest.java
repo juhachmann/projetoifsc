@@ -6,8 +6,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.github.juhachmann.estagios.data.dto.ContactDTO;
-import com.github.juhachmann.estagios.data.mock.MockContactDto;
+import com.github.juhachmann.estagios.commom.ContactDTO;
+import com.github.juhachmann.estagios.commom.MockContactDto;
 
 
 class ContatoDTOValidationTest extends ValidationTest<ContactDTO> {

@@ -1,11 +1,8 @@
-package com.github.juhachmann.estagios.data.mock;
+package com.github.juhachmann.estagios.perfil;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
-import com.github.juhachmann.estagios.data.dto.ConfigDTO;
-import com.github.juhachmann.estagios.data.dto.ConfigSettingsDTO;
 
 @Service
 public class MockConfigDTO {

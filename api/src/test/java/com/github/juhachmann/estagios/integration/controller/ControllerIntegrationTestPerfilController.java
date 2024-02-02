@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 
-import com.github.juhachmann.estagios.data.dto.PerfilDTO;
+import com.github.juhachmann.estagios.perfil.PerfilDTO;
 import com.github.juhachmann.estagios.utils.MediaTypes;
 
 

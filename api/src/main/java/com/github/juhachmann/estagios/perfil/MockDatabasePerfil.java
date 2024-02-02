@@ -1,10 +1,8 @@
-package com.github.juhachmann.estagios.data.mock; 
+package com.github.juhachmann.estagios.perfil; 
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
-
-import com.github.juhachmann.estagios.data.dto.PerfilDTO;
 
 
 public class MockDatabasePerfil {

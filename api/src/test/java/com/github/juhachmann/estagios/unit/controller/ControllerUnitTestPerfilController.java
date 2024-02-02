@@ -24,8 +24,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.github.juhachmann.estagios.controller.PerfilController;
-import com.github.juhachmann.estagios.data.dto.PerfilDTO;
+import com.github.juhachmann.estagios.perfil.PerfilController;
+import com.github.juhachmann.estagios.perfil.PerfilDTO;
 
 import io.restassured.http.ContentType;
 

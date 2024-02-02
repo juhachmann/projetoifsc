@@ -1,4 +1,4 @@
-package com.github.juhachmann.estagios.data.dto;
+package com.github.juhachmann.estagios.perfil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class ConfigDTO extends RepresentationModel<ConfigDTO> implements Seriali
 	
 	@NotEmpty
 	@Valid
-	private List<@Valid ConfigSettingsDTO> configs;
+	private List<com.github.juhachmann.estagios.perfil.ConfigSettingsDTO> configs;
 		
 	
 	public ConfigDTO() {
@@ -37,7 +37,7 @@ public class ConfigDTO extends RepresentationModel<ConfigDTO> implements Seriali
 	}
 
 
-	public ConfigDTO(long key, long ownerId, @NotEmpty List<@Valid ConfigSettingsDTO> settings) {
+	public ConfigDTO(long key, long ownerId, @NotEmpty List<com.github.juhachmann.estagios.perfil.ConfigSettingsDTO> settings) {
 		super();
 		this.key = key;
 		this.ownerId = ownerId;

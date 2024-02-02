@@ -1,9 +1,7 @@
-package com.github.juhachmann.estagios.data.mock;
+package com.github.juhachmann.estagios.commom;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.github.juhachmann.estagios.data.dto.ContactDTO;
 
 public class MockContactDto {
 	

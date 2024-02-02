@@ -1,4 +1,4 @@
-package com.github.juhachmann.estagios.controller;
+package com.github.juhachmann.estagios.vagas;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,9 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.juhachmann.estagios.data.dto.ConfigDTO;
-import com.github.juhachmann.estagios.data.dto.PerfilPublicoDTO;
-import com.github.juhachmann.estagios.data.dto.VagasDTO;
+import com.github.juhachmann.estagios.perfil.ConfigDTO;
+import com.github.juhachmann.estagios.perfil.PerfilPublicoDTO;
 
 @RestController
 @RequestMapping("/vagas")

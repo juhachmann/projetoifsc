@@ -1,7 +1,7 @@
-package com.github.juhachmann.estagios.repository;
+package com.github.juhachmann.estagios.perfil;
 
 
-import static com.github.juhachmann.estagios.data.mock.MockDatabasePerfil.perfilCollection;
+import static com.github.juhachmann.estagios.perfil.MockDatabasePerfil.perfilCollection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +12,7 @@ import org.springframework.hateoas.LinkRelation;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 
-import com.github.juhachmann.estagios.controller.PerfilController;
-import com.github.juhachmann.estagios.data.dto.LocalizacaoDTO;
-import com.github.juhachmann.estagios.data.dto.PerfilDTO;
-import com.github.juhachmann.estagios.data.mock.MockDatabasePerfil;
+import com.github.juhachmann.estagios.commom.LocalizacaoDTO;
 import com.github.juhachmann.estagios.exceptions.ResourceNotFoundException;
 
 @Service

@@ -3,7 +3,7 @@ package com.github.juhachmann.estagios.exceptions;
 import java.io.Serializable;
 import java.util.Set;
 
-import com.github.juhachmann.estagios.data.dto.PerfilDTO;
+import com.github.juhachmann.estagios.perfil.PerfilDTO;
 
 import jakarta.validation.ConstraintViolation;
 

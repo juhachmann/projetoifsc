@@ -1,4 +1,4 @@
-package com.github.juhachmann.estagios.data.dto;
+package com.github.juhachmann.estagios.vagas;
 
 import java.io.Serializable;
 

@@ -1,11 +1,10 @@
-package com.github.juhachmann.estagios.data.mock;
+package com.github.juhachmann.estagios.perfil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.juhachmann.estagios.data.dto.ConfigDTO;
-import com.github.juhachmann.estagios.data.dto.NotificationsSettingsDTO;
-import com.github.juhachmann.estagios.data.dto.PerfilDTO;
+import com.github.juhachmann.estagios.commom.MockContactDto;
+import com.github.juhachmann.estagios.commom.MockLocalizacaoDto;
 
 public class MockPerfilDto {
 	

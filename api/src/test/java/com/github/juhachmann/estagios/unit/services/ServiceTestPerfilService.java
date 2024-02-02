@@ -24,16 +24,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.github.juhachmann.estagios.data.dto.ConfigDTO;
-import com.github.juhachmann.estagios.data.dto.PerfilDTO;
-import com.github.juhachmann.estagios.data.mock.MockConfigDTO;
-import com.github.juhachmann.estagios.data.mock.MockPerfilDto;
-import com.github.juhachmann.estagios.data.mock.NotificationSettingsFactory;
 import com.github.juhachmann.estagios.exceptions.InvalidRequestException;
 import com.github.juhachmann.estagios.exceptions.UnauthorizedRequestException;
-import com.github.juhachmann.estagios.repository.MockConfigRepository;
-import com.github.juhachmann.estagios.repository.MockPerfilRepository;
-import com.github.juhachmann.estagios.services.PerfilService;
+import com.github.juhachmann.estagios.perfil.ConfigDTO;
+import com.github.juhachmann.estagios.perfil.MockConfigDTO;
+import com.github.juhachmann.estagios.perfil.MockConfigRepository;
+import com.github.juhachmann.estagios.perfil.MockPerfilDto;
+import com.github.juhachmann.estagios.perfil.MockPerfilRepository;
+import com.github.juhachmann.estagios.perfil.NotificationSettingsFactory;
+import com.github.juhachmann.estagios.perfil.PerfilDTO;
+import com.github.juhachmann.estagios.perfil.PerfilService;
 import com.github.juhachmann.estagios.utils.MediaTypes;
 
 
@@ -180,13 +180,13 @@ class ServiceTestPerfilService {
 	}
 	
 	@Test
-	void getConfigMusReturnOneItem() {
+	void getConfigMusReturnOneItem() throws Exception {
 		when(configRepo.getById(1L)).thenReturn(configs);
 		assertEquals(configs, service.getPerfilConfig(1L));
 	}
 	
 	@Test
-	void getConfigReturnsItemWith2Links() {
+	void getConfigReturnsItemWith2Links() throws Exception {
 		when(configRepo.getById(1L)).thenReturn(configs);
 		ConfigDTO configs = service.getPerfilConfig(1L);
 		assertNotNull(configs.getRequiredLink("self"));
@@ -194,7 +194,7 @@ class ServiceTestPerfilService {
 	}
 	
 	@Test
-	void updateConfigMustReturnOneItemWith2Links() {
+	void updateConfigMustReturnOneItemWith2Links() throws Exception {
 		when(configRepo.update(1L, configs)).thenReturn(configs);
 		ConfigDTO updated = service.updateConfig(1L, configs);
 		assertEquals(configs, updated);
