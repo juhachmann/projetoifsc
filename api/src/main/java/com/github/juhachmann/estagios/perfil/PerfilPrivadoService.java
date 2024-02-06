@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.juhachmann.estagios.exceptions.InvalidBodyRequestException;
-import com.github.juhachmann.estagios.vagas.VagaController;
+import com.github.juhachmann.estagios.vagas.VagaPrivadaController;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -25,7 +25,7 @@ import jakarta.validation.ValidatorFactory;
  */
 
 @Service
-public class PerfilService {
+public class PerfilPrivadoService {
 	
 	@Autowired
 	MockPerfilRepository repo;
@@ -64,22 +64,22 @@ public class PerfilService {
 	 * @return
 	 * @throws Exception
 	 */
-	private void addRequiredLinks(PerfilDTO resource) throws Exception {
-		resource.removeLinks().add( linkTo( methodOn (PerfilController.class) .get(resource.getKey()) ) // SELF
+	private void addRequiredLinks(PerfilPrivadoDTO resource) throws Exception {
+		resource.removeLinks().add( linkTo( methodOn (PerfilPrivadoController.class) .get(resource.getKey()) ) // SELF
 						.withSelfRel()
 						.withTitle("self")
-						.andAffordance(afford(methodOn(PerfilController.class).update(resource.getKey(), resource) ) ) // update
-						.andAffordance( afford(methodOn(PerfilController.class).delete(resource.getKey()) ) ) // delete
+						.andAffordance(afford(methodOn(PerfilPrivadoController.class).update(resource.getKey(), resource) ) ) // update
+						.andAffordance( afford(methodOn(PerfilPrivadoController.class).delete(resource.getKey()) ) ) // delete
 					)
-					.add( linkTo( methodOn (PerfilController.class) . getConfigs(resource.getKey()) ) // CONFIGS 
+					.add( linkTo( methodOn (PerfilPrivadoController.class) . getConfigs(resource.getKey()) ) // CONFIGS 
 							.withRel("configs")
 							.withTitle("Configs for your profile")
 					)
-					.add( linkTo( methodOn (VagaController.class) .get(resource.getKey()) ) // VAGAS
+					.add( linkTo( methodOn (VagaPrivadaController.class) .getAllFromMe(resource.getKey(), 5, 5) ) // VAGAS TODO - Arrumar estes argumentos de busca paginada aqui
 							.withRel("vagas")
 							.withTitle("Jobs offered by you")
 					)
-					.add( linkTo( methodOn (VagaController.class) .getOwnerById(resource.getKey()) ) // PERFIL PUBLICO
+					.add( linkTo( methodOn (VagaPrivadaController.class) .getOwnerById(resource.getKey()) ) // PERFIL PUBLICO
 							.withRel("publicProfile")
 							.withTitle("Your public profile")
 					);
@@ -94,9 +94,9 @@ public class PerfilService {
 	 * @throws Exception
 	 */
 	private void addRequiredLinks(ConfigDTO resource) throws Exception {
-		resource.removeLinks().add( linkTo( methodOn (PerfilController.class).getConfigs(resource.getKey()) ).withSelfRel()
-							.andAffordance( afford ( methodOn( PerfilController.class).updateConfigs(resource.getKey(), resource) ) ) ) // update
-					.add( linkTo( methodOn (PerfilController.class).get(resource.getKey()) ) 
+		resource.removeLinks().add( linkTo( methodOn (PerfilPrivadoController.class).getConfigs(resource.getKey()) ).withSelfRel()
+							.andAffordance( afford ( methodOn( PerfilPrivadoController.class).updateConfigs(resource.getKey(), resource) ) ) ) // update
+					.add( linkTo( methodOn (PerfilPrivadoController.class).get(resource.getKey()) ) 
 							.withRel("profile")
 							.withTitle("Your profile")
 					);
@@ -106,14 +106,14 @@ public class PerfilService {
 	/**
 	 * Creates new profile for authenticated user
 	 * 
-	 * @param resource PerfilDTO
+	 * @param resource PerfilPrivadoDTO
 	 * @return created user profile with HATEOAS links
 	 * @throws Exception
 	 */
-	public PerfilDTO create(PerfilDTO resource) throws Exception {
+	public PerfilPrivadoDTO create(PerfilPrivadoDTO resource) throws Exception {
 		resource.removeLinks();
 		validate(resource);		
-		PerfilDTO created = repo.create(resource);
+		PerfilPrivadoDTO created = repo.create(resource);
 		addRequiredLinks(created);
 		return created;
 	}
@@ -126,8 +126,8 @@ public class PerfilService {
 	 * @return user profile with HATEOAS links
 	 * @throws Exception
 	 */
-	public PerfilDTO get(long id) throws Exception {
-		PerfilDTO perfil = repo.getById(id);
+	public PerfilPrivadoDTO get(long id) throws Exception {
+		PerfilPrivadoDTO perfil = repo.getById(id);
 		addRequiredLinks(perfil);
 		return perfil;
 	}
@@ -135,14 +135,14 @@ public class PerfilService {
 	
 	/**
 	 * Updates authenticated user profile
-	 * @param resource PerfilDTO 
+	 * @param resource PerfilPrivadoDTO 
 	 * @return updated profile with HATEOAS links
 	 * @throws Exception
 	 */
-	public PerfilDTO update(PerfilDTO resource) throws Exception {
+	public PerfilPrivadoDTO update(PerfilPrivadoDTO resource) throws Exception {
 		resource.removeLinks();
 		validate(resource);
-		PerfilDTO perfil =  repo.update(resource.getKey(), resource);
+		PerfilPrivadoDTO perfil =  repo.update(resource.getKey(), resource);
 		addRequiredLinks(perfil);
 		return perfil;
 	}

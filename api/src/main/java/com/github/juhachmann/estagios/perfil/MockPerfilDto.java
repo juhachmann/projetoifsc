@@ -8,7 +8,7 @@ import com.github.juhachmann.estagios.commom.MockContactDto;
 import com.github.juhachmann.estagios.commom.MockLocalizacaoDto;
 
 /**
- * Generates Mocks for PerfilPublicoDTO
+ * Generates Mocks for PerfilDTO
  */
 
 public class MockPerfilDto {
@@ -17,12 +17,12 @@ public class MockPerfilDto {
 	
 	
 	/**
-	 * Generates a valid PerfilDTO
+	 * Generates a valid PerfilPrivadoDTO
 	 * @return
 	 */
-	public static PerfilDTO generateResource() {
+	public static PerfilPrivadoDTO generateResource() {
 		
-		PerfilDTO resource = new PerfilDTO();		
+		PerfilPrivadoDTO resource = new PerfilPrivadoDTO();		
 		resource.setName("Nome");
 		resource.setCnpj("20434016000110");
 		resource.setIe(false);
@@ -34,12 +34,12 @@ public class MockPerfilDto {
 
 
 	/**
-	 * Generates a list of valid PerfilDTO
+	 * Generates a list of valid PerfilPrivadoDTO
 	 * @param itemsToAdd number of resources to return in the list
 	 * @return
 	 */
-	public static List<PerfilDTO> generateBundle(int itemsToAdd) {
-		List<PerfilDTO> bundle = new ArrayList<PerfilDTO>();
+	public static List<PerfilPrivadoDTO> generateBundle(int itemsToAdd) {
+		List<PerfilPrivadoDTO> bundle = new ArrayList<PerfilPrivadoDTO>();
 		for (int i = 0; i < itemsToAdd; i++) {
 			bundle.add( generateResource( ) );
 		}
@@ -48,10 +48,10 @@ public class MockPerfilDto {
 	
 	
 	/**
-	 * Generates a invalid PerfilDTO, usefull to test I/O validations, such as invalid request bodies
+	 * Generates a invalid PerfilPrivadoDTO, usefull to test I/O validations, such as invalid request bodies
 	 * @return
 	 */
-	public static PerfilDTO generateInvalidResource() {
+	public static PerfilPrivadoDTO generateInvalidResource() {
 		gerador = new Random();
 		int randomNumOfValidFields = gerador.nextInt(6);
 		return generateInvalidResource(randomNumOfValidFields);
@@ -59,12 +59,12 @@ public class MockPerfilDto {
 
 	
 	/**
-	 * Generates a invalid PerfilDTO, with only a specific number of valid fields, usefull to test I/O validations, such as invalid request bodies
+	 * Generates a invalid PerfilPrivadoDTO, with only a specific number of valid fields, usefull to test I/O validations, such as invalid request bodies
 	 * @param numOfValidFields 
 	 * @return
 	 */
-	public static PerfilDTO generateInvalidResource(int numOfValidFields) {
-		PerfilDTO resource = new PerfilDTO();
+	public static PerfilPrivadoDTO generateInvalidResource(int numOfValidFields) {
+		PerfilPrivadoDTO resource = new PerfilPrivadoDTO();
 
 		if (numOfValidFields > 0) 
 			resource.setName("Nome");

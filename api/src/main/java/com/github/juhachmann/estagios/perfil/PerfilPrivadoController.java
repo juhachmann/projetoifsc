@@ -40,7 +40,7 @@ import io.swagger.v3.oas.annotations.links.Link;
 /**
  * REST Controller for "/perfil" related endpoints
  */
-public class PerfilController {
+public class PerfilPrivadoController {
 	
 	
 	// Swagger Messages
@@ -71,22 +71,22 @@ public class PerfilController {
 	private final String PUT_CONFIG_DESCRIPTION = "Atualiza as configurações definidas pela instituição ou empresa";
 		
 	@Autowired
-	PerfilService service;
+	PerfilPrivadoService service;
 	
 	@GetMapping("")
 	@Operation(summary=GET_SUMMARY, description=GET_DESCRIPTION, tags={MAIN_TAG}, operationId="getPerfil")
 	@ApiResponses({
-	    @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = PerfilDTO.class))}, 
+	    @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = PerfilPrivadoDTO.class))}, 
 	    		links = {@Link(operationId="getPerfil", name="self"), @Link(operationId="getConfigs", name="configs"), @Link(operationId="getVagas", name="vagas"), @Link(operationId="getPerfilPublico", name="perfilPublico")}),
 	    @ApiResponse(responseCode = "400", content = {@Content(examples= { @ExampleObject(value = BAD_REQUEST_MSG) })} ),
 	    @ApiResponse(responseCode = "401", content = {@Content(examples= { @ExampleObject(value = UNAUTHORIZED_MSG) })} ),
 	    @ApiResponse(responseCode = "429", content = {@Content(examples= { @ExampleObject(value = TOO_MANY_REQUESTS_MSG) })} )
 	})
-	public ResponseEntity<PerfilDTO> get (
+	public ResponseEntity<PerfilPrivadoDTO> get (
 				@RequestHeader(HttpHeaders.ALLOW) @Parameter(name = HttpHeaders.ALLOW, schema = @Schema(type = "number"), required = true, in = ParameterIn.HEADER) long id 
 	) throws Exception {
 		
-		return new ResponseEntity<PerfilDTO> (
+		return new ResponseEntity<PerfilPrivadoDTO> (
 				service.get(id), 
 				HttpStatus.OK);	
 	}
@@ -96,17 +96,17 @@ public class PerfilController {
 	@PostMapping(value = "", consumes = { MediaTypes.APPLICATION_JSON, MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_YAML } )
 	@Operation(summary=POST_SUMMARY, description=POST_DESCRIPTION, tags={MAIN_TAG}, operationId="postPerfil")
 	@ApiResponses({
-	    @ApiResponse(responseCode = "201", content = {@Content(schema = @Schema(implementation = PerfilDTO.class))}, 
+	    @ApiResponse(responseCode = "201", content = {@Content(schema = @Schema(implementation = PerfilPrivadoDTO.class))}, 
 	    		links = {@Link(operationId="getPerfil", name="self"), @Link(operationId="getConfigs", name="configs"), @Link(operationId="getVagas", name="vagas"), @Link(operationId="getPerfilPublico", name="perfilPublico")}),
 	    @ApiResponse(responseCode = "400", content = {@Content(examples= { @ExampleObject(value = BAD_REQUEST_MSG) })} ),
 	    @ApiResponse(responseCode = "401", content = {@Content(examples= { @ExampleObject(value = UNAUTHORIZED_MSG) })} ),
 	    @ApiResponse(responseCode = "429", content = {@Content(examples= { @ExampleObject(value = TOO_MANY_REQUESTS_MSG) })} )
 	})
-	public ResponseEntity<PerfilDTO> create ( 
-			@RequestBody PerfilDTO dto 
+	public ResponseEntity<PerfilPrivadoDTO> create ( 
+			@RequestBody PerfilPrivadoDTO dto 
 	) throws Exception {
 				
-		return new ResponseEntity<PerfilDTO>(
+		return new ResponseEntity<PerfilPrivadoDTO>(
 				service.create(dto),
 				HttpStatus.CREATED);		
 	}
@@ -116,18 +116,18 @@ public class PerfilController {
 	@PutMapping(value = "", consumes = { MediaTypes.APPLICATION_JSON, MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_YAML } )
 	@Operation(summary=PUT_SUMMARY, description=PUT_DESCRIPTION, tags={MAIN_TAG}, operationId="putPerfil")
 	@ApiResponses({
-	    @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = PerfilDTO.class))}, 
+	    @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = PerfilPrivadoDTO.class))}, 
 	    		links = {@Link(operationId="getPerfil", name="self"), @Link(operationId="getConfigs", name="configs"), @Link(operationId="getVagas", name="vagas"), @Link(operationId="getPerfilPublico", name="perfilPublico")}),
 	    @ApiResponse(responseCode = "400", content = {@Content(examples= { @ExampleObject(value = BAD_REQUEST_MSG) })} ),
 	    @ApiResponse(responseCode = "401", content = {@Content(examples= { @ExampleObject(value = UNAUTHORIZED_MSG) })} ),
 	    @ApiResponse(responseCode = "429", content = {@Content(examples= { @ExampleObject(value = TOO_MANY_REQUESTS_MSG) })} )
 	})
-	public ResponseEntity<PerfilDTO> update (
+	public ResponseEntity<PerfilPrivadoDTO> update (
 			@RequestHeader(HttpHeaders.ALLOW) @Parameter(name = HttpHeaders.ALLOW, schema = @Schema(type = "number"), required = true, in = ParameterIn.HEADER) long id,
-			@RequestBody PerfilDTO newDto
+			@RequestBody PerfilPrivadoDTO newDto
 	) throws Exception {
 		
-		return new ResponseEntity<PerfilDTO>(
+		return new ResponseEntity<PerfilPrivadoDTO>(
 				service.update(newDto), 
 				HttpStatus.OK);		
 	}
@@ -142,11 +142,11 @@ public class PerfilController {
 	    @ApiResponse(responseCode = "401", content = {@Content(examples= { @ExampleObject(value = UNAUTHORIZED_MSG) })} ),
 	    @ApiResponse(responseCode = "429", content = {@Content(examples= { @ExampleObject(value = TOO_MANY_REQUESTS_MSG) })} )
 	  })
-	public ResponseEntity<PerfilDTO> delete (
+	public ResponseEntity<PerfilPrivadoDTO> delete (
 			@RequestHeader(HttpHeaders.ALLOW) @Parameter(name = HttpHeaders.ALLOW, schema = @Schema(type = "number"), required = true, in = ParameterIn.HEADER) long id
 	) throws Exception {
 		service.delete(id);
-		return new ResponseEntity<PerfilDTO>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<PerfilPrivadoDTO>(HttpStatus.NO_CONTENT);
 	}
 
 	

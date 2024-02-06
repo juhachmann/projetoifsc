@@ -19,7 +19,7 @@ public class MockPerfilRepository {
 
 //	private MockDatabasePerfil db = new MockDatabasePerfil();
 	
-	public List<PerfilDTO> getAll() {		
+	public List<PerfilPrivadoDTO> getAll() {		
 		return perfilCollection;
 	}
 	
@@ -27,9 +27,9 @@ public class MockPerfilRepository {
 	// Fere o princípio Open Closed
 	// Pq toda vez que precisar colocar um novo parâmetro de busca, vai ter que mudar aqui
 	// Como é só um mock e na vida real usa SQL para busca, aí não precisa se estressar
-	public List<PerfilDTO> getBy(List<String> nomes, List<String> cidades, List<String> estados, List<String> areas) {
+	public List<PerfilPrivadoDTO> getBy(List<String> nomes, List<String> cidades, List<String> estados, List<String> areas) {
 		// Aqui no caso vai receber os queryParams
-		List<PerfilDTO> result;
+		List<PerfilPrivadoDTO> result;
 		
 		result = getAll();		
 		
@@ -49,8 +49,8 @@ public class MockPerfilRepository {
 	}
 
 	
-	public PerfilDTO getById(Long id) {
-		for ( PerfilDTO perfil : this.getAll()  ) {
+	public PerfilPrivadoDTO getById(Long id) {
+		for ( PerfilPrivadoDTO perfil : this.getAll()  ) {
 			if ( perfil.getKey() == id ) {
 				return perfil;
 			}
@@ -59,19 +59,19 @@ public class MockPerfilRepository {
 	}
 			
 
-	public PerfilDTO create(PerfilDTO submitted) {
+	public PerfilPrivadoDTO create(PerfilPrivadoDTO submitted) {
 		System.out.println("Printing from repository: " + submitted.toString());
 		System.out.println(perfilCollection.toString());
-		//PerfilDTO treated = submitted;
+		//PerfilPrivadoDTO treated = submitted;
 		submitted.setKey( MockDatabasePerfil.incrementAndGet() );
 		perfilCollection.add(submitted);
 		return submitted;
 	}
 
 	
-	public PerfilDTO update(long id, PerfilDTO newObj) {
+	public PerfilPrivadoDTO update(long id, PerfilPrivadoDTO newObj) {
 	
-		PerfilDTO toUpdate = getById(id);
+		PerfilPrivadoDTO toUpdate = getById(id);
 	
 		int index = perfilCollection.indexOf(toUpdate);
 		
@@ -86,7 +86,7 @@ public class MockPerfilRepository {
 	}
 
 	public void delete(long id) {
-		PerfilDTO resource = getById(id);
+		PerfilPrivadoDTO resource = getById(id);
 		perfilCollection.remove(resource);
 	}
 	
@@ -99,9 +99,9 @@ public class MockPerfilRepository {
 	// Como não é com sql, tenho que definir as buscas aqui, o que não torna escalável.. 
 	// Aqui entraria um factory method provavelmente (mas não vou fazer pq é só um mock)
 
-	private List<PerfilDTO> getByName(List<PerfilDTO> listaAFiltrar, List<String> names) {
-		List<PerfilDTO> result = new ArrayList<PerfilDTO>();
-		for ( PerfilDTO perfil : listaAFiltrar  ) {
+	private List<PerfilPrivadoDTO> getByName(List<PerfilPrivadoDTO> listaAFiltrar, List<String> names) {
+		List<PerfilPrivadoDTO> result = new ArrayList<PerfilPrivadoDTO>();
+		for ( PerfilPrivadoDTO perfil : listaAFiltrar  ) {
 			for ( String name : names ) {
 				if ( perfil.getName() == name ) {
 					result.add(perfil);
@@ -112,9 +112,9 @@ public class MockPerfilRepository {
 		return result;
 	}
 	
-	private List<PerfilDTO> getByCidade(List<PerfilDTO> listaAFiltrar, List<String> cidades) {
-		List<PerfilDTO> result = new ArrayList<PerfilDTO>();
-		for ( PerfilDTO perfil : listaAFiltrar  ) {
+	private List<PerfilPrivadoDTO> getByCidade(List<PerfilPrivadoDTO> listaAFiltrar, List<String> cidades) {
+		List<PerfilPrivadoDTO> result = new ArrayList<PerfilPrivadoDTO>();
+		for ( PerfilPrivadoDTO perfil : listaAFiltrar  ) {
 			for ( String cidade : cidades ) {
 				if ( perfil.getAddress().getCity() == cidade ) {
 					result.add(perfil);
@@ -125,9 +125,9 @@ public class MockPerfilRepository {
 		return result;
 	}
 	
-	private List<PerfilDTO> getByEstado(List<PerfilDTO> listaAFiltrar, List<String> estados) {
-		List<PerfilDTO> result = new ArrayList<PerfilDTO>();
-		for ( PerfilDTO perfil : listaAFiltrar  ) {
+	private List<PerfilPrivadoDTO> getByEstado(List<PerfilPrivadoDTO> listaAFiltrar, List<String> estados) {
+		List<PerfilPrivadoDTO> result = new ArrayList<PerfilPrivadoDTO>();
+		for ( PerfilPrivadoDTO perfil : listaAFiltrar  ) {
 			for ( String estado : estados ) {
 				if ( perfil.getAddress().getState() == estado ) {
 					result.add(perfil);
@@ -139,9 +139,9 @@ public class MockPerfilRepository {
 	}
 
 	
-	private List<PerfilDTO> getByArea(List<PerfilDTO> listaAFiltrar, List<String> areas) {
-		List<PerfilDTO> result = new ArrayList<PerfilDTO>();
-		for ( PerfilDTO perfil : listaAFiltrar  ) {
+	private List<PerfilPrivadoDTO> getByArea(List<PerfilPrivadoDTO> listaAFiltrar, List<String> areas) {
+		List<PerfilPrivadoDTO> result = new ArrayList<PerfilPrivadoDTO>();
+		for ( PerfilPrivadoDTO perfil : listaAFiltrar  ) {
 			for ( String area : areas ) {
 				if ( perfil.getAreas().contains(area) ) {
 					result.add(perfil);
@@ -153,7 +153,7 @@ public class MockPerfilRepository {
 	}
 	
 	// se fosse usar um factory seria assim:
-//	private List<PerfilDTO> getBy(PerfilGetByMethod getter) {
+//	private List<PerfilPrivadoDTO> getBy(PerfilGetByMethod getter) {
 //		return getter.get();
 //	}
 	

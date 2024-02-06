@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class MockDatabasePerfil {
 	
-	public static List<PerfilDTO> perfilCollection = new ArrayList<PerfilDTO>();
+	public static List<PerfilPrivadoDTO> perfilCollection = new ArrayList<PerfilPrivadoDTO>();
 	
 	private static AtomicLong currentId = new AtomicLong();
 	
