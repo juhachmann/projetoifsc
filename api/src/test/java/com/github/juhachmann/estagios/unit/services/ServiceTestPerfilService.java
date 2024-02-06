@@ -1,15 +1,11 @@
 package com.github.juhachmann.estagios.unit.services;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -24,8 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.github.juhachmann.estagios.exceptions.InvalidRequestException;
-import com.github.juhachmann.estagios.exceptions.UnauthorizedRequestException;
+import com.github.juhachmann.estagios.exceptions.InvalidBodyRequestException;
 import com.github.juhachmann.estagios.perfil.ConfigDTO;
 import com.github.juhachmann.estagios.perfil.MockConfigDTO;
 import com.github.juhachmann.estagios.perfil.MockConfigRepository;
@@ -34,7 +29,6 @@ import com.github.juhachmann.estagios.perfil.MockPerfilRepository;
 import com.github.juhachmann.estagios.perfil.NotificationSettingsFactory;
 import com.github.juhachmann.estagios.perfil.PerfilDTO;
 import com.github.juhachmann.estagios.perfil.PerfilService;
-import com.github.juhachmann.estagios.utils.MediaTypes;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -50,8 +44,8 @@ class ServiceTestPerfilService {
 	@InjectMocks
 	PerfilService service;
 	
-	static List<String> acceptedContentTypes = new ArrayList<>();
-	static List<String> producedContentTypes = new ArrayList<>();
+//	static List<String> acceptedContentTypes = new ArrayList<>();
+//	static List<String> producedContentTypes = new ArrayList<>();
 		
 	PerfilDTO resource;
 	PerfilDTO invalidResource;
@@ -64,24 +58,24 @@ class ServiceTestPerfilService {
 	@BeforeAll
 	static void config() {
 
-		acceptedContentTypes = new ArrayList<>();
-		acceptedContentTypes.add(MediaTypes.APPLICATION_JSON);
-		acceptedContentTypes.add(MediaTypes.APPLICATION_XML);
-		acceptedContentTypes.add(MediaTypes.APPLICATION_YAML);	
-	
-		producedContentTypes = new ArrayList<>();
-		producedContentTypes.add(MediaTypes.APPLICATION_JSON);
-		producedContentTypes.add(MediaTypes.APPLICATION_XML);
-		producedContentTypes.add(MediaTypes.APPLICATION_YAML);
-		producedContentTypes.add(MediaTypes.APPLICATION_HAL);
-		producedContentTypes.add(MediaTypes.APPLICATION_HAL_FORMS);
+//		acceptedContentTypes = new ArrayList<>();
+//		acceptedContentTypes.add(MediaTypes.APPLICATION_JSON);
+//		acceptedContentTypes.add(MediaTypes.APPLICATION_XML);
+//		acceptedContentTypes.add(MediaTypes.APPLICATION_YAML);	
+//	
+//		producedContentTypes = new ArrayList<>();
+//		producedContentTypes.add(MediaTypes.APPLICATION_JSON);
+//		producedContentTypes.add(MediaTypes.APPLICATION_XML);
+//		producedContentTypes.add(MediaTypes.APPLICATION_YAML);
+//		producedContentTypes.add(MediaTypes.APPLICATION_HAL);
+//		producedContentTypes.add(MediaTypes.APPLICATION_HAL_FORMS);
 		
 		HATEOASLinks.add("self");
 		HATEOASLinks.add("configs");
 		HATEOASLinks.add("vagas");
-		HATEOASLinks.add("perfil_publico");
+		HATEOASLinks.add("publicProfile");
 		
-		configs = MockConfigDTO.generateResource( new NotificationSettingsFactory() );
+		configs = MockConfigDTO.generateResource(  );
 	}
 	
 	@BeforeEach
@@ -131,7 +125,7 @@ class ServiceTestPerfilService {
 		
 	@Test
 	void nonValidatedRequestReturnsInvalidRequestException() {
-		assertThrows(InvalidRequestException.class, () -> service.create(invalidResource));
+		assertThrows(InvalidBodyRequestException.class, () -> service.create(invalidResource));
 	}
 	
 	
@@ -176,8 +170,11 @@ class ServiceTestPerfilService {
 	
 	@Test
 	void nonValidatedUpdateRequestReturnsInvalidRequestException() {
-		assertThrows(InvalidRequestException.class, () -> service.update(invalidResource));
+		assertThrows(InvalidBodyRequestException.class, () -> service.update(invalidResource));
 	}
+	
+	
+	// CONFIG TESTS
 	
 	@Test
 	void getConfigMusReturnOneItem() throws Exception {
@@ -190,7 +187,7 @@ class ServiceTestPerfilService {
 		when(configRepo.getById(1L)).thenReturn(configs);
 		ConfigDTO configs = service.getPerfilConfig(1L);
 		assertNotNull(configs.getRequiredLink("self"));
-		assertNotNull(configs.getRequiredLink("perfil"));
+		assertNotNull(configs.getRequiredLink("profile"));
 	}
 	
 	@Test
@@ -199,7 +196,7 @@ class ServiceTestPerfilService {
 		ConfigDTO updated = service.updateConfig(1L, configs);
 		assertEquals(configs, updated);
 		assertNotNull(configs.getRequiredLink("self"));
-		assertNotNull(configs.getRequiredLink("perfil"));
+		assertNotNull(configs.getRequiredLink("profile"));
 	}
 	
 	@Test
@@ -210,7 +207,7 @@ class ServiceTestPerfilService {
 	
 	@Test
 	void invalidUpdateMustReturnInvalidRequestException() {
-		assertThrows(InvalidRequestException.class, () -> service.updateConfig(1L, new ConfigDTO()));
+		assertThrows(InvalidBodyRequestException.class, () -> service.updateConfig(1L, new ConfigDTO()));
 	}
 	
 //	@Test

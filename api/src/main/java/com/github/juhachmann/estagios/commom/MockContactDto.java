@@ -8,7 +8,7 @@ public class MockContactDto {
 	public static ContactDTO generateResource() {
 		ContactDTO resource = new ContactDTO();
 		resource.setEmail ("nome@email.com");
-		resource.setTelefone("(XX) XXXX-XXXX");
+		resource.setPhone("(XX) XXXX-XXXX");
 		return resource;
 	}
 	

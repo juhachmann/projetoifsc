@@ -6,19 +6,18 @@ import static com.github.juhachmann.estagios.perfil.MockDatabasePerfil.perfilCol
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.LinkRelation;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 
-import com.github.juhachmann.estagios.commom.LocalizacaoDTO;
 import com.github.juhachmann.estagios.exceptions.ResourceNotFoundException;
+
+/**
+ * Temporary class to mock a repository of perfilDTOs
+ */
 
 @Service
 public class MockPerfilRepository {
 
-	private MockDatabasePerfil db = new MockDatabasePerfil();
+//	private MockDatabasePerfil db = new MockDatabasePerfil();
 	
 	public List<PerfilDTO> getAll() {		
 		return perfilCollection;
@@ -64,7 +63,7 @@ public class MockPerfilRepository {
 		System.out.println("Printing from repository: " + submitted.toString());
 		System.out.println(perfilCollection.toString());
 		//PerfilDTO treated = submitted;
-		submitted.setKey( db.incrementAndGet() );
+		submitted.setKey( MockDatabasePerfil.incrementAndGet() );
 		perfilCollection.add(submitted);
 		return submitted;
 	}

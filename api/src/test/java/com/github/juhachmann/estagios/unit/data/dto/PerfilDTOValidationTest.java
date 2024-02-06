@@ -2,13 +2,11 @@ package com.github.juhachmann.estagios.unit.data.dto;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -192,6 +190,27 @@ public class PerfilDTOValidationTest extends ValidationTest<PerfilDTO> {
 		validate();
 		assertTrue(violations.isEmpty());
 	}
+	
+	
+	@Test 
+	void mockGeneratesInvalidObjectWithGivenNumOfFields() {
+		for (int i = 0; i < 10; i++) {
+			resource = MockPerfilDto.generateInvalidResource(i);
+			validate();
+			assertFalse(violations.isEmpty());
+		}
+	}
+	
+	
+	@Test 
+	void mockGeneratesInvalidObjectWithRandomNumOfFields() {
+		for (int i = 0; i < 20; i++) {
+			resource = MockPerfilDto.generateInvalidResource();
+			validate();
+			assertFalse(violations.isEmpty());
+		}
+	}
+
 	
 
 	

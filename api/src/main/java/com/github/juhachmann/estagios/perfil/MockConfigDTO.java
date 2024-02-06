@@ -1,33 +1,37 @@
 package com.github.juhachmann.estagios.perfil;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
+
+/** 
+ * Generates Mocks for ConfigDTO 
+ */
 
 @Service
 public class MockConfigDTO {
 	
-	
-	public static ConfigDTO generateResource(SettingsFactory factory) {
-				
+
+	/**
+	 * Generates valid resource
+	 * @return 
+	 */
+	public static ConfigDTO generateResource() {
 		ConfigDTO resource = new ConfigDTO();
-		
-		resource.getSettings().add( new ConfigSettingsDTO( factory.getName(), factory.generate() ) );
-				
+//		resource.getSettings().put("notifications", new NotificationsSettingsDTO());
 		return resource;
 	}
 	
 	
-	public static ConfigDTO generateResource(List<SettingsFactory> factoriesToUse) {
-
+	/**
+	 * Generates invalid resource, usefull to test I/O validations, such as invalid request bodies
+	 * @param 
+	 * @return 
+	 */
+	public static ConfigDTO generateInvalid() {
 		ConfigDTO resource = new ConfigDTO();
-		
-		factoriesToUse.forEach((factory) -> {
-			resource.getSettings().add( new ConfigSettingsDTO( factory.getName(), factory.generate() ) );
-		});
-				
+		resource.setNotifications(null);
 		return resource;
 	}
 
+	
 }
 

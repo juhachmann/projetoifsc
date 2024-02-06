@@ -86,13 +86,13 @@ class ContatoDTOValidationTest extends ValidationTest<ContactDTO> {
 	
 	@Test
 	void telefoneMustNotBeBlank() {
-		resource.setTelefone(null);
+		resource.setPhone(null);
 //		violations = validator.validate(resource);	
 		validate();
 		assertFalse(violations.isEmpty());
 		assertTrue(violations.toString().contains("propertyPath=telefone"));
 		
-		resource.setTelefone(BLANK_VALUE);
+		resource.setPhone(BLANK_VALUE);
 //		violations = validator.validate(resource);	
 		validate();
 		assertFalse(violations.isEmpty());
@@ -101,7 +101,7 @@ class ContatoDTOValidationTest extends ValidationTest<ContactDTO> {
 	
 	@Test
 	void telefoneMustBeValidated() {		
-		resource.setTelefone(VALID_PHONE);
+		resource.setPhone(VALID_PHONE);
 //		violations = validator.validate(resource);	
 		validate();
 
@@ -112,7 +112,7 @@ class ContatoDTOValidationTest extends ValidationTest<ContactDTO> {
 	@Test
 	void validObjectMustBeValidated() {		
 		resource.setEmail(VALID_EMAIL);
-		resource.setTelefone(VALID_PHONE);
+		resource.setPhone(VALID_PHONE);
 		validate();
 		assertTrue(violations.isEmpty());
 	}

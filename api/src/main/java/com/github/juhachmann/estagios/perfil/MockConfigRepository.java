@@ -6,12 +6,12 @@ import org.springframework.stereotype.Component;
 public class MockConfigRepository {
 	
 	public ConfigDTO getById(Long id) {
-		return MockConfigDTO.generateResource( new NotificationSettingsFactory() );
+		return MockConfigDTO.generateResource(  );
 	}
 
 	
 	public ConfigDTO update(long id, ConfigDTO newObj) {
-		return MockConfigDTO.generateResource( new NotificationSettingsFactory() );
+		return MockConfigDTO.generateResource(  );
 	}
 
 	public void delete(long id) {

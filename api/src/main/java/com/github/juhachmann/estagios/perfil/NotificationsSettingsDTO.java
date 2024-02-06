@@ -5,19 +5,30 @@ import java.util.Objects;
 
 import org.springframework.validation.annotation.Validated;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * Contains the available settings for user configurations related with system notifications
+ * All values are true by default
+ */
+@Schema(name="Notification Settings", description = "Configura as notificações que o usuário recebe do sistema")
 @Validated
-public class NotificationsSettingsDTO implements SettingsDTO, Serializable {
+public class NotificationsSettingsDTO implements SettingsDTO, Serializable { 
 	
 //	private List<SettingsDTO> settings = new ArrayList<>();
 
 	private static final long serialVersionUID = 1L;
 	
+	@Schema(requiredMode = Schema.RequiredMode.REQUIRED, example="true", allowableValues="true, false", description = "Recebe notificações sobre vagas que estão próximas a serem excluídas do sistema, para que o usuário possa renovar a oferta das vagas")
 	@NotNull
 	private boolean expiringData;
+	
+	@Schema(requiredMode = Schema.RequiredMode.REQUIRED, example="true", allowableValues="true, false", description = "Recebe notificações relacionadas a atividades de moderação de vagas publicadas, tais como denúncias")
 	@NotNull
 	private boolean moderation;
+	
+	@Schema(requiredMode = Schema.RequiredMode.REQUIRED, example="true", allowableValues="true, false", description = "Recebe uma notificação após um período de inatividade, para lhe lembrar de publicar uma vaga no sistema")
 	@NotNull
 	private boolean inactivity;
 	

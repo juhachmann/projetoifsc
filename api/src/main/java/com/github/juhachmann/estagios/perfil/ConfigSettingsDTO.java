@@ -5,15 +5,23 @@ import java.util.Objects;
 
 import org.springframework.validation.annotation.Validated;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+
+/**
+ * Simple POJO to group configuration sub settings under a topic name
+ * 
+ */
 
 @Validated
 public class ConfigSettingsDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	@Schema(requiredMode = Schema.RequiredMode.REQUIRED, allowableValues = "notificacoes", description="Configurações de notificações do sistema")
 	@NotNull
 	private String topic;
+	
 	@NotNull
 	private SettingsDTO settings;
 	

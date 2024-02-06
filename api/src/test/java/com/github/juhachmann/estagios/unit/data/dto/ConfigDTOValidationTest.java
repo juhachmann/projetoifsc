@@ -31,18 +31,27 @@ class ConfigDTOValidationTest extends ValidationTest<ConfigDTO> {
 		validate();
 		assertFalse(super.violations.isEmpty());		
 		
-		resource = MockConfigDTO.generateResource( new NotificationSettingsFactory() );
+		resource = MockConfigDTO.generateResource(  );
 		validate();
 		assertTrue(super.violations.isEmpty());
 		
-		List<SettingsFactory> factories = new ArrayList<>();
-		factories.add(new NotificationSettingsFactory());
-		factories.add(new NotificationSettingsFactory());
 		
-		resource = MockConfigDTO.generateResource( factories);
+		resource = MockConfigDTO.generateResource( );
 		validate();
 		assertTrue(super.violations.isEmpty());
 		
 	}
+	
+	@Test
+	void mockGenerateInvalidResourceIsNotValid() {
+		validate();
+		assertFalse(super.violations.isEmpty());		
+		
+		resource = MockConfigDTO.generateInvalid();
+		validate();
+		assertFalse(super.violations.isEmpty());
+		
+	}
+	
 
 }

@@ -1,47 +1,50 @@
 package com.github.juhachmann.estagios.perfil;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.validation.annotation.Validated;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
-
+/**
+ * Simple POJO to insert user configurations
+ * 
+ */
+@Schema(name="Config", description = "User configurations")
 @Validated
 public class ConfigDTO extends RepresentationModel<ConfigDTO> implements Serializable {
 
 
 	private static final long serialVersionUID = 1L;
 	
-	@JsonProperty("id")
+	@JsonIgnore
 	private long key;
 	
+	@JsonIgnore
 	private long ownerId;
 	
+	@Schema(requiredMode = Schema.RequiredMode.REQUIRED, description="User configs")
 	@NotEmpty
 	@Valid
-	private List<com.github.juhachmann.estagios.perfil.ConfigSettingsDTO> configs;
-		
+	private NotificationsSettingsDTO notifications = new NotificationsSettingsDTO();
 	
+
 	public ConfigDTO() {
 		super();
-		configs = new ArrayList<>();
 	}
 
 
-	public ConfigDTO(long key, long ownerId, @NotEmpty List<com.github.juhachmann.estagios.perfil.ConfigSettingsDTO> settings) {
+	public ConfigDTO(long key, long ownerId, @NotEmpty @Valid NotificationsSettingsDTO notifications) {
 		super();
 		this.key = key;
 		this.ownerId = ownerId;
-		this.configs = settings;
+		this.notifications = notifications;
 	}
 
 
@@ -65,13 +68,13 @@ public class ConfigDTO extends RepresentationModel<ConfigDTO> implements Seriali
 	}
 
 
-	public List<ConfigSettingsDTO> getSettings() {
-		return configs;
+	public NotificationsSettingsDTO getNotifications() {
+		return notifications;
 	}
 
 
-	public void setSettings(List<ConfigSettingsDTO> settings) {
-		this.configs = settings;
+	public void setNotifications(NotificationsSettingsDTO notifications) {
+		this.notifications = notifications;
 	}
 
 
@@ -79,7 +82,7 @@ public class ConfigDTO extends RepresentationModel<ConfigDTO> implements Seriali
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + Objects.hash(key, ownerId, configs);
+		result = prime * result + Objects.hash(key);
 		return result;
 	}
 
@@ -93,8 +96,10 @@ public class ConfigDTO extends RepresentationModel<ConfigDTO> implements Seriali
 		if (getClass() != obj.getClass())
 			return false;
 		ConfigDTO other = (ConfigDTO) obj;
-		return key == other.key && ownerId == other.ownerId && Objects.equals(configs, other.configs);
+		return key == other.key && Objects.equals(notifications, other.notifications) && ownerId == other.ownerId;
 	}
+
+
 	
 
 	

@@ -1,199 +1,109 @@
 package com.github.juhachmann.estagios.unit.controller;
 
-// TODO DÚVIDA - Não estou conseguindo fazer os testes de unidade do controller, porque não consigo aplicar os mocks corretamente
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
-//import static io.restassured.RestAssured.given;
-
-//import static io.restassured.module.mockmvc.RestAssuredMockMvc.*;
-//import static io.restassured.module.mockmvc.matcher.RestAssuredMockMvcMatchers.*; 
-import static io.restassured.RestAssured.given;
-
-//import static org.mockito.Mockito.doNothing;
-//import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
+import com.github.juhachmann.estagios.perfil.ConfigDTO;
 import com.github.juhachmann.estagios.perfil.PerfilController;
 import com.github.juhachmann.estagios.perfil.PerfilDTO;
+import com.github.juhachmann.estagios.perfil.PerfilService;
 
-import io.restassured.http.ContentType;
-
-// TODO Usar MockMVC para teste unitário dos controllers: https://www.baeldung.com/spring-mock-mvc-rest-assured
-// Porque com o mockito não consegui fazer funcionar
-
-@SpringBootTest
-//@RunWith(MockitoJUnitRunner.class)
-//@ExtendWith(MockitoExtension.class)
-//@ExtendWith(MockMvc.class)
-@TestMethodOrder(OrderAnnotation.class)
+@ExtendWith(MockitoExtension.class)
 class ControllerUnitTestPerfilController {
 	
-//	@Autowired
-//	WebApplicationContext webApplicationContext;
+	PerfilDTO perfil;
+	ConfigDTO config; 
 	
-//	@Mock
-//	MockPerfilRepository service;
-//
-//	@InjectMocks
-	
-	@Autowired
-	PerfilController controller;
-	
-	Integer id;
-	String response;
-	
-	PerfilDTO resource;
+	@Mock
+	PerfilService service;
 
-	
-	
-	@Before
-	public void initialiseRestAssuredMockMvcWebApplicationContext() {
-	    // RestAssuredMockMvc.webAppContextSetup(webApplicationContext);
-		//MockitoAnnotations.openMocks(controller);
-//		RestAssuredMockMvc.standaloneSetup(new PerfilController());
-	   
-	}
+	@InjectMocks
+	PerfilController controller;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-//		RestAssuredMockMvc.standaloneSetup(new PerfilController());
-//		RestAssuredMockMvc.standaloneSetup(controller);
-		resource = new PerfilDTO();
-		// this must be called for the @Mock annotations above to be processed.
-        //MockitoAnnotations.openMocks(this);
-    //    MockitoAnnotations.openMocks(this);
+		perfil = new PerfilDTO();
+		perfil.setKey(1L);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
-		System.out.println(id);
-		System.out.println(response);
 	}
-		
+
 	@Test
-	void contextLoads() {
-//		assertNotNull(controller);
-//		assertNotNull(service);
+	void createMustReturnResponseEntityWithStatusCode201() throws Exception {
+		when(service.create(perfil)).thenReturn(perfil);
+		var response = controller.create(perfil);
+		
+		assertInstanceOf(ResponseEntity.class, response );
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		assertInstanceOf(PerfilDTO.class, response.getBody());
 	}
 
-	// Status Code
-	
-	@Order(1)
 	@Test
-	void postMustReturnStatusCode201() {
-	
-		//when(service.create(resource)).thenReturn(resource);
+	void getMustReturnResponseEntityWithStatusCode200() throws Exception {
+		when(service.get ( perfil.getKey() ) ).thenReturn( perfil );
+		var response = controller.get( perfil.getKey() );
 		
-		id = 
-		given()
-			.contentType(ContentType.JSON)
-		. when()
-			.post("/perfil")
-		.then()
-			.statusCode(201)
-			.extract()
-			.path("id")
-			;
-			
-		getMustReturnStatusCode200(id);
-		putMustReturnStatusCode200(id);
-		deleteMustReturnStatusCode204(id);
+		System.out.println(response.getBody().getKey());
 		
-		
-//			.apply(print());
-	}
-	
-//	@Order(2)
-//	@Test
-	void getMustReturnStatusCode200(long id) {
-
-//		when(service.getById(id)).thenReturn(resource);
-		
-		response = 
-		given()
-			.header("Authorization" , id)
-		.when()
-			.get("/perfil")
-		.then()
-			.statusCode(200)
-//			.apply(print());
-			.extract()
-			.asPrettyString();
-		
-		System.out.println(response);
+		assertInstanceOf(ResponseEntity.class, response );
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertInstanceOf(PerfilDTO.class, response.getBody());
 	}
 
-//	@Order(3)
-//	@Test
-	void putMustReturnStatusCode200(long id) {
-//		when(service.update(id, resource)).thenReturn(resource);
-		
-		response = 
-				given()
-					.header("Authorization" , id)
-					.contentType(ContentType.JSON)
-					.body(resource)
-				. when()
-					.put("/perfil")
-				.then()
-					.statusCode(200)
-//					.apply(print());
-					.extract()
-					.asPrettyString();
-		System.out.println(response);
-	}
-
-//	@Order(4)
-//	@Test
-	void deleteMustReturnStatusCode204(long id) {		
-//		doNothing().when(service).delete(id);
-		
-		response = 
-		given()
-			.header("Authorization" , id)
-		.when()
-			.delete("/perfil")
-		.then()
-			.statusCode(204)
-//			.apply(print());
-			.extract()
-			.asPrettyString();	
-		System.out.println(response);
-	}
-
-	
-	// Testing for accepted media types
-	@Order(5)
 	@Test
-	void postAcceptedAndResponseContentTypeMustMacth() {
+	void updateMustReturnResponseEntityWithStatusCode200() throws Exception {
+		when(service.update(perfil)).thenReturn(perfil);
+		var response = controller.update(perfil.getKey(), perfil);
 		
-		List<ContentType> accepted = new ArrayList<>();
-		accepted.add(ContentType.JSON);
-		accepted.add(ContentType.XML);
-		// TODO Testar com APPLICATION_HAL e APPLICATION_HAL-FORMS
+		assertInstanceOf(ResponseEntity.class, response );
+		assertInstanceOf(PerfilDTO.class, response.getBody());
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+	}
+
+	@Test
+	void deleteMustReturnEmptyResponseEntityWithStatusCode204() throws Exception {
+		doNothing().when(service).delete(perfil.getKey());
+		var response = controller.delete(perfil.getKey());
 		
-		accepted.forEach((type) -> {
-			given()
-				.contentType(ContentType.JSON)
-				.accept(type)
-			. when()
-				.post("/perfil")
-			.then()
-				.contentType(type)
-//				.apply(print());
-				;
-		});
+		assertInstanceOf(ResponseEntity.class, response );
+		assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+		assertNull(response.getBody());
+	}
+
+	@Test
+	void getPerfilMustReturnResponseEntityWithStatusCode200() throws Exception {
+		config = new ConfigDTO();
+		when(service.getPerfilConfig(1L)).thenReturn(config);
+		var response = controller.getConfigs(1L);
+		
+		assertInstanceOf(ResponseEntity.class, response );
+		assertInstanceOf(ConfigDTO.class, response.getBody());
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+	}
+
+	@Test
+	void updatePerfilMustReturnResponseEntityWithStatusCode200() throws Exception {
+		config = new ConfigDTO();
+		when(service.updateConfig(0, config)).thenReturn(config);
+		var response = controller.updateConfigs(0, config);
+		
+		assertInstanceOf(ResponseEntity.class, response );
+		assertInstanceOf(ConfigDTO.class, response.getBody());
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 	
+
 }

@@ -11,7 +11,7 @@ public class MockLocalizacaoDto {
 
 	public static LocalizacaoDTO generateResource() {
 		LocalizacaoDTO resource = new LocalizacaoDTO();
-		resource.setAddressLine("Rua xxxx");
+		resource.setLine("Rua xxxx");
 		resource.setCity("Florianópolis");
 		resource.setState("SC");
 		resource.setCountry("Brasil");

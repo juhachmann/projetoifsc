@@ -3,26 +3,35 @@ package com.github.juhachmann.estagios.commom;
 import java.io.Serializable;
 import java.util.Objects;
 
-import org.springframework.hateoas.RepresentationModel;
 import org.springframework.validation.annotation.Validated;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+
+
+
+/**
+ * Simple POJO for inserting contact information
+ * 
+ * Minimal Required fields: email, phone
+ * 
+ */
 
 @Validated
+@Schema(name="Contact", description = "Informações de contato")
 public class ContactDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	@Schema(description = "Email válido", example = "rh@nobanks.com", requiredMode = Schema.RequiredMode.REQUIRED)
 	@NotBlank
 	@Email
 	private String email;
 	
+	@Schema(description = "Telefone válido", example = "48 3555-5500", requiredMode = Schema.RequiredMode.REQUIRED)
 	@NotBlank
-	private String telefone;
+	private String phone;
 	
 	
 	public ContactDTO() {
@@ -30,10 +39,10 @@ public class ContactDTO implements Serializable {
 	}
 	
 	public ContactDTO(@NotBlank @Email String email,
-			@NotBlank String telefone) {
+			@NotBlank String phone) {
 		super();
 		this.email = email;
-		this.telefone = telefone;
+		this.phone = phone;
 	}
 
 	public String getEmail() {
@@ -44,12 +53,12 @@ public class ContactDTO implements Serializable {
 		this.email = email;
 	}
 
-	public String getTelefone() {
-		return telefone;
+	public String getPhone() {
+		return phone;
 	}
 
-	public void setTelefone(@NotBlank String telefone) {
-		this.telefone = telefone;
+	public void setPhone(@NotBlank String phone) {
+		this.phone = phone;
 	}
 
 	
@@ -57,7 +66,7 @@ public class ContactDTO implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + Objects.hash(email, telefone);
+		result = prime * result + Objects.hash(email, phone);
 		return result;
 	}
 
@@ -70,7 +79,7 @@ public class ContactDTO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ContactDTO other = (ContactDTO) obj;
-		return Objects.equals(email, other.email) && Objects.equals(telefone, other.telefone);
+		return Objects.equals(email, other.email) && Objects.equals(phone, other.phone);
 	}
 
 	

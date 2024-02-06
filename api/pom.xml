@@ -12,7 +12,7 @@
 	<artifactId>estagios</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>estagios</name>
-	<description>Projeto Integrador CTDS-IFSC</description>
+	<description>Um pequeno serviço RESTful para divulgar vagas de estágio a instituições de ensino</description>
 	<properties>
 		<java.version>17</java.version>
 		<testcontainers.version>1.16.3</testcontainers.version>

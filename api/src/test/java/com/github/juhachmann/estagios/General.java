@@ -3,12 +3,15 @@ package com.github.juhachmann.estagios;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.juhachmann.estagios.perfil.ConfigDTO;
+import com.github.juhachmann.estagios.perfil.PerfilController;
 import com.github.juhachmann.estagios.perfil.PerfilDTO;
+import com.github.juhachmann.estagios.perfil.PerfilPublicoDTO;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -16,6 +19,14 @@ class General {
 	
 	ObjectMapper mapper = new ObjectMapper();
 
+	private void print(String str) {
+		System.out.println(str);
+	}
+	
+	private void print(Object obj) {
+		System.out.println(obj.toString());
+	}
+	
 	@BeforeEach
 	void setUp() throws Exception {
 	}
@@ -25,17 +36,12 @@ class General {
 	}
 
 	@Test
-	void test() throws JsonMappingException, JsonProcessingException {
+	void test() throws Exception {
 		
-		String jsonString = "{ \"name\" : \"Juliana\" }";
 		
-		System.out.println(
-				mapper.readValue(jsonString, PerfilDTO.class).toString()
-				
-				);
+		PerfilDTO ju = new PerfilDTO();
 		
-		var ju = new PerfilDTO();
-		//ju.getRequiredLink("self").;
+		ResponseEntity<PerfilDTO> response = new ResponseEntity<PerfilDTO>(ju, HttpStatus.OK);
 		
 		
 	}
