@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 
-import com.github.juhachmann.estagios.perfil.PerfilPublicoDTO;
+import com.github.juhachmann.estagios.perfil.PerfilDTO;
 import com.github.juhachmann.estagios.utils.MediaTypes;
 
 
@@ -22,7 +22,7 @@ class ControllerIntegrationTestPerfilController {
 	static List<String> acceptedContentTypes = new ArrayList<>();
 	static List<String> producedContentTypes = new ArrayList<>();
 		
-	PerfilPublicoDTO resource;
+	PerfilDTO resource;
 		
 	@BeforeAll
 	static void config() {
@@ -40,7 +40,7 @@ class ControllerIntegrationTestPerfilController {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		resource = new PerfilPublicoDTO();
+		resource = new PerfilDTO();
 	}
 
 	@AfterEach
@@ -98,7 +98,7 @@ class ControllerIntegrationTestPerfilController {
 	
 	@Test
 	void postValidatesRequestData() {
-		PerfilPublicoDTO invalidData = new PerfilPublicoDTO();
+		PerfilDTO invalidData = new PerfilDTO();
 		
 		
 		

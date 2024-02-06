@@ -27,8 +27,8 @@ import com.github.juhachmann.estagios.perfil.MockConfigRepository;
 import com.github.juhachmann.estagios.perfil.MockPerfilDto;
 import com.github.juhachmann.estagios.perfil.MockPerfilRepository;
 import com.github.juhachmann.estagios.perfil.NotificationSettingsFactory;
-import com.github.juhachmann.estagios.perfil.PerfilDTO;
-import com.github.juhachmann.estagios.perfil.PerfilService;
+import com.github.juhachmann.estagios.perfil.PerfilPrivadoDTO;
+import com.github.juhachmann.estagios.perfil.PerfilPrivadoService;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -42,13 +42,13 @@ class ServiceTestPerfilService {
 	MockConfigRepository configRepo;
 	
 	@InjectMocks
-	PerfilService service;
+	PerfilPrivadoService service;
 	
 //	static List<String> acceptedContentTypes = new ArrayList<>();
 //	static List<String> producedContentTypes = new ArrayList<>();
 		
-	PerfilDTO resource;
-	PerfilDTO invalidResource;
+	PerfilPrivadoDTO resource;
+	PerfilPrivadoDTO invalidResource;
 	Long correctId = 1L;
 	
 	static ConfigDTO configs;
@@ -83,7 +83,7 @@ class ServiceTestPerfilService {
 		resource = MockPerfilDto.generateResource();
 		resource.setKey(correctId);
 		
-		invalidResource = new PerfilDTO();
+		invalidResource = new PerfilPrivadoDTO();
 		invalidResource.setKey(correctId);
 	}
 
@@ -91,7 +91,7 @@ class ServiceTestPerfilService {
 	void tearDown() throws Exception {
 	}
 	
-	void checkHateoasLinks(PerfilDTO perfil) {
+	void checkHateoasLinks(PerfilPrivadoDTO perfil) {
 		HATEOASLinks.forEach((link) -> {
 			assertNotNull(perfil.getRequiredLink(link));
 		});
@@ -113,7 +113,7 @@ class ServiceTestPerfilService {
 	void createMustReturnCreatedInstance() throws Exception {
 		when(repo.create(resource)).thenReturn(resource);
 		assertEquals(resource, service.create(resource));
-		assertInstanceOf(PerfilDTO.class, service.create(resource));
+		assertInstanceOf(PerfilPrivadoDTO.class, service.create(resource));
 	}
 
 	@Test
@@ -136,7 +136,7 @@ class ServiceTestPerfilService {
 	void getMustReturnOneCorrectItem() throws Exception {
 		when(repo.getById(correctId)).thenReturn(resource);
 		assertEquals(resource, service.get(correctId));
-		assertInstanceOf(PerfilDTO.class, service.get(correctId));
+		assertInstanceOf(PerfilPrivadoDTO.class, service.get(correctId));
 	}
 	
 	@Test
@@ -164,7 +164,7 @@ class ServiceTestPerfilService {
 	@Test
 	void updateMustReturnItemWith4Links() throws Exception {
 		when(repo.update(resource.getKey(), resource)).thenReturn(resource);
-		PerfilDTO perfil = service.update(resource);
+		PerfilPrivadoDTO perfil = service.update(resource);
 		checkHateoasLinks(perfil);
 	}
 	

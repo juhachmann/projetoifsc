@@ -9,9 +9,9 @@ import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.juhachmann.estagios.perfil.ConfigDTO;
-import com.github.juhachmann.estagios.perfil.PerfilController;
+import com.github.juhachmann.estagios.perfil.PerfilPrivadoController;
+import com.github.juhachmann.estagios.perfil.PerfilPrivadoDTO;
 import com.github.juhachmann.estagios.perfil.PerfilDTO;
-import com.github.juhachmann.estagios.perfil.PerfilPublicoDTO;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -39,10 +39,9 @@ class General {
 	void test() throws Exception {
 		
 		
-		PerfilDTO ju = new PerfilDTO();
+		PerfilPrivadoDTO perfil = new PerfilPrivadoDTO();
 		
-		ResponseEntity<PerfilDTO> response = new ResponseEntity<PerfilDTO>(ju, HttpStatus.OK);
-		
+
 		
 	}
 

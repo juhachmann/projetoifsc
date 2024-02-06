@@ -15,25 +15,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.github.juhachmann.estagios.perfil.ConfigDTO;
-import com.github.juhachmann.estagios.perfil.PerfilController;
-import com.github.juhachmann.estagios.perfil.PerfilDTO;
-import com.github.juhachmann.estagios.perfil.PerfilService;
+import com.github.juhachmann.estagios.perfil.PerfilPrivadoController;
+import com.github.juhachmann.estagios.perfil.PerfilPrivadoDTO;
+import com.github.juhachmann.estagios.perfil.PerfilPrivadoService;
 
 @ExtendWith(MockitoExtension.class)
 class ControllerUnitTestPerfilController {
 	
-	PerfilDTO perfil;
+	PerfilPrivadoDTO perfil;
 	ConfigDTO config; 
 	
 	@Mock
-	PerfilService service;
+	PerfilPrivadoService service;
 
 	@InjectMocks
-	PerfilController controller;
+	PerfilPrivadoController controller;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		perfil = new PerfilDTO();
+		perfil = new PerfilPrivadoDTO();
 		perfil.setKey(1L);
 	}
 
@@ -48,7 +48,7 @@ class ControllerUnitTestPerfilController {
 		
 		assertInstanceOf(ResponseEntity.class, response );
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
-		assertInstanceOf(PerfilDTO.class, response.getBody());
+		assertInstanceOf(PerfilPrivadoDTO.class, response.getBody());
 	}
 
 	@Test
@@ -60,7 +60,7 @@ class ControllerUnitTestPerfilController {
 		
 		assertInstanceOf(ResponseEntity.class, response );
 		assertEquals(HttpStatus.OK, response.getStatusCode());
-		assertInstanceOf(PerfilDTO.class, response.getBody());
+		assertInstanceOf(PerfilPrivadoDTO.class, response.getBody());
 	}
 
 	@Test
@@ -69,7 +69,7 @@ class ControllerUnitTestPerfilController {
 		var response = controller.update(perfil.getKey(), perfil);
 		
 		assertInstanceOf(ResponseEntity.class, response );
-		assertInstanceOf(PerfilDTO.class, response.getBody());
+		assertInstanceOf(PerfilPrivadoDTO.class, response.getBody());
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 

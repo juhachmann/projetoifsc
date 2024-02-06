@@ -15,9 +15,9 @@ import com.github.juhachmann.estagios.commom.LocalizacaoDTO;
 import com.github.juhachmann.estagios.commom.MockContactDto;
 import com.github.juhachmann.estagios.commom.MockLocalizacaoDto;
 import com.github.juhachmann.estagios.perfil.MockPerfilDto;
-import com.github.juhachmann.estagios.perfil.PerfilDTO;
+import com.github.juhachmann.estagios.perfil.PerfilPrivadoDTO;
 
-public class PerfilDTOValidationTest extends ValidationTest<PerfilDTO> {
+public class PerfilDTOValidationTest extends ValidationTest<PerfilPrivadoDTO> {
 
 	String propertyPathBeingTested;
 	
@@ -37,7 +37,7 @@ public class PerfilDTOValidationTest extends ValidationTest<PerfilDTO> {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		resource = new PerfilDTO();
+		resource = new PerfilPrivadoDTO();
 	}
 
 	

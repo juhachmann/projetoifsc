@@ -2,13 +2,15 @@ package com.github.juhachmann.estagios.vagas;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import org.springframework.hateoas.RepresentationModel;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.juhachmann.estagios.commom.ContactDTO;
@@ -40,6 +42,9 @@ public class VagaDTO extends RepresentationModel<VagaDTO> implements Serializabl
 	@Schema(accessMode = Schema.AccessMode.READ_ONLY, example = "NoBanks")
 	private String owner;
 	
+	@JsonIgnore
+	private Long ownerId;
+	
 	@Schema(example="Vaga de desenhista Junior" )
 	@NotBlank
 	private String title;
@@ -65,17 +70,16 @@ public class VagaDTO extends RepresentationModel<VagaDTO> implements Serializabl
 	@Min(1)
 	private long payment;
 	
+	@JsonFormat(pattern="yyyy-MM-dd")
 	@Schema(example="2024-01-22", description = "Data de início do estágio" )
 	private LocalDate startsAt;
 	
+	@JsonFormat(pattern="yyyy-MM-dd")
 	@Schema(example="2024-06-30", description = "Data do final do estágio" )
 	private LocalDate endsAt;
 	
 	@Schema(example="[\"medio\",\"tecnico\"]", allowableValues = "medio, tecnico, superior, pos", description = "Níveis de ensino que os/as candidatos/as à vaga podem estar cursando" )
 	private List<@NotBlank String> levels;
-	
-	@Schema(example="[\"5\",\"6\"]", description = "Ids das Instituições de Ensino para as quais a vaga se destina. Se deixado em branco, a vaga será disponibilizada para todas as instituições de ensino com acesso ao sistema" )
-	private List<@NotNull Long> ies;
 	
 	@Schema(example="[\"Design\",\"Artes Visuais\"]", description = "Áreas de estudo dos/as candidatos/as à vaga" )
 	@NotEmpty
@@ -93,50 +97,47 @@ public class VagaDTO extends RepresentationModel<VagaDTO> implements Serializabl
 	@Schema(example="[\"linkedin.com/minhaEmpresa/vaga012\"]", description = "Links externos que se relacionem com a vaga" )
 	private List<@NotBlank String> externalLinks;
 	
-	@Schema(example="90", description = "Define por quantos dias a vaga ficará ativa no sistema. Se o valor não for definido, a vaga ficará disponível por 90 dias" )
-	@Min(0)
-	private int expiringInDays;
+	@Schema(example="2024-12-01", description = "Define por quantos dias a vaga ficará ativa no sistema. Se o valor não for definido, a vaga ficará disponível por 90 dias", requiredMode = Schema.RequiredMode.NOT_REQUIRED )
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@NotNull
+	@FutureOrPresent
+	private LocalDate expiresAt;
 	
-	@Schema(example="180", description = "Caso esta oferta de vaga de estágio seja recorrente na organização, é possível programar o intervalo de dias em que a vaga deve ser republicada no sistema" )
-	@Min(0)
-	private int renovateInDays;
-	
-	@Schema(example="InternalUser0123", description = "Id interno do criador da vaga. Útil para organizações em que o sistema será acessado por vários usuários internos e é preciso manter autorização de acesso às ofertas de vaga. Caso este valor seja fornecido, a vaga só poderá ser alterada ou excluída pelo mesmo usuário que a criou." )
-	private String creatorInternalId;
-	
-	@Schema(accessMode = Schema.AccessMode.READ_ONLY, example="2024-01-15")
+	@Schema(accessMode = Schema.AccessMode.READ_ONLY )
 	@JsonProperty("_createdAt")
-	private Date createdAt;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime createdAt;
 	
-	@Schema(accessMode = Schema.AccessMode.READ_ONLY, example="2024-01-17")
+	@Schema(accessMode = Schema.AccessMode.READ_ONLY )
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonProperty("_updatedAt")
-	private Date updatedAt;
+	private LocalDateTime updatedAt;
 	
 	
 	public VagaDTO() {
 		this.requirements = new ArrayList<>();
 		this.periods = new ArrayList<>();
 		this.levels = new ArrayList<>();
-		this.ies = new ArrayList<>();
 		this.areas = new ArrayList<>();
 		this.courses = new ArrayList<>();
 		this.contact = new ContactDTO();
 		this.address = new LocalizacaoDTO();
 		this.externalLinks = new ArrayList<>();
-		this.expiringInDays = 90;
-		this.renovateInDays = 0;
+		this.createdAt = LocalDateTime.now();
+		this.updatedAt = LocalDateTime.now();
 	}
 
-	
-	public VagaDTO(String owner, @NotBlank String title, @NotBlank String description,
-			@NotEmpty List<@NotBlank String> requirements, @NotEmpty List<@NotBlank String> periods,
-			@NotNull @Min(1) long workloadInHours, @NotNull @Min(1) long payment, @FutureOrPresent LocalDate startsAt,
-			@FutureOrPresent LocalDate endsAt, @NotNull List<@NotBlank String> levels, List<@NotNull Long> ies,
-			@NotEmpty List<@NotBlank String> areas, List<@NotBlank String> courses, ContactDTO contact,
-			LocalizacaoDTO address, List<@NotBlank String> externalLinks, @Min(0) int expiringInDays,
-			@Min(0) int renovateInDays, String creatorInternalId) {
+
+	public VagaDTO(long key, String owner, Long ownerId, @NotBlank String title, @NotBlank String description,
+			List<@NotBlank String> requirements, @NotEmpty List<@NotBlank String> periods,
+			@NotNull @Min(1) long workloadInHours, @NotNull @Min(1) long payment, LocalDate startsAt, LocalDate endsAt,
+			List<@NotBlank String> levels, @NotEmpty List<@NotBlank String> areas, List<@NotBlank String> courses,
+			ContactDTO contact, LocalizacaoDTO address, List<@NotBlank String> externalLinks,
+			@NotNull @FutureOrPresent LocalDate expiresAt, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		super();
+		this.key = key;
 		this.owner = owner;
+		this.ownerId = ownerId;
 		this.title = title;
 		this.description = description;
 		this.requirements = requirements;
@@ -146,15 +147,14 @@ public class VagaDTO extends RepresentationModel<VagaDTO> implements Serializabl
 		this.startsAt = startsAt;
 		this.endsAt = endsAt;
 		this.levels = levels;
-		this.ies = ies;
 		this.areas = areas;
 		this.courses = courses;
 		this.contact = contact;
 		this.address = address;
 		this.externalLinks = externalLinks;
-		this.expiringInDays = expiringInDays;
-		this.renovateInDays = renovateInDays;
-		this.creatorInternalId = creatorInternalId;
+		this.expiresAt = expiresAt;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
 	}
 
 
@@ -175,6 +175,16 @@ public class VagaDTO extends RepresentationModel<VagaDTO> implements Serializabl
 
 	public void setOwner(String owner) {
 		this.owner = owner;
+	}
+
+
+	public Long getOwnerId() {
+		return ownerId;
+	}
+
+
+	public void setOwnerId(Long ownerId) {
+		this.ownerId = ownerId;
 	}
 
 
@@ -268,16 +278,6 @@ public class VagaDTO extends RepresentationModel<VagaDTO> implements Serializabl
 	}
 
 
-	public List<Long> getIes() {
-		return ies;
-	}
-
-
-	public void setIes(List<Long> ies) {
-		this.ies = ies;
-	}
-
-
 	public List<String> getAreas() {
 		return areas;
 	}
@@ -328,52 +328,32 @@ public class VagaDTO extends RepresentationModel<VagaDTO> implements Serializabl
 	}
 
 
-	public int getExpiringInDays() {
-		return expiringInDays;
+	public LocalDate getExpiresAt() {
+		return expiresAt;
 	}
 
 
-	public void setExpiringInDays(int expiringInDays) {
-		this.expiringInDays = expiringInDays;
+	public void setExpiresAt(LocalDate expiresAt) {
+		this.expiresAt = expiresAt;
 	}
 
 
-	public int getRenovateInDays() {
-		return renovateInDays;
-	}
-
-
-	public void setRenovateInDays(int renovateInDays) {
-		this.renovateInDays = renovateInDays;
-	}
-
-
-	public String getCreatorInternalId() {
-		return creatorInternalId;
-	}
-
-
-	public void setCreatorInternalId(String creatorInternalId) {
-		this.creatorInternalId = creatorInternalId;
-	}
-
-
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
 
-	public Date getUpdatedAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
@@ -398,20 +378,19 @@ public class VagaDTO extends RepresentationModel<VagaDTO> implements Serializabl
 		VagaDTO other = (VagaDTO) obj;
 		return Objects.equals(address, other.address) && Objects.equals(areas, other.areas)
 				&& Objects.equals(contact, other.contact) && Objects.equals(courses, other.courses)
-				&& Objects.equals(createdAt, other.createdAt)
-				&& Objects.equals(creatorInternalId, other.creatorInternalId)
-				&& Objects.equals(description, other.description) && Objects.equals(endsAt, other.endsAt)
-				&& expiringInDays == other.expiringInDays && Objects.equals(externalLinks, other.externalLinks)
-				&& Objects.equals(ies, other.ies) && key == other.key && Objects.equals(levels, other.levels)
-				&& Objects.equals(owner, other.owner) && payment == other.payment
-				&& Objects.equals(periods, other.periods) && renovateInDays == other.renovateInDays
-				&& Objects.equals(requirements, other.requirements) && Objects.equals(startsAt, other.startsAt)
-				&& Objects.equals(title, other.title) && Objects.equals(updatedAt, other.updatedAt)
-				&& workloadInHours == other.workloadInHours;
+				&& Objects.equals(createdAt, other.createdAt) && Objects.equals(description, other.description)
+				&& Objects.equals(endsAt, other.endsAt) && Objects.equals(expiresAt, other.expiresAt)
+				&& Objects.equals(externalLinks, other.externalLinks) && key == other.key
+				&& Objects.equals(levels, other.levels) && Objects.equals(owner, other.owner)
+				&& Objects.equals(ownerId, other.ownerId) && payment == other.payment
+				&& Objects.equals(periods, other.periods) && Objects.equals(requirements, other.requirements)
+				&& Objects.equals(startsAt, other.startsAt) && Objects.equals(title, other.title)
+				&& Objects.equals(updatedAt, other.updatedAt) && workloadInHours == other.workloadInHours;
 	}
-	
-	
-	
-	
 
+
+	
+	
+	
+	
 }

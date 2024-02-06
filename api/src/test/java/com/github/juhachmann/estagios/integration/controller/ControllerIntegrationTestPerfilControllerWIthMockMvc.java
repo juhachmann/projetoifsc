@@ -26,8 +26,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.github.juhachmann.estagios.perfil.PerfilController;
-import com.github.juhachmann.estagios.perfil.PerfilPublicoDTO;
+import com.github.juhachmann.estagios.perfil.PerfilPrivadoController;
+import com.github.juhachmann.estagios.perfil.PerfilDTO;
 
 import io.restassured.http.ContentType;
 
@@ -48,12 +48,12 @@ class ControllerIntegrationTestPerfilControllerWIthMockMvc {
 //	@InjectMocks
 	
 	@Autowired
-	PerfilController controller;
+	PerfilPrivadoController controller;
 	
 	Integer id;
 	String response;
 	
-	PerfilPublicoDTO resource;
+	PerfilDTO resource;
 
 	
 	
@@ -61,15 +61,15 @@ class ControllerIntegrationTestPerfilControllerWIthMockMvc {
 	public void initialiseRestAssuredMockMvcWebApplicationContext() {
 	    // RestAssuredMockMvc.webAppContextSetup(webApplicationContext);
 		//MockitoAnnotations.openMocks(controller);
-//		RestAssuredMockMvc.standaloneSetup(new PerfilController());
+//		RestAssuredMockMvc.standaloneSetup(new PerfilPrivadoController());
 	   
 	}
 	
 	@BeforeEach
 	void setUp() throws Exception {
-//		RestAssuredMockMvc.standaloneSetup(new PerfilController());
+//		RestAssuredMockMvc.standaloneSetup(new PerfilPrivadoController());
 //		RestAssuredMockMvc.standaloneSetup(controller);
-		resource = new PerfilPublicoDTO();
+		resource = new PerfilDTO();
 		// this must be called for the @Mock annotations above to be processed.
         //MockitoAnnotations.openMocks(this);
     //    MockitoAnnotations.openMocks(this);
