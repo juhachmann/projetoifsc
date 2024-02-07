@@ -1,4 +1,4 @@
-package com.github.juhachmann.estagios.perfil;
+package com.github.juhachmann.estagios.resources.authUserPerfil;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.afford;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.juhachmann.estagios.exceptions.InvalidBodyRequestException;
-import com.github.juhachmann.estagios.vagas.VagaPrivadaController;
+import com.github.juhachmann.estagios.resources.authUserConfig.AuthUserConfigDTO;
+import com.github.juhachmann.estagios.resources.authUserVaga.AuthUserVagaController;
+import com.github.juhachmann.estagios.trash.MockConfigRepository;
+import com.github.juhachmann.estagios.trash.MockPerfilRepository;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -25,7 +28,7 @@ import jakarta.validation.ValidatorFactory;
  */
 
 @Service
-public class PerfilPrivadoService {
+public class AuthUserPerfilService {
 	
 	@Autowired
 	MockPerfilRepository repo;
@@ -33,28 +36,6 @@ public class PerfilPrivadoService {
 	@Autowired
 	MockConfigRepository confRepo;
 	
-	private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-	private final Validator validator = factory.getValidator();
-	
-	/**
-	 * Validates the serializable resource using Jakarta Validation
-	 * @param resource to be validated
-	 */
-	private void validate(Serializable resource) {
-		Set<ConstraintViolation<Serializable>> violations = validator.validate(resource) ;
-						
-		if(violations.isEmpty()) {
-			return;
-		}
-
-		// TODO - Remove this block once the correct error message is thrown
-		violations.forEach((v) -> {
-			System.out.println(v.toString());
-		});
-
-		throw new InvalidBodyRequestException(violations);
-		
-	}
 	
 	
 	/**
@@ -64,25 +45,25 @@ public class PerfilPrivadoService {
 	 * @return
 	 * @throws Exception
 	 */
-	private void addRequiredLinks(PerfilPrivadoDTO resource) throws Exception {
-		resource.removeLinks().add( linkTo( methodOn (PerfilPrivadoController.class) .get(resource.getKey()) ) // SELF
-						.withSelfRel()
-						.withTitle("self")
-						.andAffordance(afford(methodOn(PerfilPrivadoController.class).update(resource.getKey(), resource) ) ) // update
-						.andAffordance( afford(methodOn(PerfilPrivadoController.class).delete(resource.getKey()) ) ) // delete
-					)
-					.add( linkTo( methodOn (PerfilPrivadoController.class) . getConfigs(resource.getKey()) ) // CONFIGS 
-							.withRel("configs")
-							.withTitle("Configs for your profile")
-					)
-					.add( linkTo( methodOn (VagaPrivadaController.class) .getAllFromMe(resource.getKey(), 5, 5) ) // VAGAS TODO - Arrumar estes argumentos de busca paginada aqui
-							.withRel("vagas")
-							.withTitle("Jobs offered by you")
-					)
-					.add( linkTo( methodOn (VagaPrivadaController.class) .getOwnerById(resource.getKey()) ) // PERFIL PUBLICO
-							.withRel("publicProfile")
-							.withTitle("Your public profile")
-					);
+	private void addRequiredLinks(AuthUserPerfilDTO resource) throws Exception {
+//		resource.removeLinks().add( linkTo( methodOn (AuthUserPerfilController.class) .get(resource.getKey()) ) // SELF
+//						.withSelfRel()
+//						.withTitle("self")
+//						.andAffordance(afford(methodOn(AuthUserPerfilController.class).update(resource.getKey(), resource) ) ) // update
+//						.andAffordance( afford(methodOn(AuthUserPerfilController.class).delete(resource.getKey()) ) ) // delete
+//					)
+//					.add( linkTo( methodOn (AuthUserPerfilController.class) . getConfigs(resource.getKey()) ) // CONFIGS 
+//							.withRel("configs")
+//							.withTitle("Configs for your profile")
+//					)
+//					.add( linkTo( methodOn (AuthUserVagaController.class) .getAllFromMe(resource.getKey(), 5, 5) ) // VAGAS TODO - Arrumar estes argumentos de busca paginada aqui
+//							.withRel("vagas")
+//							.withTitle("Jobs offered by you")
+//					)
+//					.add( linkTo( methodOn (AuthUserPerfilController.class) .getUserById(resource.getKey(), resource.getKey() ) ) // PERFIL PUBLICO
+//							.withRel("publicProfile")
+//							.withTitle("Your public profile")
+//					);
 	}
 	
 	
@@ -93,27 +74,27 @@ public class PerfilPrivadoService {
 	 * @return
 	 * @throws Exception
 	 */
-	private void addRequiredLinks(ConfigDTO resource) throws Exception {
-		resource.removeLinks().add( linkTo( methodOn (PerfilPrivadoController.class).getConfigs(resource.getKey()) ).withSelfRel()
-							.andAffordance( afford ( methodOn( PerfilPrivadoController.class).updateConfigs(resource.getKey(), resource) ) ) ) // update
-					.add( linkTo( methodOn (PerfilPrivadoController.class).get(resource.getKey()) ) 
-							.withRel("profile")
-							.withTitle("Your profile")
-					);
+	private void addRequiredLinks(AuthUserConfigDTO resource) throws Exception {
+//		resource.removeLinks().add( linkTo( methodOn (AuthUserPerfilController.class).getConfigs(resource.getKey()) ).withSelfRel()
+//							.andAffordance( afford ( methodOn( AuthUserPerfilController.class).updateConfigs(resource.getKey(), resource) ) ) ) // update
+//					.add( linkTo( methodOn (AuthUserPerfilController.class).get(resource.getKey()) ) 
+//							.withRel("profile")
+//							.withTitle("Your profile")
+//					);
 	}
 
 	
 	/**
 	 * Creates new profile for authenticated user
 	 * 
-	 * @param resource PerfilPrivadoDTO
+	 * @param resource AuthUserPerfilDTO
 	 * @return created user profile with HATEOAS links
 	 * @throws Exception
 	 */
-	public PerfilPrivadoDTO create(PerfilPrivadoDTO resource) throws Exception {
+	public AuthUserPerfilDTO create(AuthUserPerfilDTO resource) throws Exception {
 		resource.removeLinks();
-		validate(resource);		
-		PerfilPrivadoDTO created = repo.create(resource);
+//		validate(resource);		
+		AuthUserPerfilDTO created = repo.create(resource);
 		addRequiredLinks(created);
 		return created;
 	}
@@ -126,8 +107,8 @@ public class PerfilPrivadoService {
 	 * @return user profile with HATEOAS links
 	 * @throws Exception
 	 */
-	public PerfilPrivadoDTO get(long id) throws Exception {
-		PerfilPrivadoDTO perfil = repo.getById(id);
+	public AuthUserPerfilDTO get(long id) throws Exception {
+		AuthUserPerfilDTO perfil = repo.getById(id);
 		addRequiredLinks(perfil);
 		return perfil;
 	}
@@ -135,14 +116,15 @@ public class PerfilPrivadoService {
 	
 	/**
 	 * Updates authenticated user profile
-	 * @param resource PerfilPrivadoDTO 
+	 * @param auth 
+	 * @param resource AuthUserPerfilDTO 
 	 * @return updated profile with HATEOAS links
 	 * @throws Exception
 	 */
-	public PerfilPrivadoDTO update(PerfilPrivadoDTO resource) throws Exception {
+	public AuthUserPerfilDTO update(Long auth, AuthUserPerfilDTO resource) throws Exception {
 		resource.removeLinks();
-		validate(resource);
-		PerfilPrivadoDTO perfil =  repo.update(resource.getKey(), resource);
+//		validate(resource);
+		AuthUserPerfilDTO perfil =  repo.update(resource.getKey(), resource);
 		addRequiredLinks(perfil);
 		return perfil;
 	}
@@ -167,8 +149,8 @@ public class PerfilPrivadoService {
 	 * @return user configs with HATEOAS links
 	 * @throws Exception
 	 */
-	public ConfigDTO getPerfilConfig(long id) throws Exception {
-		ConfigDTO config = confRepo.getById(id) ;
+	public AuthUserConfigDTO getPerfilConfig(long id) throws Exception {
+		AuthUserConfigDTO config = confRepo.getById(id) ;
 		addRequiredLinks(config);
 		return config;
 	}
@@ -177,14 +159,14 @@ public class PerfilPrivadoService {
 	/**
 	 * Updates authenticated user configs
 	 * @param id user id
-	 * @param resource ConfigDTO
+	 * @param resource AuthUserConfigDTO
 	 * @return updated user configs with HATEOAS links
 	 * @throws Exception
 	 */
-	public ConfigDTO updateConfig(long id, ConfigDTO resource) throws Exception {
+	public AuthUserConfigDTO updateConfig(long id, AuthUserConfigDTO resource) throws Exception {
 		resource.removeLinks();
-		validate(resource);
-		ConfigDTO configs = confRepo.update(id, resource);
+//		validate(resource);
+		AuthUserConfigDTO configs = confRepo.update(id, resource);
 		addRequiredLinks(configs);
 		return configs;
 	}

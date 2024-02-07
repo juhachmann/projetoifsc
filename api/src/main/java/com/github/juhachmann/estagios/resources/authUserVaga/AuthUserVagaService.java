@@ -1,28 +1,28 @@
-package com.github.juhachmann.estagios.vagas;
+package com.github.juhachmann.estagios.resources.authUserVaga;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VagaPrivadaService {
+public class AuthUserVagaService {
 
-	public VagaPrivadaDTO create(long ownerId, VagaPrivadaDTO vaga) {
+	public AuthUserVagaDTO create(long ownerId, AuthUserVagaDTO vaga) {
 		// TODO Auto-generated method stub
 		return vaga;
 	}
 
-	public Page<VagaPrivadaDTO> getAllFromMe (long ownerId, Pageable pageable) {
+	public Page<AuthUserVagaDTO> getAllFromMe (long ownerId, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public VagaPrivadaDTO getOne (Long userId, Long vagaId) {
+	public AuthUserVagaDTO getOne (Long userId, Long vagaId) {
 		// TODO Auto-generated method stub
-		return new VagaPrivadaDTO();
+		return new AuthUserVagaDTO();
 	}
 
-	public VagaPrivadaDTO updateOne (Long userId, Long vagaId, VagaPrivadaDTO vaga) {
+	public AuthUserVagaDTO updateOne (Long userId, Long vagaId, AuthUserVagaDTO vaga) {
 		// TODO Auto-generated method stub
 		return vaga;
 	}
@@ -32,7 +32,7 @@ public class VagaPrivadaService {
 	}
 	
 	
-	public Page<VagaPrivadaDTO> getAllFor(Long userId, Pageable pageable) {
+	public Page<AuthUserVagaDTO> getAllFor(Long userId, Long ies, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -40,17 +40,17 @@ public class VagaPrivadaService {
 	
 	// Aqui são sempre as versões públicas dessas vagas
 	
-	public Page<VagaPrivadaDTO> getAllForMe (Long userId, Pageable pageable) {
+	public Page<AuthUserVagaDTO> getAllForMe (Long userId, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	public VagaPrivadaDTO getOnePublic(Long userId, Long vagaId) {
+	public AuthUserVagaDTO getOnePublic(Long userId, Long vagaId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Page<VagaPrivadaDTO> getAllFrom(Long userId, Pageable pageable) {
+	public Page<AuthUserVagaDTO> getAllFrom(Long userId, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return null;
 	}

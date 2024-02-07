@@ -17,17 +17,13 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.github.juhachmann.estagios.perfil.PerfilPrivadoController;
-import com.github.juhachmann.estagios.perfil.PerfilDTO;
+import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilController;
+import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilDTO;
 
 import io.restassured.http.ContentType;
 
@@ -48,12 +44,12 @@ class ControllerIntegrationTestPerfilControllerWIthMockMvc {
 //	@InjectMocks
 	
 	@Autowired
-	PerfilPrivadoController controller;
+	AuthUserPerfilController controller;
 	
 	Integer id;
 	String response;
 	
-	PerfilDTO resource;
+	AuthUserPerfilDTO resource;
 
 	
 	
@@ -61,15 +57,15 @@ class ControllerIntegrationTestPerfilControllerWIthMockMvc {
 	public void initialiseRestAssuredMockMvcWebApplicationContext() {
 	    // RestAssuredMockMvc.webAppContextSetup(webApplicationContext);
 		//MockitoAnnotations.openMocks(controller);
-//		RestAssuredMockMvc.standaloneSetup(new PerfilPrivadoController());
+//		RestAssuredMockMvc.standaloneSetup(new AuthUserPerfilController());
 	   
 	}
 	
 	@BeforeEach
 	void setUp() throws Exception {
-//		RestAssuredMockMvc.standaloneSetup(new PerfilPrivadoController());
+//		RestAssuredMockMvc.standaloneSetup(new AuthUserPerfilController());
 //		RestAssuredMockMvc.standaloneSetup(controller);
-		resource = new PerfilDTO();
+		resource = new AuthUserPerfilDTO();
 		// this must be called for the @Mock annotations above to be processed.
         //MockitoAnnotations.openMocks(this);
     //    MockitoAnnotations.openMocks(this);

@@ -1,4 +1,4 @@
-package com.github.juhachmann.estagios.vagas;
+package com.github.juhachmann.estagios.resources.vagas;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +17,7 @@ public class VagaService {
 		return null;
 	}
 
-	public Page<VagaDTO> getAllFrom(Long userId, Pageable pageable) {
+	public Page<VagaDTO> getAllFrom(Long userId, Long ownerId, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return null;
 	}

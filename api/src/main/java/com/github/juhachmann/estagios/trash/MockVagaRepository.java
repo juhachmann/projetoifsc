@@ -1,12 +1,13 @@
-package com.github.juhachmann.estagios.vagas;
+package com.github.juhachmann.estagios.trash;
 
-import static com.github.juhachmann.estagios.vagas.MockVagasDatabase.vagasCollection;
+import static com.github.juhachmann.estagios.trash.MockVagasDatabase.vagasCollection;
 
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
 import com.github.juhachmann.estagios.exceptions.ResourceNotFoundException;
+import com.github.juhachmann.estagios.resources.vagas.VagaDTO;
 
 /**
  * Temporary mock to simulate a repository 

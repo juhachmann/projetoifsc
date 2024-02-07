@@ -10,14 +10,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.github.juhachmann.estagios.commom.ContactDTO;
-import com.github.juhachmann.estagios.commom.LocalizacaoDTO;
-import com.github.juhachmann.estagios.commom.MockContactDto;
-import com.github.juhachmann.estagios.commom.MockLocalizacaoDto;
-import com.github.juhachmann.estagios.perfil.MockPerfilDto;
-import com.github.juhachmann.estagios.perfil.PerfilPrivadoDTO;
+import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilMock;
+import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilDTO;
+import com.github.juhachmann.estagios.resources.shared.ContactDTO;
+import com.github.juhachmann.estagios.resources.shared.LocalizacaoDTO;
+import com.github.juhachmann.estagios.resources.shared.MockContactDto;
+import com.github.juhachmann.estagios.resources.shared.MockLocalizacaoDto;
 
-public class PerfilDTOValidationTest extends ValidationTest<PerfilPrivadoDTO> {
+public class PerfilDTOValidationTest extends ValidationTest<AuthUserPerfilDTO> {
 
 	String propertyPathBeingTested;
 	
@@ -37,7 +37,7 @@ public class PerfilDTOValidationTest extends ValidationTest<PerfilPrivadoDTO> {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		resource = new PerfilPrivadoDTO();
+		resource = new AuthUserPerfilDTO();
 	}
 
 	
@@ -186,7 +186,7 @@ public class PerfilDTOValidationTest extends ValidationTest<PerfilPrivadoDTO> {
 	
 	@Test
 	void mockGeneratesValidObject() {
-		resource = MockPerfilDto.generateResource();
+		resource = AuthUserPerfilMock.generateResource();
 		validate();
 		assertTrue(violations.isEmpty());
 	}
@@ -195,7 +195,7 @@ public class PerfilDTOValidationTest extends ValidationTest<PerfilPrivadoDTO> {
 	@Test 
 	void mockGeneratesInvalidObjectWithGivenNumOfFields() {
 		for (int i = 0; i < 10; i++) {
-			resource = MockPerfilDto.generateInvalidResource(i);
+			resource = AuthUserPerfilMock.generateInvalidResource(i);
 			validate();
 			assertFalse(violations.isEmpty());
 		}
@@ -205,7 +205,7 @@ public class PerfilDTOValidationTest extends ValidationTest<PerfilPrivadoDTO> {
 	@Test 
 	void mockGeneratesInvalidObjectWithRandomNumOfFields() {
 		for (int i = 0; i < 20; i++) {
-			resource = MockPerfilDto.generateInvalidResource();
+			resource = AuthUserPerfilMock.generateInvalidResource();
 			validate();
 			assertFalse(violations.isEmpty());
 		}

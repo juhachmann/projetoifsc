@@ -1,17 +1,20 @@
-package com.github.juhachmann.estagios.perfil;
+package com.github.juhachmann.estagios.trash;
 
 import org.springframework.stereotype.Component;
+
+import com.github.juhachmann.estagios.resources.authUserConfig.AuthUserConfigDTO;
+import com.github.juhachmann.estagios.resources.authUserConfig.AuthUserConfigMock;
 
 @Component
 public class MockConfigRepository {
 	
-	public ConfigDTO getById(Long id) {
-		return MockConfigDTO.generateResource(  );
+	public AuthUserConfigDTO getById(Long id) {
+		return AuthUserConfigMock.generateResource(  );
 	}
 
 	
-	public ConfigDTO update(long id, ConfigDTO newObj) {
-		return MockConfigDTO.generateResource(  );
+	public AuthUserConfigDTO update(long id, AuthUserConfigDTO newObj) {
+		return AuthUserConfigMock.generateResource(  );
 	}
 
 	public void delete(long id) {

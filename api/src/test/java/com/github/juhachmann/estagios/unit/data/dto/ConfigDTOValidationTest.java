@@ -1,29 +1,24 @@
 package com.github.juhachmann.estagios.unit.data.dto;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.github.juhachmann.estagios.perfil.ConfigDTO;
-import com.github.juhachmann.estagios.perfil.MockConfigDTO;
-import com.github.juhachmann.estagios.perfil.NotificationSettingsFactory;
-import com.github.juhachmann.estagios.perfil.SettingsFactory;
+import com.github.juhachmann.estagios.resources.authUserConfig.AuthUserConfigDTO;
+import com.github.juhachmann.estagios.resources.authUserConfig.AuthUserConfigMock;
 
-class ConfigDTOValidationTest extends ValidationTest<ConfigDTO> {
+class ConfigDTOValidationTest extends ValidationTest<AuthUserConfigDTO> {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		super.resource = new ConfigDTO();
+		super.resource = new AuthUserConfigDTO();
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
-		super.printViolations();
 	}
 
 	@Test
@@ -31,12 +26,12 @@ class ConfigDTOValidationTest extends ValidationTest<ConfigDTO> {
 		validate();
 		assertFalse(super.violations.isEmpty());		
 		
-		resource = MockConfigDTO.generateResource(  );
+		resource = AuthUserConfigMock.generateResource(  );
 		validate();
 		assertTrue(super.violations.isEmpty());
 		
 		
-		resource = MockConfigDTO.generateResource( );
+		resource = AuthUserConfigMock.generateResource( );
 		validate();
 		assertTrue(super.violations.isEmpty());
 		
@@ -47,7 +42,7 @@ class ConfigDTOValidationTest extends ValidationTest<ConfigDTO> {
 		validate();
 		assertFalse(super.violations.isEmpty());		
 		
-		resource = MockConfigDTO.generateInvalid();
+		resource = AuthUserConfigMock.generateInvalid();
 		validate();
 		assertFalse(super.violations.isEmpty());
 		

@@ -1,6 +1,5 @@
-package com.github.juhachmann.estagios.perfil;
+package com.github.juhachmann.estagios.resources.authUserPerfil;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -11,8 +10,9 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.github.juhachmann.estagios.commom.ContactDTO;
-import com.github.juhachmann.estagios.commom.LocalizacaoDTO;
+import com.github.juhachmann.estagios.resources.shared.ContactDTO;
+import com.github.juhachmann.estagios.resources.shared.LocalizacaoDTO;
+import com.github.juhachmann.estagios.resources.userPerfil.UserPerfilDTO;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
@@ -30,7 +30,7 @@ import jakarta.validation.constraints.NotNull;
 @Schema(name="Perfil Privado", description = "Perfil privado da instituição ou empresa")
 @JsonPropertyOrder("id")
 @Validated
-public class PerfilPrivadoDTO extends PerfilDTO implements Serializable { // TODO Dúvida: não consegui estender do PerfilPublico pq tive que estender do RepresentationModel<> e estava dando erro lá na frente.. tem algum jeito de consertar isso?
+public class AuthUserPerfilDTO extends UserPerfilDTO {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -64,7 +64,7 @@ public class PerfilPrivadoDTO extends PerfilDTO implements Serializable { // TOD
 	private LocalDateTime updatedAt;
 
 	
-	public PerfilPrivadoDTO() {
+	public AuthUserPerfilDTO() {
 		super();
 		this.address = new LocalizacaoDTO();
 		this.generalContact = new ContactDTO();
@@ -72,7 +72,7 @@ public class PerfilPrivadoDTO extends PerfilDTO implements Serializable { // TOD
 	}
 
 
-	public PerfilPrivadoDTO(Long key, @NotBlank String name, @NotNull boolean ie,
+	public AuthUserPerfilDTO(Long key, @NotBlank String name, @NotNull boolean ie,
 			@NotEmpty List<@NotBlank String> areas, String description, String website,
 			List<@NotNull String> socialMedia, @NotNull @CNPJ String cnpj, @NotNull @Valid LocalizacaoDTO address,
 			@NotNull @Valid ContactDTO generalContact, @Valid ContactDTO applicationContact, LocalDateTime createdAt,
@@ -162,7 +162,7 @@ public class PerfilPrivadoDTO extends PerfilDTO implements Serializable { // TOD
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PerfilPrivadoDTO other = (PerfilPrivadoDTO) obj;
+		AuthUserPerfilDTO other = (AuthUserPerfilDTO) obj;
 		return Objects.equals(address, other.address) && Objects.equals(applicationContact, other.applicationContact)
 				&& Objects.equals(cnpj, other.cnpj) && Objects.equals(createdAt, other.createdAt)
 				&& Objects.equals(generalContact, other.generalContact) && Objects.equals(updatedAt, other.updatedAt);

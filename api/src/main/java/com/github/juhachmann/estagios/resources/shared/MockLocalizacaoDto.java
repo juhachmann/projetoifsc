@@ -1,4 +1,4 @@
-package com.github.juhachmann.estagios.commom;
+package com.github.juhachmann.estagios.resources.shared;
 //import static com.github.juhachmann.estagios.data.mock.MockDatabasePerfil.enderecoDTOMockCollection;
 
 import java.util.ArrayList;

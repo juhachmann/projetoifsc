@@ -1,4 +1,4 @@
-package com.github.juhachmann.estagios.perfil;
+package com.github.juhachmann.estagios.resources.authUserConfig;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -7,10 +7,14 @@ import org.springframework.hateoas.RepresentationModel;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.juhachmann.estagios.exceptions.InvalidException;
+import com.github.juhachmann.estagios.utils.Validatable;
+import com.github.juhachmann.estagios.utils.ValidationHelper;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Simple POJO to insert user configurations
@@ -18,7 +22,7 @@ import jakarta.validation.constraints.NotEmpty;
  */
 @Schema(name="Config", description = "User configurations")
 @Validated
-public class ConfigDTO extends RepresentationModel<ConfigDTO> implements Serializable {
+public class AuthUserConfigDTO extends RepresentationModel<AuthUserConfigDTO> implements Serializable, Validatable {
 
 
 	private static final long serialVersionUID = 1L;
@@ -30,17 +34,18 @@ public class ConfigDTO extends RepresentationModel<ConfigDTO> implements Seriali
 	private long ownerId;
 	
 	@Schema(requiredMode = Schema.RequiredMode.REQUIRED, description="User configs")
-	@NotEmpty
+	@NotNull
 	@Valid
-	private NotificationsSettingsDTO notifications = new NotificationsSettingsDTO();
+	private NotificationsSettingsDTO notifications;
 	
 
-	public ConfigDTO() {
+	public AuthUserConfigDTO() {
 		super();
+		this.notifications = new NotificationsSettingsDTO();
 	}
 
 
-	public ConfigDTO(long key, long ownerId, @NotEmpty @Valid NotificationsSettingsDTO notifications) {
+	public AuthUserConfigDTO(long key, long ownerId, @NotNull @Valid NotificationsSettingsDTO notifications) {
 		super();
 		this.key = key;
 		this.ownerId = ownerId;
@@ -95,8 +100,14 @@ public class ConfigDTO extends RepresentationModel<ConfigDTO> implements Seriali
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ConfigDTO other = (ConfigDTO) obj;
+		AuthUserConfigDTO other = (AuthUserConfigDTO) obj;
 		return key == other.key && Objects.equals(notifications, other.notifications) && ownerId == other.ownerId;
+	}
+
+
+	@Override
+	public void validate() throws InvalidException {
+		ValidationHelper.validate(this);
 	}
 
 

@@ -1,11 +1,20 @@
-package com.github.juhachmann.estagios.perfil;
+package com.github.juhachmann.estagios.resources.userPerfil;
+
+import static com.github.juhachmann.estagios.utils.HttpErrorMessages.BAD_REQUEST_MSG;
+import static com.github.juhachmann.estagios.utils.HttpErrorMessages.NOT_FOUND_MSG;
+import static com.github.juhachmann.estagios.utils.HttpErrorMessages.TOO_MANY_REQUESTS_MSG;
+import static com.github.juhachmann.estagios.utils.HttpErrorMessages.UNAUTHORIZED_MSG;
+import static com.github.juhachmann.estagios.utils.PaginationValidation.DEFAULT_LIMIT_VALUE;
+import static com.github.juhachmann.estagios.utils.PaginationValidation.DEFAULT_PAGE_VALUE;
+import static com.github.juhachmann.estagios.utils.SwaggerTags.BASE_URL;
+import static com.github.juhachmann.estagios.utils.SwaggerTags.EMPRESA;
+import static com.github.juhachmann.estagios.utils.SwaggerTags.IES;
+import static com.github.juhachmann.estagios.utils.SwaggerTags.USERS;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.hateoas.config.EnableHypermediaSupport;
-import org.springframework.hateoas.config.EnableHypermediaSupport.HypermediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,136 +24,106 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.juhachmann.estagios.resources.vagas.VagaDTO;
 import com.github.juhachmann.estagios.utils.MediaTypes;
-import com.github.juhachmann.estagios.vagas.VagaDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
-@EnableHypermediaSupport(type = HypermediaType.HAL_FORMS)
+//@EnableHypermediaSupport(type = HypermediaType.HAL_FORMS)
 @RestController
 @RequestMapping( 
-		value = "/users",
+		value = BASE_URL + "/users",
 		produces = { MediaTypes.APPLICATION_JSON, MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_YAML, 
 				MediaTypes.APPLICATION_HAL, MediaTypes.APPLICATION_HAL_FORMS } )
 
 
-public class PerfilPublicoController {
+public class UserPerfilController {
 
-	
-	// Swagger Messages
-	// TODO - Achar uma casa pra isso aqui
-	// Estas são as descrições para os erros 
-	// Isso aqui é pra estar no sistema inteiro:
-	private final String BAD_REQUEST = "Invalid data was sent in the request.";
-	private final String UNAUTHORIZED = "Authentication failed. You must be correctly authenticated to access this resource.";
-	private final String TOO_MANY_REQUESTS = "Exceeded the rate limit for requests.";
-	private final String FORBIDDEN = "Authorization failed. Looks like you don't have access to this resource.";
-	private final String NOT_FOUND = "Resource not found or not available for you.";
-	
-	private final String BAD_REQUEST_MSG = "{\"code\":400,\"message\": \"" + BAD_REQUEST + "\"}";
-	private final String UNAUTHORIZED_MSG = "{\"code\":401,\"message\": \"" + UNAUTHORIZED + "\"}";
-	private final String TOO_MANY_REQUESTS_MSG = "{\"code\":429,\"message\": \"" + TOO_MANY_REQUESTS + "\"}";
-	private final String FORBIDDEN_MSG = "{\"code\":403,\"message\": \"" + FORBIDDEN + "\"}";
-	private final String NOT_FOUND_MSG = "{\"code\":404,\"message\": \"" + NOT_FOUND + "\"}";
-	
-	private final String DEFAULT_PAGE_VALUE = "1";
-	private final String DEFAULT_LIMIT_VALUE = "10";
-	private final int MAX_PAGE_VALUE = 30;
-	
-	
-	private final String MAIN_TAG = "Users";
-	
-	private final String GET_USERS_SUMMARY = "";
-	private final String GET_USERS_DESCRIPTION = "";
-	private final String GET_USERS_ID = "";
-	
-	private final String GET_ONE_USER_SUMMARY = "";
-	private final String GET_ONE_USER_DESCRIPTION = "";
-	private final String GET_ONE_USER_ID = "";
-
-	private final String GET_IES_SUMMARY = "";
-	private final String GET_IES_DESCRIPTION = "";
-	private final String GET_IES_ID = "";
-
-	
 	
 	@Autowired
-	PerfilPublicoService service;
+	UserPerfilService service;
+
+//	private final String GET_USERS_SUMMARY = "Outros usuários";
+//	private final String GET_USERS_DESCRIPTION = "Vê os perfis públicos de outras instituições e empresas cadastrados no sistema";
+//	private final String GET_USERS_ID = "getAllUsers";
 	
+	private final String GET_ONE_USER_SUMMARY = "Perfil Público";
+	private final String GET_ONE_USER_DESCRIPTION = "Vê o perfil público de determinada instituição ou empresa. Um perfil de uma empresa só é visível se ela está com uma oferta de estágio aberta para a sua instituição de ensino";
+	private final String GET_ONE_USER_ID = "getUserById";
+
+	private final String GET_IES_SUMMARY = "Instituições de Ensino";
+	private final String GET_IES_DESCRIPTION = "Vê a lista de instituições de ensino para as quais é possível ofertar vagas de estágio";
+	private final String GET_IES_ID = "getAll_IEs";
+
 	
-	
-	@GetMapping("")
-	@Operation(summary=GET_USERS_SUMMARY, description=GET_USERS_DESCRIPTION, tags= {MAIN_TAG}, operationId=GET_USERS_ID)
-	@ApiResponses({
-		@ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = VagaDTO.class) ) } 
-	    		//links = {@Link(operationId="getPerfil", name="self"), @Link(operationId="getConfigs", name="configs"), @Link(operationId="getVagas", name="vagas"), @Link(operationId="getPerfilPublico", name="perfilPublico")}
-				),
-		@ApiResponse(responseCode = "400", content = {@Content(examples= { @ExampleObject(value = BAD_REQUEST_MSG) })} ),
-		@ApiResponse(responseCode = "401", content = {@Content(examples= { @ExampleObject(value = UNAUTHORIZED_MSG) })} ),
-		@ApiResponse(responseCode = "403", content = {@Content(examples= { @ExampleObject(value = FORBIDDEN_MSG) })} ),
-		@ApiResponse(responseCode = "404", content = {@Content(examples= { @ExampleObject(value = NOT_FOUND_MSG) })} ),
-	    @ApiResponse(responseCode = "429", content = {@Content(examples= { @ExampleObject(value = TOO_MANY_REQUESTS_MSG) })} )
-	})
-	public ResponseEntity<Page<PerfilDTO>> getUsers ( 
-			@RequestHeader Long authId,
-			@RequestParam int offset,
-			@RequestParam int limit
-	) {
-		Pageable pageable = PageRequest.of(offset, limit);
-		return new ResponseEntity<Page<PerfilDTO>>( 
-				service.getUsers ( authId, pageable ), 
-				HttpStatus.OK );
-	}
-	
+
+//	@GetMapping("")
+//	@Operation(summary=GET_USERS_SUMMARY, description=GET_USERS_DESCRIPTION, tags= { USERS, IES, EMPRESA }, operationId=GET_USERS_ID)
+//	@ApiResponses({
+//		@ApiResponse(responseCode = "200", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = UserPerfilDTO.class), uniqueItems = true, minItems = 0))} 
+//	    		//links = {@Link(operationId="getPerfil", name="self"), @Link(operationId="getConfigs", name="configs"), @Link(operationId="getVagas", name="vagas"), @Link(operationId="getPerfilPublico", name="perfilPublico")}
+//				),
+//		@ApiResponse(responseCode = "400", content = {@Content(examples= { @ExampleObject(value = BAD_REQUEST_MSG) })} ),
+//		@ApiResponse(responseCode = "401", content = {@Content(examples= { @ExampleObject(value = UNAUTHORIZED_MSG) })} ),
+//	    @ApiResponse(responseCode = "429", content = {@Content(examples= { @ExampleObject(value = TOO_MANY_REQUESTS_MSG) })} )
+//	})
+//	public ResponseEntity<Page<UserPerfilDTO>> getUsers ( 
+//			@RequestHeader Long auth,
+//			@RequestParam(value= "limit", defaultValue = DEFAULT_LIMIT_VALUE) Integer limit,
+//			@RequestParam(value= "page", defaultValue = DEFAULT_PAGE_VALUE) Integer page
+//	) {
+//		Pageable pageable = PageRequest.of(page, limit);
+//		return new ResponseEntity<Page<UserPerfilDTO>>( 
+//				service.getUsers ( auth, pageable ), 
+//				HttpStatus.OK );
+//	}
+//	
 	
 	@GetMapping("/{id}")
-	@Operation(summary=GET_ONE_USER_SUMMARY, description=GET_ONE_USER_DESCRIPTION, tags= {MAIN_TAG}, operationId=GET_ONE_USER_ID)
+	@Operation(summary=GET_ONE_USER_SUMMARY, description=GET_ONE_USER_DESCRIPTION, tags= { USERS, IES, EMPRESA }, operationId=GET_ONE_USER_ID)
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = VagaDTO.class) ) } 
 	    		//links = {@Link(operationId="getPerfil", name="self"), @Link(operationId="getConfigs", name="configs"), @Link(operationId="getVagas", name="vagas"), @Link(operationId="getPerfilPublico", name="perfilPublico")}
 				),
 		@ApiResponse(responseCode = "400", content = {@Content(examples= { @ExampleObject(value = BAD_REQUEST_MSG) })} ),
 		@ApiResponse(responseCode = "401", content = {@Content(examples= { @ExampleObject(value = UNAUTHORIZED_MSG) })} ),
-		@ApiResponse(responseCode = "403", content = {@Content(examples= { @ExampleObject(value = FORBIDDEN_MSG) })} ),
 		@ApiResponse(responseCode = "404", content = {@Content(examples= { @ExampleObject(value = NOT_FOUND_MSG) })} ),
 	    @ApiResponse(responseCode = "429", content = {@Content(examples= { @ExampleObject(value = TOO_MANY_REQUESTS_MSG) })} )
 	})
-	public ResponseEntity<PerfilDTO> getUserById (
-			@RequestHeader Long authId,
+	public ResponseEntity<UserPerfilDTO> getUserById (
+			@RequestHeader Long auth,
 			@PathVariable Long userId
 	) {
-		return new ResponseEntity<PerfilDTO>( 
-				service.getUserById ( authId, userId ), 
+		return new ResponseEntity<UserPerfilDTO>( 
+				service.getUserById ( auth, userId ), 
 				HttpStatus.OK );
 	}
 	
 	
 	@GetMapping("/ies")
-	@Operation(summary=GET_IES_SUMMARY, description=GET_IES_DESCRIPTION, tags= {MAIN_TAG}, operationId=GET_IES_ID)
+	@Operation(summary=GET_IES_SUMMARY, description=GET_IES_DESCRIPTION, tags= { USERS, IES, EMPRESA }, operationId=GET_IES_ID)
 	@ApiResponses({
-		@ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = VagaDTO.class) ) } 
+		@ApiResponse(responseCode = "200", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = UserPerfilDTO.class), uniqueItems = true, minItems = 0))} 
 	    		//links = {@Link(operationId="getPerfil", name="self"), @Link(operationId="getConfigs", name="configs"), @Link(operationId="getVagas", name="vagas"), @Link(operationId="getPerfilPublico", name="perfilPublico")}
 				),
 		@ApiResponse(responseCode = "400", content = {@Content(examples= { @ExampleObject(value = BAD_REQUEST_MSG) })} ),
 		@ApiResponse(responseCode = "401", content = {@Content(examples= { @ExampleObject(value = UNAUTHORIZED_MSG) })} ),
-		@ApiResponse(responseCode = "403", content = {@Content(examples= { @ExampleObject(value = FORBIDDEN_MSG) })} ),
-		@ApiResponse(responseCode = "404", content = {@Content(examples= { @ExampleObject(value = NOT_FOUND_MSG) })} ),
 	    @ApiResponse(responseCode = "429", content = {@Content(examples= { @ExampleObject(value = TOO_MANY_REQUESTS_MSG) })} )
 	})
-	public ResponseEntity<Page<PerfilDTO>> getIEs (
-			@RequestHeader Long authId,
-			@RequestParam int offset,
-			@RequestParam int limit
+	public ResponseEntity<Page<UserPerfilDTO>> getIEs (
+			@RequestHeader Long auth,
+			@RequestParam(value= "limit", defaultValue = DEFAULT_LIMIT_VALUE) Integer limit,
+			@RequestParam(value= "page", defaultValue = DEFAULT_PAGE_VALUE) Integer page
 	) {
-		Pageable pageable = PageRequest.of(offset, limit);
-		return new ResponseEntity<Page<PerfilDTO>>( 
-				service.getIEs ( authId, pageable ), 
+		Pageable pageable = PageRequest.of(page, limit);
+		return new ResponseEntity<Page<UserPerfilDTO>>( 
+				service.getIEs ( auth, pageable ), 
 				HttpStatus.OK );
 
 	}

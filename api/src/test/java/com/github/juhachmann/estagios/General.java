@@ -8,11 +8,15 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.juhachmann.estagios.perfil.ConfigDTO;
-import com.github.juhachmann.estagios.perfil.PerfilPrivadoController;
-import com.github.juhachmann.estagios.perfil.PerfilPrivadoDTO;
-import com.github.juhachmann.estagios.perfil.PerfilDTO;
+import com.github.juhachmann.estagios.exceptions.InvalidException;
+import com.github.juhachmann.estagios.resources.authUserConfig.AuthUserConfigDTO;
+import com.github.juhachmann.estagios.resources.authUserConfig.AuthUserConfigMock;
+import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilController;
+import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilDTO;
+import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilMock;
+import com.github.juhachmann.estagios.resources.userPerfil.UserPerfilDTO;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 class General {
@@ -39,10 +43,14 @@ class General {
 	void test() throws Exception {
 		
 		
-		PerfilPrivadoDTO perfil = new PerfilPrivadoDTO();
+		System.out.println("Validating UserPerfilDTO");
+		UserPerfilDTO perfil = AuthUserPerfilMock.generateInvalidResource(0);
+		assertThrows(InvalidException.class, () -> perfil.validate());
 		
+		System.out.println("Validating AuthUserPerfilDTO");
+		AuthUserPerfilDTO perfilB = AuthUserPerfilMock.generateInvalidResource(0);
+		assertThrows(InvalidException.class, () -> perfilB.validate());
 
-		
 	}
 
 }

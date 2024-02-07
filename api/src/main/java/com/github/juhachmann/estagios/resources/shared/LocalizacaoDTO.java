@@ -1,4 +1,4 @@
-package com.github.juhachmann.estagios.commom;
+package com.github.juhachmann.estagios.resources.shared;
 
 import java.io.Serializable;
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package com.github.juhachmann.estagios.vagas;
+package com.github.juhachmann.estagios.resources.authUserVaga;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -6,8 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.github.juhachmann.estagios.commom.ContactDTO;
-import com.github.juhachmann.estagios.commom.LocalizacaoDTO;
+import com.github.juhachmann.estagios.resources.shared.ContactDTO;
+import com.github.juhachmann.estagios.resources.shared.LocalizacaoDTO;
+import com.github.juhachmann.estagios.resources.vagas.VagaDTO;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.FutureOrPresent;
@@ -16,7 +17,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-public class VagaPrivadaDTO extends VagaDTO {
+public class AuthUserVagaDTO extends VagaDTO {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -37,7 +38,7 @@ public class VagaPrivadaDTO extends VagaDTO {
 	private String creatorInternalId;
 
 	
-	public VagaPrivadaDTO() {
+	public AuthUserVagaDTO() {
 		super();
 		this.ies = new ArrayList<>();
 		this.expiringInDays = 90;
@@ -47,7 +48,7 @@ public class VagaPrivadaDTO extends VagaDTO {
 	}
 
 
-	public VagaPrivadaDTO(long key, String owner, Long ownerId, @NotBlank String title, @NotBlank String description,
+	public AuthUserVagaDTO(long key, String owner, Long ownerId, @NotBlank String title, @NotBlank String description,
 			List<@NotBlank String> requirements, @NotEmpty List<@NotBlank String> periods,
 			@NotNull @Min(1) long workloadInHours, @NotNull @Min(1) long payment, LocalDate startsAt, LocalDate endsAt,
 			List<@NotBlank String> levels, @NotEmpty List<@NotBlank String> areas, List<@NotBlank String> courses,
@@ -119,7 +120,7 @@ public class VagaPrivadaDTO extends VagaDTO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		VagaPrivadaDTO other = (VagaPrivadaDTO) obj;
+		AuthUserVagaDTO other = (AuthUserVagaDTO) obj;
 		return Objects.equals(creatorInternalId, other.creatorInternalId) && expiringInDays == other.expiringInDays
 				&& Objects.equals(ies, other.ies) && renovateInDays == other.renovateInDays;
 	}

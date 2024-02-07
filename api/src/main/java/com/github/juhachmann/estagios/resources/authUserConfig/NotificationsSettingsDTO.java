@@ -1,4 +1,4 @@
-package com.github.juhachmann.estagios.perfil;
+package com.github.juhachmann.estagios.resources.authUserConfig;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -14,10 +14,8 @@ import jakarta.validation.constraints.NotNull;
  */
 @Schema(name="Notification Settings", description = "Configura as notificações que o usuário recebe do sistema")
 @Validated
-public class NotificationsSettingsDTO implements SettingsDTO, Serializable { 
+public class NotificationsSettingsDTO implements Serializable { 
 	
-//	private List<SettingsDTO> settings = new ArrayList<>();
-
 	private static final long serialVersionUID = 1L;
 	
 	@Schema(requiredMode = Schema.RequiredMode.REQUIRED, example="true", allowableValues="true, false", description = "Recebe notificações sobre vagas que estão próximas a serem excluídas do sistema, para que o usuário possa renovar a oferta das vagas")
@@ -38,7 +36,6 @@ public class NotificationsSettingsDTO implements SettingsDTO, Serializable {
 		this.expiringData = true;
 		this.moderation = true;
 		this.inactivity = true;		
-	//	this.settings = settings;
 	}
 
 	public NotificationsSettingsDTO(@NotNull boolean expiringData, @NotNull boolean moderation,
@@ -90,7 +87,5 @@ public class NotificationsSettingsDTO implements SettingsDTO, Serializable {
 		NotificationsSettingsDTO other = (NotificationsSettingsDTO) obj;
 		return expiringData == other.expiringData && inactivity == other.inactivity && moderation == other.moderation;
 	}
-	
-	
 	
 }

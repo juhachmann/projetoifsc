@@ -14,26 +14,26 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.github.juhachmann.estagios.perfil.ConfigDTO;
-import com.github.juhachmann.estagios.perfil.PerfilPrivadoController;
-import com.github.juhachmann.estagios.perfil.PerfilPrivadoDTO;
-import com.github.juhachmann.estagios.perfil.PerfilPrivadoService;
+import com.github.juhachmann.estagios.resources.authUserConfig.AuthUserConfigDTO;
+import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilController;
+import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilDTO;
+import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilService;
 
 @ExtendWith(MockitoExtension.class)
 class ControllerUnitTestPerfilController {
 	
-	PerfilPrivadoDTO perfil;
-	ConfigDTO config; 
+	AuthUserPerfilDTO perfil;
+	AuthUserConfigDTO config; 
 	
 	@Mock
-	PerfilPrivadoService service;
+	AuthUserPerfilService service;
 
 	@InjectMocks
-	PerfilPrivadoController controller;
+	AuthUserPerfilController controller;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		perfil = new PerfilPrivadoDTO();
+		perfil = new AuthUserPerfilDTO();
 		perfil.setKey(1L);
 	}
 
@@ -48,7 +48,7 @@ class ControllerUnitTestPerfilController {
 		
 		assertInstanceOf(ResponseEntity.class, response );
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
-		assertInstanceOf(PerfilPrivadoDTO.class, response.getBody());
+		assertInstanceOf(AuthUserPerfilDTO.class, response.getBody());
 	}
 
 	@Test
@@ -60,16 +60,16 @@ class ControllerUnitTestPerfilController {
 		
 		assertInstanceOf(ResponseEntity.class, response );
 		assertEquals(HttpStatus.OK, response.getStatusCode());
-		assertInstanceOf(PerfilPrivadoDTO.class, response.getBody());
+		assertInstanceOf(AuthUserPerfilDTO.class, response.getBody());
 	}
 
 	@Test
 	void updateMustReturnResponseEntityWithStatusCode200() throws Exception {
-		when(service.update(perfil)).thenReturn(perfil);
+		when(service.update(perfil.getKey(), perfil)).thenReturn(perfil);
 		var response = controller.update(perfil.getKey(), perfil);
 		
 		assertInstanceOf(ResponseEntity.class, response );
-		assertInstanceOf(PerfilPrivadoDTO.class, response.getBody());
+		assertInstanceOf(AuthUserPerfilDTO.class, response.getBody());
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 
@@ -81,28 +81,6 @@ class ControllerUnitTestPerfilController {
 		assertInstanceOf(ResponseEntity.class, response );
 		assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
 		assertNull(response.getBody());
-	}
-
-	@Test
-	void getPerfilMustReturnResponseEntityWithStatusCode200() throws Exception {
-		config = new ConfigDTO();
-		when(service.getPerfilConfig(1L)).thenReturn(config);
-		var response = controller.getConfigs(1L);
-		
-		assertInstanceOf(ResponseEntity.class, response );
-		assertInstanceOf(ConfigDTO.class, response.getBody());
-		assertEquals(HttpStatus.OK, response.getStatusCode());
-	}
-
-	@Test
-	void updatePerfilMustReturnResponseEntityWithStatusCode200() throws Exception {
-		config = new ConfigDTO();
-		when(service.updateConfig(0, config)).thenReturn(config);
-		var response = controller.updateConfigs(0, config);
-		
-		assertInstanceOf(ResponseEntity.class, response );
-		assertInstanceOf(ConfigDTO.class, response.getBody());
-		assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 	
 

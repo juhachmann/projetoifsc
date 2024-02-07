@@ -7,8 +7,8 @@ import jakarta.validation.ConstraintViolation;
 
 public class InvalidBodyRequestException extends RuntimeException {
 
-	
-	public InvalidBodyRequestException(Set<ConstraintViolation<Serializable>> violations) {
+
+	public InvalidBodyRequestException(String violations) {
 		// TODO Auto-generated constructor stub
 	}
 

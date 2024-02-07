@@ -1,7 +1,7 @@
-package com.github.juhachmann.estagios.perfil;
+package com.github.juhachmann.estagios.trash;
 
 
-import static com.github.juhachmann.estagios.perfil.MockDatabasePerfil.perfilCollection;
+import static com.github.juhachmann.estagios.trash.MockDatabasePerfil.perfilCollection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.github.juhachmann.estagios.exceptions.ResourceNotFoundException;
+import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilDTO;
 
 /**
  * Temporary class to mock a repository of perfilDTOs
@@ -19,7 +20,7 @@ public class MockPerfilRepository {
 
 //	private MockDatabasePerfil db = new MockDatabasePerfil();
 	
-	public List<PerfilPrivadoDTO> getAll() {		
+	public List<AuthUserPerfilDTO> getAll() {		
 		return perfilCollection;
 	}
 	
@@ -27,9 +28,9 @@ public class MockPerfilRepository {
 	// Fere o princípio Open Closed
 	// Pq toda vez que precisar colocar um novo parâmetro de busca, vai ter que mudar aqui
 	// Como é só um mock e na vida real usa SQL para busca, aí não precisa se estressar
-	public List<PerfilPrivadoDTO> getBy(List<String> nomes, List<String> cidades, List<String> estados, List<String> areas) {
+	public List<AuthUserPerfilDTO> getBy(List<String> nomes, List<String> cidades, List<String> estados, List<String> areas) {
 		// Aqui no caso vai receber os queryParams
-		List<PerfilPrivadoDTO> result;
+		List<AuthUserPerfilDTO> result;
 		
 		result = getAll();		
 		
@@ -49,8 +50,8 @@ public class MockPerfilRepository {
 	}
 
 	
-	public PerfilPrivadoDTO getById(Long id) {
-		for ( PerfilPrivadoDTO perfil : this.getAll()  ) {
+	public AuthUserPerfilDTO getById(Long id) {
+		for ( AuthUserPerfilDTO perfil : this.getAll()  ) {
 			if ( perfil.getKey() == id ) {
 				return perfil;
 			}
@@ -59,19 +60,19 @@ public class MockPerfilRepository {
 	}
 			
 
-	public PerfilPrivadoDTO create(PerfilPrivadoDTO submitted) {
+	public AuthUserPerfilDTO create(AuthUserPerfilDTO submitted) {
 		System.out.println("Printing from repository: " + submitted.toString());
 		System.out.println(perfilCollection.toString());
-		//PerfilPrivadoDTO treated = submitted;
+		//AuthUserPerfilDTO treated = submitted;
 		submitted.setKey( MockDatabasePerfil.incrementAndGet() );
 		perfilCollection.add(submitted);
 		return submitted;
 	}
 
 	
-	public PerfilPrivadoDTO update(long id, PerfilPrivadoDTO newObj) {
+	public AuthUserPerfilDTO update(long id, AuthUserPerfilDTO newObj) {
 	
-		PerfilPrivadoDTO toUpdate = getById(id);
+		AuthUserPerfilDTO toUpdate = getById(id);
 	
 		int index = perfilCollection.indexOf(toUpdate);
 		
@@ -86,7 +87,7 @@ public class MockPerfilRepository {
 	}
 
 	public void delete(long id) {
-		PerfilPrivadoDTO resource = getById(id);
+		AuthUserPerfilDTO resource = getById(id);
 		perfilCollection.remove(resource);
 	}
 	
@@ -99,9 +100,9 @@ public class MockPerfilRepository {
 	// Como não é com sql, tenho que definir as buscas aqui, o que não torna escalável.. 
 	// Aqui entraria um factory method provavelmente (mas não vou fazer pq é só um mock)
 
-	private List<PerfilPrivadoDTO> getByName(List<PerfilPrivadoDTO> listaAFiltrar, List<String> names) {
-		List<PerfilPrivadoDTO> result = new ArrayList<PerfilPrivadoDTO>();
-		for ( PerfilPrivadoDTO perfil : listaAFiltrar  ) {
+	private List<AuthUserPerfilDTO> getByName(List<AuthUserPerfilDTO> listaAFiltrar, List<String> names) {
+		List<AuthUserPerfilDTO> result = new ArrayList<AuthUserPerfilDTO>();
+		for ( AuthUserPerfilDTO perfil : listaAFiltrar  ) {
 			for ( String name : names ) {
 				if ( perfil.getName() == name ) {
 					result.add(perfil);
@@ -112,9 +113,9 @@ public class MockPerfilRepository {
 		return result;
 	}
 	
-	private List<PerfilPrivadoDTO> getByCidade(List<PerfilPrivadoDTO> listaAFiltrar, List<String> cidades) {
-		List<PerfilPrivadoDTO> result = new ArrayList<PerfilPrivadoDTO>();
-		for ( PerfilPrivadoDTO perfil : listaAFiltrar  ) {
+	private List<AuthUserPerfilDTO> getByCidade(List<AuthUserPerfilDTO> listaAFiltrar, List<String> cidades) {
+		List<AuthUserPerfilDTO> result = new ArrayList<AuthUserPerfilDTO>();
+		for ( AuthUserPerfilDTO perfil : listaAFiltrar  ) {
 			for ( String cidade : cidades ) {
 				if ( perfil.getAddress().getCity() == cidade ) {
 					result.add(perfil);
@@ -125,9 +126,9 @@ public class MockPerfilRepository {
 		return result;
 	}
 	
-	private List<PerfilPrivadoDTO> getByEstado(List<PerfilPrivadoDTO> listaAFiltrar, List<String> estados) {
-		List<PerfilPrivadoDTO> result = new ArrayList<PerfilPrivadoDTO>();
-		for ( PerfilPrivadoDTO perfil : listaAFiltrar  ) {
+	private List<AuthUserPerfilDTO> getByEstado(List<AuthUserPerfilDTO> listaAFiltrar, List<String> estados) {
+		List<AuthUserPerfilDTO> result = new ArrayList<AuthUserPerfilDTO>();
+		for ( AuthUserPerfilDTO perfil : listaAFiltrar  ) {
 			for ( String estado : estados ) {
 				if ( perfil.getAddress().getState() == estado ) {
 					result.add(perfil);
@@ -139,9 +140,9 @@ public class MockPerfilRepository {
 	}
 
 	
-	private List<PerfilPrivadoDTO> getByArea(List<PerfilPrivadoDTO> listaAFiltrar, List<String> areas) {
-		List<PerfilPrivadoDTO> result = new ArrayList<PerfilPrivadoDTO>();
-		for ( PerfilPrivadoDTO perfil : listaAFiltrar  ) {
+	private List<AuthUserPerfilDTO> getByArea(List<AuthUserPerfilDTO> listaAFiltrar, List<String> areas) {
+		List<AuthUserPerfilDTO> result = new ArrayList<AuthUserPerfilDTO>();
+		for ( AuthUserPerfilDTO perfil : listaAFiltrar  ) {
 			for ( String area : areas ) {
 				if ( perfil.getAreas().contains(area) ) {
 					result.add(perfil);
@@ -153,7 +154,7 @@ public class MockPerfilRepository {
 	}
 	
 	// se fosse usar um factory seria assim:
-//	private List<PerfilPrivadoDTO> getBy(PerfilGetByMethod getter) {
+//	private List<AuthUserPerfilDTO> getBy(PerfilGetByMethod getter) {
 //		return getter.get();
 //	}
 	

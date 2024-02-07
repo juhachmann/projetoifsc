@@ -1,12 +1,12 @@
-package com.github.juhachmann.estagios.vagas;
+package com.github.juhachmann.estagios.resources.authUserVaga;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MockVagaDTO {
+public class AuthUserVagaMock {
 
-	public static VagaDTO generateResource() {
-		VagaDTO vaga = new VagaDTO();
+	public static AuthUserVagaDTO generateResource() {
+		AuthUserVagaDTO vaga = new AuthUserVagaDTO();
 		vaga.setTitle("Título da Vaga");
 		vaga.setDescription("Descrição da vaga");
 		vaga.getRequirements().add("Requisito valido");
@@ -23,8 +23,8 @@ public class MockVagaDTO {
 		return vaga;
 	}
 
-	public static VagaDTO generateInvalidResource() {
-		VagaDTO vaga = new VagaDTO();
+	public static AuthUserVagaDTO generateInvalidResource() {
+		AuthUserVagaDTO vaga = new AuthUserVagaDTO();
 		vaga.setTitle("    ");
 		vaga.setDescription("    ");
 		vaga.getRequirements().add("   ");
@@ -41,8 +41,8 @@ public class MockVagaDTO {
 		return vaga;
 	}
 
-	public static List<VagaDTO> generateBundle(int numberOfItems) {
-		List<VagaDTO> lista = new ArrayList<>();
+	public static List<AuthUserVagaDTO> generateBundle(int numberOfItems) {
+		List<AuthUserVagaDTO> lista = new ArrayList<>();
 		for(int i = 0; i < numberOfItems; i++) {
 			lista.add(generateResource());
 		}

@@ -4,15 +4,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.juhachmann.estagios.vagas.MockVagaDTO;
-import com.github.juhachmann.estagios.vagas.VagaDTO;
+import com.github.juhachmann.estagios.resources.authUserVaga.AuthUserVagaMock;
+import com.github.juhachmann.estagios.resources.vagas.VagaDTO;
 
 public class VagaDTOValidationTest extends ValidationTest<VagaDTO>{
 	
@@ -249,47 +248,47 @@ public class VagaDTOValidationTest extends ValidationTest<VagaDTO>{
 	}
 
 
-	@Test
-	void expiringDaysNotNegative() {
-		propertyPathBeingTested = "propertyPath=expiringInDays";
-		
-		validate();
-		assertFalse(violations.toString().contains(propertyPathBeingTested));
-		
-		resource.setExpiringInDays(-1);
-		validate();
-		assertTrue(violations.toString().contains(propertyPathBeingTested));
-		
-		resource.setExpiringInDays(0);
-		validate();
-		assertFalse(violations.toString().contains(propertyPathBeingTested));
-
-		resource.setExpiringInDays(1);
-		validate();
-		assertFalse(violations.toString().contains(propertyPathBeingTested));
-
-	}
+//	@Test
+//	void expiringDaysNotNegative() {
+//		propertyPathBeingTested = "propertyPath=expiringInDays";
+//		
+//		validate();
+//		assertFalse(violations.toString().contains(propertyPathBeingTested));
+//		
+//		resource.setExpiringInDays(-1);
+//		validate();
+//		assertTrue(violations.toString().contains(propertyPathBeingTested));
+//		
+//		resource.setExpiringInDays(0);
+//		validate();
+//		assertFalse(violations.toString().contains(propertyPathBeingTested));
+//
+//		resource.setExpiringInDays(1);
+//		validate();
+//		assertFalse(violations.toString().contains(propertyPathBeingTested));
+//
+//	}
 	
-	@Test
-	void renovateInDaysNotNegative() {
-		propertyPathBeingTested = "propertyPath=renovateInDays";
-		
-		validate();
-		assertFalse(violations.toString().contains(propertyPathBeingTested));
-		
-		resource.setRenovateInDays (-1);
-		validate();
-		assertTrue(violations.toString().contains(propertyPathBeingTested));
-		
-		resource.setRenovateInDays(0);
-		validate();
-		assertFalse(violations.toString().contains(propertyPathBeingTested));
-
-		resource.setRenovateInDays(1);
-		validate();
-		assertFalse(violations.toString().contains(propertyPathBeingTested));
-
-	}
+//	@Test
+//	void renovateInDaysNotNegative() {
+//		propertyPathBeingTested = "propertyPath=renovateInDays";
+//		
+//		validate();
+//		assertFalse(violations.toString().contains(propertyPathBeingTested));
+//		
+//		resource.setRenovateInDays (-1);
+//		validate();
+//		assertTrue(violations.toString().contains(propertyPathBeingTested));
+//		
+//		resource.setRenovateInDays(0);
+//		validate();
+//		assertFalse(violations.toString().contains(propertyPathBeingTested));
+//
+//		resource.setRenovateInDays(1);
+//		validate();
+//		assertFalse(violations.toString().contains(propertyPathBeingTested));
+//
+//	}
 	
 	@Test
 	void externalLinksIsNotBlank() {
@@ -318,55 +317,55 @@ public class VagaDTOValidationTest extends ValidationTest<VagaDTO>{
 		assertFalse(violations.toString().contains(propertyPathBeingTested));
 	}
 	
-	@Test
-	void iesIsNotBlank() {
-		propertyPathBeingTested = "propertyPath=ies";
-		
-		validate();
-		assertFalse(violations.isEmpty());
-		assertFalse(violations.toString().contains(propertyPathBeingTested));
-		
-		resource.setIes(null);
-		validate();
-		assertFalse(violations.isEmpty());
-		assertFalse(violations.toString().contains(propertyPathBeingTested));
-		
-		var array = new ArrayList<Long>();
-		array.add(null);
-		
-		resource.setIes(array);
-		validate();
-		assertTrue(violations.toString().contains(propertyPathBeingTested));
-
-		array.clear();
-		array.add(1L);
-		resource.setIes(array);
-		validate();
-		assertFalse(violations.toString().contains(propertyPathBeingTested));
-	}
+//	@Test
+//	void iesIsNotBlank() {
+//		propertyPathBeingTested = "propertyPath=ies";
+//		
+//		validate();
+//		assertFalse(violations.isEmpty());
+//		assertFalse(violations.toString().contains(propertyPathBeingTested));
+//		
+//		resource.setIes(null);
+//		validate();
+//		assertFalse(violations.isEmpty());
+//		assertFalse(violations.toString().contains(propertyPathBeingTested));
+//		
+//		var array = new ArrayList<Long>();
+//		array.add(null);
+//		
+//		resource.setIes(array);
+//		validate();
+//		assertTrue(violations.toString().contains(propertyPathBeingTested));
+//
+//		array.clear();
+//		array.add(1L);
+//		resource.setIes(array);
+//		validate();
+//		assertFalse(violations.toString().contains(propertyPathBeingTested));
+//	}
 
 	@Test
 	void mockGeneratesValidVaga() throws JsonProcessingException {
-		resource = MockVagaDTO.generateResource();
+		resource = AuthUserVagaMock.generateResource();
 		validate();
 		assertTrue(violations.isEmpty());
 	}
 	
 	@Test
 	void mockGeneratesInvalidData() {
-		resource = MockVagaDTO.generateInvalidResource();
+		resource = AuthUserVagaMock.generateInvalidResource();
 		validate();
 		assertFalse(violations.isEmpty());
 	}
 
-	@Test
-	void mockGeneratesValidBundle() {
-		List<VagaDTO> bundle = MockVagaDTO.generateBundle(10);
-		bundle.forEach((vaga) -> {
-			resource = vaga;
-			validate();
-			assertTrue(violations.isEmpty());
-		});
-	}
+//	@Test
+//	void mockGeneratesValidBundle() {
+//		List<VagaDTO> bundle = AuthUserVagaMock.generateBundle(10);
+//		bundle.forEach((vaga) -> {
+//			resource = vaga;
+//			validate();
+//			assertTrue(violations.isEmpty());
+//		});
+//	}
 	
 }

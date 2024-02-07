@@ -1,4 +1,4 @@
-package com.github.juhachmann.estagios.vagas;
+package com.github.juhachmann.estagios.resources.vagas;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -8,13 +8,17 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.github.juhachmann.estagios.commom.ContactDTO;
-import com.github.juhachmann.estagios.commom.LocalizacaoDTO;
+import com.github.juhachmann.estagios.exceptions.InvalidException;
+import com.github.juhachmann.estagios.resources.shared.ContactDTO;
+import com.github.juhachmann.estagios.resources.shared.LocalizacaoDTO;
+import com.github.juhachmann.estagios.utils.Validatable;
+import com.github.juhachmann.estagios.utils.ValidationHelper;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.FutureOrPresent;
@@ -29,7 +33,9 @@ import jakarta.validation.constraints.NotNull;
  */
 @JsonPropertyOrder("id")
 @Schema(name="Vaga")
-public class VagaDTO extends RepresentationModel<VagaDTO> implements Serializable {
+@Validated
+
+public class VagaDTO extends RepresentationModel<VagaDTO> implements Serializable, Validatable {
 
 	// TODO - Como aceitar Html e outros na descrição? 
 
@@ -389,8 +395,10 @@ public class VagaDTO extends RepresentationModel<VagaDTO> implements Serializabl
 	}
 
 
-	
-	
-	
+	@Override
+	public void validate() throws InvalidException {
+		ValidationHelper.validate(this);
+	}
+
 	
 }

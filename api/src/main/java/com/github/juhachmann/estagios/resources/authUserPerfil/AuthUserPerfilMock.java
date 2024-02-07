@@ -1,28 +1,31 @@
-package com.github.juhachmann.estagios.perfil;
+package com.github.juhachmann.estagios.resources.authUserPerfil;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import com.github.juhachmann.estagios.resources.shared.MockContactDto;
+import com.github.juhachmann.estagios.resources.shared.MockLocalizacaoDto;
+
 import java.util.List;
 
-import com.github.juhachmann.estagios.commom.MockContactDto;
-import com.github.juhachmann.estagios.commom.MockLocalizacaoDto;
-
 /**
- * Generates Mocks for PerfilDTO
+ * Generates Mocks for AuthUserPerfilDTO
  */
 
-public class MockPerfilDto {
+public class AuthUserPerfilMock {
 	
 	private static Random gerador;
 	
 	
+	// TODO: Refazer isso aqui!
+	
 	/**
-	 * Generates a valid PerfilPrivadoDTO
+	 * Generates a valid AuthUserPerfilDTO
 	 * @return
 	 */
-	public static PerfilPrivadoDTO generateResource() {
+	public static AuthUserPerfilDTO generateResource() {
 		
-		PerfilPrivadoDTO resource = new PerfilPrivadoDTO();		
+		AuthUserPerfilDTO resource = new AuthUserPerfilDTO();		
 		resource.setName("Nome");
 		resource.setCnpj("20434016000110");
 		resource.setIe(false);
@@ -34,12 +37,12 @@ public class MockPerfilDto {
 
 
 	/**
-	 * Generates a list of valid PerfilPrivadoDTO
+	 * Generates a list of valid AuthUserPerfilDTO
 	 * @param itemsToAdd number of resources to return in the list
 	 * @return
 	 */
-	public static List<PerfilPrivadoDTO> generateBundle(int itemsToAdd) {
-		List<PerfilPrivadoDTO> bundle = new ArrayList<PerfilPrivadoDTO>();
+	public static List<AuthUserPerfilDTO> generateBundle(int itemsToAdd) {
+		List<AuthUserPerfilDTO> bundle = new ArrayList<AuthUserPerfilDTO>();
 		for (int i = 0; i < itemsToAdd; i++) {
 			bundle.add( generateResource( ) );
 		}
@@ -48,10 +51,10 @@ public class MockPerfilDto {
 	
 	
 	/**
-	 * Generates a invalid PerfilPrivadoDTO, usefull to test I/O validations, such as invalid request bodies
+	 * Generates a invalid AuthUserPerfilDTO, usefull to test I/O validations, such as invalid request bodies
 	 * @return
 	 */
-	public static PerfilPrivadoDTO generateInvalidResource() {
+	public static AuthUserPerfilDTO generateInvalidResource() {
 		gerador = new Random();
 		int randomNumOfValidFields = gerador.nextInt(6);
 		return generateInvalidResource(randomNumOfValidFields);
@@ -59,12 +62,12 @@ public class MockPerfilDto {
 
 	
 	/**
-	 * Generates a invalid PerfilPrivadoDTO, with only a specific number of valid fields, usefull to test I/O validations, such as invalid request bodies
+	 * Generates a invalid AuthUserPerfilDTO, with only a specific number of valid fields, usefull to test I/O validations, such as invalid request bodies
 	 * @param numOfValidFields 
 	 * @return
 	 */
-	public static PerfilPrivadoDTO generateInvalidResource(int numOfValidFields) {
-		PerfilPrivadoDTO resource = new PerfilPrivadoDTO();
+	public static AuthUserPerfilDTO generateInvalidResource(int numOfValidFields) {
+		AuthUserPerfilDTO resource = new AuthUserPerfilDTO();
 
 		if (numOfValidFields > 0) 
 			resource.setName("Nome");

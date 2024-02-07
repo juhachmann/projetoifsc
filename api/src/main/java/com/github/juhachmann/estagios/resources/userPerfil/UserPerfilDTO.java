@@ -1,4 +1,4 @@
-package com.github.juhachmann.estagios.perfil;
+package com.github.juhachmann.estagios.resources.userPerfil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,6 +10,9 @@ import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.juhachmann.estagios.exceptions.InvalidException;
+import com.github.juhachmann.estagios.utils.Validatable;
+import com.github.juhachmann.estagios.utils.ValidationHelper;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -28,7 +31,8 @@ import jakarta.validation.constraints.NotNull;
 @Schema(description = "Perfil público da instituição ou empresa")
 @JsonPropertyOrder("id")
 @Validated
-public class PerfilDTO extends RepresentationModel<PerfilDTO> implements Serializable {
+
+public class UserPerfilDTO extends RepresentationModel<UserPerfilDTO> implements Serializable, Validatable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -60,13 +64,13 @@ public class PerfilDTO extends RepresentationModel<PerfilDTO> implements Seriali
 	// TODO - Descobrir como tirar o _links do esquema que aparece no Swagger, ou, ao menos , definir um exemplo concreto
 
 	
-	public PerfilDTO() {
+	public UserPerfilDTO() {
 		this.ie = false;
 		this.areas = new ArrayList<>();
 		this.socialMedia = new ArrayList<>();
 	}
 
-	public PerfilDTO(Long key, @NotBlank String name, @NotNull boolean ie, @NotEmpty List<@NotBlank String> areas,
+	public UserPerfilDTO(Long key, @NotBlank String name, @NotNull boolean ie, @NotEmpty List<@NotBlank String> areas,
 			String description, String website, List<@NotNull String> socialMedia) {
 		super();
 		this.key = key;
@@ -152,10 +156,16 @@ public class PerfilDTO extends RepresentationModel<PerfilDTO> implements Seriali
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PerfilDTO other = (PerfilDTO) obj;
+		UserPerfilDTO other = (UserPerfilDTO) obj;
 		return Objects.equals(areas, other.areas) && Objects.equals(description, other.description) && ie == other.ie
 				&& Objects.equals(key, other.key) && Objects.equals(name, other.name)
 				&& Objects.equals(socialMedia, other.socialMedia) && Objects.equals(website, other.website);
+	}
+
+	@Override
+	public void validate() throws InvalidException {
+		//new ValidationHelper<UserPerfilDTO>().validate(this);
+		ValidationHelper.validate(this);
 	}
 
 	

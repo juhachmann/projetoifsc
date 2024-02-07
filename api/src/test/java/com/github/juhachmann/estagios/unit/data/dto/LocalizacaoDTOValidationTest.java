@@ -6,8 +6,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.github.juhachmann.estagios.commom.LocalizacaoDTO;
-import com.github.juhachmann.estagios.commom.MockLocalizacaoDto;
+import com.github.juhachmann.estagios.resources.shared.LocalizacaoDTO;
+import com.github.juhachmann.estagios.resources.shared.MockLocalizacaoDto;
 
 class LocalizacaoDTOValidationTest extends ValidationTest<LocalizacaoDTO>{
 
