@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.github.juhachmann.estagios.exceptions.ResourceNotFoundException;
-import com.github.juhachmann.estagios.resources.vagas.VagaDTO;
+import com.github.juhachmann.estagios.api.exceptions.ResourceNotFoundException;
+import com.github.juhachmann.estagios.api.resources.vagas.VagaDTO;
 
 /**
  * Temporary mock to simulate a repository 

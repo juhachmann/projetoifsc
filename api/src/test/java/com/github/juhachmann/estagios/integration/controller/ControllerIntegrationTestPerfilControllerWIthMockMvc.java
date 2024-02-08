@@ -22,8 +22,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilController;
-import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilDTO;
+import com.github.juhachmann.estagios.api.resources.authUserPerfil.AuthUserPerfilController;
+import com.github.juhachmann.estagios.api.resources.authUserPerfil.AuthUserPerfilDTO;
 
 import io.restassured.http.ContentType;
 

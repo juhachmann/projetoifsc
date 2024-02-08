@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.github.juhachmann.estagios.resources.vagas.VagaDTO;
+import com.github.juhachmann.estagios.api.resources.vagas.VagaDTO;
 
 public class MockVagasDatabase {
 	

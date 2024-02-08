@@ -8,13 +8,13 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.juhachmann.estagios.exceptions.InvalidException;
-import com.github.juhachmann.estagios.resources.authUserConfig.AuthUserConfigDTO;
-import com.github.juhachmann.estagios.resources.authUserConfig.AuthUserConfigMock;
-import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilController;
-import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilDTO;
-import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilMock;
-import com.github.juhachmann.estagios.resources.userPerfil.UserPerfilDTO;
+import com.github.juhachmann.estagios.api.exceptions.InvalidException;
+import com.github.juhachmann.estagios.api.resources.authUserConfig.AuthUserConfigDTO;
+import com.github.juhachmann.estagios.api.resources.authUserConfig.AuthUserConfigMock;
+import com.github.juhachmann.estagios.api.resources.authUserPerfil.AuthUserPerfilController;
+import com.github.juhachmann.estagios.api.resources.authUserPerfil.AuthUserPerfilDTO;
+import com.github.juhachmann.estagios.api.resources.authUserPerfil.AuthUserPerfilMock;
+import com.github.juhachmann.estagios.api.resources.userPerfil.UserPerfilDTO;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;

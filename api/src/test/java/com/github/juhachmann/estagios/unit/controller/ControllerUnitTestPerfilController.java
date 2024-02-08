@@ -14,10 +14,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.github.juhachmann.estagios.resources.authUserConfig.AuthUserConfigDTO;
-import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilController;
-import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilDTO;
-import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilService;
+import com.github.juhachmann.estagios.api.resources.authUserConfig.AuthUserConfigDTO;
+import com.github.juhachmann.estagios.api.resources.authUserPerfil.AuthUserPerfilController;
+import com.github.juhachmann.estagios.api.resources.authUserPerfil.AuthUserPerfilDTO;
+import com.github.juhachmann.estagios.api.resources.authUserPerfil.AuthUserPerfilService;
 
 @ExtendWith(MockitoExtension.class)
 class ControllerUnitTestPerfilController {

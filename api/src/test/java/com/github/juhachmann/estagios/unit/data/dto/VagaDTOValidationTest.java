@@ -10,8 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.juhachmann.estagios.resources.authUserVaga.AuthUserVagaMock;
-import com.github.juhachmann.estagios.resources.vagas.VagaDTO;
+import com.github.juhachmann.estagios.api.resources.authUserVaga.AuthUserVagaMock;
+import com.github.juhachmann.estagios.api.resources.vagas.VagaDTO;
 
 public class VagaDTOValidationTest extends ValidationTest<VagaDTO>{
 	

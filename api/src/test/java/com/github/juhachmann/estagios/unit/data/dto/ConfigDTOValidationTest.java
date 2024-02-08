@@ -7,8 +7,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.github.juhachmann.estagios.resources.authUserConfig.AuthUserConfigDTO;
-import com.github.juhachmann.estagios.resources.authUserConfig.AuthUserConfigMock;
+import com.github.juhachmann.estagios.api.resources.authUserConfig.AuthUserConfigDTO;
+import com.github.juhachmann.estagios.api.resources.authUserConfig.AuthUserConfigMock;
 
 class ConfigDTOValidationTest extends ValidationTest<AuthUserConfigDTO> {
 

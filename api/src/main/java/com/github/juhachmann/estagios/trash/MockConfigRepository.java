@@ -2,8 +2,8 @@ package com.github.juhachmann.estagios.trash;
 
 import org.springframework.stereotype.Component;
 
-import com.github.juhachmann.estagios.resources.authUserConfig.AuthUserConfigDTO;
-import com.github.juhachmann.estagios.resources.authUserConfig.AuthUserConfigMock;
+import com.github.juhachmann.estagios.api.resources.authUserConfig.AuthUserConfigDTO;
+import com.github.juhachmann.estagios.api.resources.authUserConfig.AuthUserConfigMock;
 
 @Component
 public class MockConfigRepository {

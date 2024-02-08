@@ -10,12 +10,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilMock;
-import com.github.juhachmann.estagios.resources.authUserPerfil.AuthUserPerfilDTO;
-import com.github.juhachmann.estagios.resources.shared.ContactDTO;
-import com.github.juhachmann.estagios.resources.shared.LocalizacaoDTO;
-import com.github.juhachmann.estagios.resources.shared.MockContactDto;
-import com.github.juhachmann.estagios.resources.shared.MockLocalizacaoDto;
+import com.github.juhachmann.estagios.api.resources.authUserPerfil.AuthUserPerfilDTO;
+import com.github.juhachmann.estagios.api.resources.authUserPerfil.AuthUserPerfilMock;
+import com.github.juhachmann.estagios.api.resources.shared.ContactDTO;
+import com.github.juhachmann.estagios.api.resources.shared.LocalizacaoDTO;
+import com.github.juhachmann.estagios.api.resources.shared.MockContactDto;
+import com.github.juhachmann.estagios.api.resources.shared.MockLocalizacaoDto;
 
 public class PerfilDTOValidationTest extends ValidationTest<AuthUserPerfilDTO> {
 
