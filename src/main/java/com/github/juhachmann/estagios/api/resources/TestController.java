@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/v1/teste")
-public class TesteController {
+public class TestController {
 
 	
 	@GetMapping("")
-	public String testeComQueryParams(
+	public String testComQueryParams(
 			@RequestParam(value = "message", defaultValue = "Olá") String message,
 			@RequestParam(value = "interlocutor", defaultValue = "Mundo") String interlocutor,
 			@RequestParam(value = "signature", defaultValue="") String signature
@@ -19,6 +19,11 @@ public class TesteController {
 		String greeting = "";
 		
 		return greeting.concat(message).concat(", " + interlocutor + "! \n").concat(signature) ;
+	}
+
+	@GetMapping("/ola")
+	public String hello( ) {
+		return "";
 	}
 	
 }
