@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 
-import com.github.juhachmann.estagios.api.resources.authUserPerfil.AuthUserPerfilDTO;
-import com.github.juhachmann.estagios.api.utils.MediaTypes;
+import com.github.juhachmann.estagios.apirest.resources.authUserPerfil.AuthUserPerfilDTO;
+import com.github.juhachmann.estagios.apirest.utils.MediaTypes;
 
 
 @SpringBootTest
