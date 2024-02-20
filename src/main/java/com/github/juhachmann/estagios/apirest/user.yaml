@@ -1,0 +1,23 @@
+user:
+  id: ""
+  name: ""
+  ie : true
+  description: ""
+  mainContact:
+    phone: ""
+    email: ""
+  contactForApplication:
+    phone: ""
+    email: ""
+  address:
+    addressLine: ""
+    city: ""
+    state: ""
+    country: ""
+  created_at: ""
+  updated_at: ""
+  settings: # Only Private
+    notificationForInactivity:
+    notificationForExpiringVaga:
+  credentials: # Only Private , on Request
+    username:

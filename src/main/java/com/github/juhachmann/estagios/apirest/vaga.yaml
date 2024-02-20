@@ -1,0 +1,30 @@
+vaga:
+  id:
+  title: ""
+  owner: ""
+  description: ""
+  requisites: []
+  areas : []
+  ies : []
+  periods : []
+  levels: []
+  remuneration:
+  weekWorkload :
+  format: ""
+  location:
+    address: ""
+    city: ""
+    state: ""
+    country: ""
+  contact:
+    phone : ""
+    email : ""
+  settings:
+    expiresInDays:
+    renovateInFays:
+  starts_at:
+  durationInMonths:
+  created_at: ""
+  updated_at: ""
+
+  # Observação: fazer em português!

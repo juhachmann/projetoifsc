@@ -10,7 +10,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         ddl-auto: none
-    show-sql: false
+    show-sql: true
 
 # Flyway Configs
 
