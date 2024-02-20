@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.github.juhachmann.estagios.api.exceptions.ResourceNotFoundException;
-import com.github.juhachmann.estagios.api.resources.authUserPerfil.AuthUserPerfilDTO;
+import com.github.juhachmann.estagios.apirest.exceptions.ResourceNotFoundException;
+import com.github.juhachmann.estagios.apirest.resources.authUserPerfil.AuthUserPerfilDTO;
 
 /**
  * Temporary class to mock a repository of perfilDTOs

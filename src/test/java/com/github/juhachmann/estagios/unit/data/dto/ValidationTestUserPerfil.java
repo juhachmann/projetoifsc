@@ -2,7 +2,7 @@ package com.github.juhachmann.estagios.unit.data.dto;
 
 import org.junit.jupiter.api.Test;
 
-import com.github.juhachmann.estagios.api.resources.userPerfil.UserPerfilDTO;
+import com.github.juhachmann.estagios.apirest.resources.userPerfil.UserPerfilDTO;
 
 public class ValidationTestUserPerfil extends ValidationTestRefactored<UserPerfilDTO> {
 

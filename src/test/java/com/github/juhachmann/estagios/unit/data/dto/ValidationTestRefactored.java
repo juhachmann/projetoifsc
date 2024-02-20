@@ -2,7 +2,7 @@ package com.github.juhachmann.estagios.unit.data.dto;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.juhachmann.estagios.api.utils.Validatable;
+import com.github.juhachmann.estagios.apirest.utils.Validatable;
 
 /** 
  * Validation Test for {@link Validatable}
