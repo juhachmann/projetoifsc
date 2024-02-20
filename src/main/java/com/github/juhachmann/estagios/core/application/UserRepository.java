@@ -1,13 +1,13 @@
 package com.github.juhachmann.estagios.core.application;
 
 import com.github.juhachmann.estagios.core.entities.User;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.ListCrudRepository;
 
-import java.util.Optional;
+public interface UserRepository {
+    User save(User user);
 
-public interface UserRepository extends ListCrudRepository<User, Long> {
+    User findByUsername(String username);
 
+    void delete(User user);
 
-
+    User findById(Long id);
 }

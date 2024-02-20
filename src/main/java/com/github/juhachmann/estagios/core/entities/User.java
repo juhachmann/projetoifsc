@@ -1,136 +1,195 @@
 package com.github.juhachmann.estagios.core.entities;
 
+import com.github.juhachmann.estagios.core.application.UserRepository;
 import com.github.juhachmann.estagios.core.exceptions.UnauthorizedAccessException;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-// Pedido para ver perfil
-// Vai entrar aqui, o handler vai validar e vai pedir pro banco de dados enviar o perfil do usuário
+public class User {
 
-// Pedido pra um usuário ver o perfil de outro
-// vai entrar aqui, não precisa carregar todos os dados do usuário
-// mas precisa dar um jeito de que no banco de dados ele veja se fornece vaga para alguma pessoa
+    // TODO : Descobrir : Como a definição do repositório vai vir parar aqui
+    static UserRepository repository;
+
+    private Long id;
+    private boolean ie;
+    private UserProfile profile = new UserProfile();
+    private UserCredentials credentials = new UserCredentials();
+    private UserSettings settings = new UserSettings();
+    private List<Vaga> ownedVagas;
+    private List<Vaga> exclusiveReceivedVagas;
+
+    public User() {
+    }
+
+    public User(Long id, boolean ie) {
+        this.id = id;
+        this.ie = ie;
+    }
+
+    public User(Long id, boolean ie, UserProfile profile, UserCredentials credentials, UserSettings settings, List<Vaga> ownedVagas, List<Vaga> receivedVagas) {
+        this.id = id;
+        this.ie = ie;
+        this.profile = profile;
+        this.credentials = credentials;
+        this.settings = settings;
+        this.ownedVagas = ownedVagas;
+        this.exclusiveReceivedVagas = receivedVagas;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public boolean isIe() {
+        return ie;
+    }
+
+    public void setIe(boolean ie) {
+        this.ie = ie;
+    }
+
+    public UserProfile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(UserProfile profile) {
+        this.profile = profile;
+    }
+
+    public UserCredentials getCredentials() {
+        return credentials;
+    }
+
+    public void setCredentials(UserCredentials credentials) {
+        this.credentials = credentials;
+    }
+
+    public UserSettings getSettings() {
+        return settings;
+    }
+
+    public void setSettings(UserSettings settings) {
+        this.settings = settings;
+    }
+
+    public List<Vaga> getOwnedVagas() {
+        return ownedVagas;
+    }
+
+    public void setOwnedVagas(List<Vaga> ownedVagas) {
+        this.ownedVagas = ownedVagas;
+    }
+
+    public List<Vaga> getExclusiveReceivedVagas() {
+        return exclusiveReceivedVagas;
+    }
+
+    public void setExclusiveReceivedVagas(List<Vaga> exclusiveReceivedVagas) {
+        this.exclusiveReceivedVagas = exclusiveReceivedVagas;
+    }
 
 
+/*
+ * ================================
+ *  Business Logic
+ * ================================
+ */
 
-public abstract class User {
+    public static User get(String username) {
+        return repository.findByUsername(username);
+    }
 
-    protected Long id;
-    protected Boolean ie;
+    public static User get(Long id) {
+        return repository.findById(id);
+    }
 
+    private boolean isOwner(Vaga vaga) {
+        return vaga.getOwner().equals(this);
+    }
 
-    public Boolean getIsIe() {
+    private boolean isReceiver(Vaga vaga) {
+        return vaga.getReceivers().contains(this);
+    }
+
+    public boolean isValidReceiver() {
         return this.ie;
     }
-    public Long getId() {
-        return this.id;
+
+
+    // TODO : DTO : Definir estas estruturas de User : Settings, Profile, PublicProfile, PrivateProfile
+
+    public User createNewUser() {
+        return repository.save(this);
     }
 
-
-    public Vaga create (@NotNull Vaga vaga , @NotNull List<User> receivers ) {
-
-
-
-        vaga.setOwnerId(this.id);
-
-        // O fato de o usuário só poder receber uma vaga se for uma empresa, é uma regra de negócio e precisa ser validado aqui
-
-
-        receivers.forEach(user -> { // TODO Era pra aceitar a ação, mas tbm mandar mensagem de erro, como faz isso?
-            if( user.getIsIe() )  {
-                if (!vaga.isOfferedTo ((Receiver)user))
-                    vaga.addRecipients((Receiver)user);
-                if (!this.offersVagasTo.contains((Receiver) user))
-                    this.offersVagasTo.add((Receiver)user);
-            }
-        });
-        return vaga;
+    public User updateUser() {
+        return repository.save(this);
     }
 
-    public Vaga update ( Vaga vaga ) {
-        if ( canManageVaga(vaga) ) {
-            return vaga;
-        }
-        return null;
+    public void deleteUser() {
+        repository.delete(this);
     }
 
-    public Vaga delete ( Vaga vaga ) {
-        if ( canManageVaga(vaga) ) {
-            return vaga;
-        }
-        return null;
+    public UserSettings seePrivateSettings() {
+        return this.settings;
     }
 
-    public Vaga showVagaPrivateView ( Vaga vaga ) throws UnauthorizedAccessException {
-        if (canAccessVagaPrivateView(vaga)) {
-            return vaga;
-        }
-        throw new UnauthorizedAccessException();
+    public User seePublicProfile(User user) {
+        return user.showPublicProfile();
     }
 
-    public Vaga showVagaPublicView ( Vaga vaga ) throws UnauthorizedAccessException {
-        if (canAccessPublicViewOf(vaga)) {
-            return vaga;
-        }
-        throw new UnauthorizedAccessException();
-    }
-
-    public User showSelfProfile(  ) {
+    public User showPublicProfile() {
         return this;
     }
 
-    public void showSelfConfigs() {
-        System.out.println(this);
+    public User seePrivateProfile() {
+        return this;
     }
 
-    public User showProfile(User user) throws UnauthorizedAccessException {
-        if (canAccessPublicProfileOf(user)) {
-            return user;
-        } else throw new UnauthorizedAccessException();
+    public Vaga createVaga(Vaga vaga) {
+        vaga.setOwner(this);
+        return vaga.create();
     }
 
-    protected Boolean offersVagaFor( User user ) {
-        if ( Receiver.class.isAssignableFrom(user.getClass()) ) {
-            return this.offersVagasTo.contains((Receiver) user);
+    public Vaga updateVaga(Vaga vaga) throws UnauthorizedAccessException {
+        if (this.isOwner(vaga)) {
+            return vaga.update();
         }
-        return false;
+        throw new UnauthorizedAccessException("User must be owner to update record");
     }
 
-    protected Boolean isSelf(User user) {
-        return this.id.equals(user.getId());
+    public void deleteVaga(Vaga vaga) throws UnauthorizedAccessException {
+        if ( this.isOwner(vaga) ) {
+            vaga.delete();
+        } else {
+            throw new UnauthorizedAccessException("User must be owner to delete record");
+        }
     }
 
-    protected Boolean isOwner(Vaga vaga) {
-        return this.id.equals(vaga.getOwnerId());
+    public List<Vaga> seeAllReceivedVagas() throws UnauthorizedAccessException {
+        List<Vaga> receivedVagas = new ArrayList<>();
+        receivedVagas.addAll(Vaga.getAllNotExclusive());
+        receivedVagas.addAll(this.getExclusiveReceivedVagas());
+        return receivedVagas;
     }
 
-    private Boolean canManageVaga(Vaga vaga) {
-        return this.isOwner(vaga) ;
+    public VagaSettings seeVagaSettings(Vaga vaga) throws UnauthorizedAccessException {
+        if ( this.isOwner(vaga) ) {
+            return vaga.getSettings();
+        }
+        throw new UnauthorizedAccessException("User must be owner to see the job private settings");
     }
 
-    private Boolean canAccessVagaPrivateView (Vaga vaga) {
-        return this.isOwner(vaga);
-    }
-
-    protected abstract Boolean canAccessPublicProfileOf(User user);
-
-    protected abstract Boolean canAccessPublicViewOf(Vaga vaga);
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(isIE, user.isIE) && Objects.equals(offersVagasTo, user.offersVagasTo);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public VagaDetails seeVaga(Vaga vaga) throws UnauthorizedAccessException {
+        if ( this.isOwner(vaga) || this.isReceiver(vaga) || ( this.isIe() && !vaga.isExclusive() ) ) {
+            return vaga.getDetails();
+        }
+        throw new UnauthorizedAccessException("User must be owner or receiver to see the job");
     }
 
 }
