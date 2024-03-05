@@ -61,7 +61,7 @@ public class AuthUserPerfilController {
 
 		
 	@Autowired
-	AuthUserPerfilService service;
+	//AuthUserPerfilService service;
 	
 	@GetMapping("")
 	@Operation(summary=GET_SUMMARY, description=GET_DESCRIPTION, tags={PERFIL, IES, EMPRESA}, operationId=GET_ID)
@@ -77,7 +77,7 @@ public class AuthUserPerfilController {
 	) throws Exception {
 		
 		return new ResponseEntity<AuthUserPerfilDTO> (
-				service.get(auth), 
+	//			service.get(auth),
 				HttpStatus.OK);	
 	}
 	
@@ -97,7 +97,7 @@ public class AuthUserPerfilController {
 	) throws Exception {
 				
 		return new ResponseEntity<AuthUserPerfilDTO>(
-				service.create(perfil),
+	//			service.create(perfil),
 				HttpStatus.CREATED);		
 	}
 	
@@ -118,7 +118,7 @@ public class AuthUserPerfilController {
 	) throws Exception {
 		
 		return new ResponseEntity<AuthUserPerfilDTO>(
-				service.update(auth, perfil), 
+	//			service.update(auth, perfil),
 				HttpStatus.OK);		
 	}
 	
@@ -135,7 +135,7 @@ public class AuthUserPerfilController {
 	public ResponseEntity<AuthUserPerfilDTO> delete (
 			@RequestHeader Long auth
 	) throws Exception {
-		service.delete(auth);
+	//	service.delete(auth);
 		return new ResponseEntity<AuthUserPerfilDTO>(HttpStatus.NO_CONTENT);
 	}
 

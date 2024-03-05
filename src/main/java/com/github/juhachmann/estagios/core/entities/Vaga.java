@@ -1,127 +1,140 @@
 package com.github.juhachmann.estagios.core.entities;
 
-import com.github.juhachmann.estagios.core.application.VagaRepository;
+import com.github.juhachmann.estagios.core.application.IUserDB;
+import com.github.juhachmann.estagios.core.application.IVagaDB;
+import com.github.juhachmann.estagios.core.application.IVagaDBRepository;
+import com.github.juhachmann.estagios.core.exceptions.UnauthorizedAccessException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Vaga {
 
-    // TODO : Descobrir : Como injetar o negócio aqui
-    static VagaRepository repository;
+    static IVagaDBRepository repository;
+    private IVagaDB vagaDTO;
+    private List<String> invalidReceiversIds = new ArrayList<>();
 
-    private Long id;
-    private User owner;
-    private boolean exclusive = false;
-    private List<String> messages = new ArrayList<>();
-    private List<User> receivers = new ArrayList<>();
-    private VagaDetails details = new VagaDetails();
-    private VagaSettings settings = new VagaSettings();
-
-    public Vaga() { }
-
-    public Vaga(VagaRepository repository) {
-        Vaga.repository = repository;
+    public Vaga(IVagaDB vagaDTO) {
+        this.vagaDTO = vagaDTO;
     }
 
-    public Vaga(Long id, User owner, List<String> messages, List<User> receivers, VagaDetails details, VagaSettings settings) {
-        this.id = id;
-        this.owner = owner;
-        this.messages = messages;
-        this.setReceivers(receivers);
-        this.details = details;
-        this.settings = settings;
+    public Vaga(Long vagaId) {
+        this.vagaDTO = repository.findById(vagaId);
     }
 
-
-    public static Vaga get(Long vagaId) {
-        return repository.findById(vagaId);
+    public static IVagaDB create(IVagaDB vagaDTO, IUserDB user) {
+        var vaga = new Vaga(vagaDTO);
+        vaga.attributeOwner(user);
+        vaga.sanitizeReceiversList();
+        return repository.save(vaga.vagaDTO);
     }
 
-    public static List<Vaga> getAllNotExclusive() {
-        return repository.findByExclusive(false);
+    public static List<IVagaDB> showAllVagasForUser(IUserDB userDTO) {
+        List<IVagaDB> vagasForUser = new ArrayList<>();
+        repository.findByExclusive(false).forEach(
+                iVagaDB -> {
+                    var vaga = new Vaga(iVagaDB);
+                    vagasForUser.add(vaga.showPublicInfo(userDTO));
+                }
+        );
+        userDTO.getExclusiveReceivedVagas().forEach(
+                iVagaDB -> {
+                    var vaga = new Vaga(iVagaDB);
+                    vagasForUser.add(vaga.showPublicInfo(userDTO));
+                }
+        );
+        return vagasForUser;
     }
 
-    public Long getId() {
-        return id;
+    public static List<IVagaDB> showAllPrivateVagasFromUser(IUserDB user) {
+        return user
+                .getOwnedVagas()
+                .stream()
+                .map(iVagaDB -> {
+                    var vaga = new Vaga(iVagaDB);
+                    return vaga.showPrivateInfo(user);
+                })
+                .toList();
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public static List<IVagaDB> showAllReceivedVagasFromUser(IUserDB authUser, IUserDB targetUser) {
+        List<IVagaDB> vagasForUser = new ArrayList<>();
+        repository.findByExclusiveAndOwner(false, targetUser).forEach(
+                iVagaDB -> {
+                    var vaga = new Vaga(iVagaDB);
+                    vagasForUser.add(vaga.showPublicInfo(authUser));
+                }
+        );
+        repository.findByReceiverAndOwner(authUser, targetUser).forEach(
+                iVagaDB -> {
+                    var vaga = new Vaga(iVagaDB);
+                    vagasForUser.add(vaga.showPublicInfo(authUser));
+                }
+        );
+        return vagasForUser;
     }
 
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
-
-    public boolean isExclusive() {
-        return exclusive;
-    }
-
-    public List<String> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(List<String> messages) {
-        this.messages = messages;
-    }
-
-    public List<User> getReceivers() {
-        return receivers;
-    }
-
-    public void setReceivers(List<User> receivers) {
-        if (receivers == null) {
-            this.getReceivers().clear();
+    public IVagaDB updateFromUser(IVagaDB newVagaDTO, IUserDB user) {
+        try {
+            VagaValidation.validateUserAsVagaOwner(vagaDTO, user);
+            newVagaDTO.setId(vagaDTO.getId());
+            return repository.save(newVagaDTO);
         }
-        else {
-            receivers.forEach(this::validateReceiver);
+        catch (UnauthorizedAccessException uae) {
+            throw new UnauthorizedAccessException("User doesn't have permission to update the job record", uae);
         }
-        this.exclusive = !this.getReceivers().isEmpty();
     }
 
-    public VagaDetails getDetails() {
-        return details;
-    }
-
-    public void setDetails(VagaDetails details) {
-        this.details = details;
-    }
-
-    public VagaSettings getSettings() {
-        return settings;
-    }
-
-    public void setSettings(VagaSettings settings) {
-        this.settings = settings;
-    }
-
-    public Vaga create() {
-        return repository.save(this);
-    }
-
-    public Vaga update() {
-        return repository.save(this);
-    }
-
-    public void delete() {
-        repository.delete(this);
-    }
-
-    public void addReceiver(User user) {
-        this.validateReceiver(user);
-    }
-
-    private void validateReceiver(User user) {
-        if(user.isValidReceiver()) {
-            this.receivers.add(user);
-        } else {
-            this.messages.add(user.getProfile().getName() + " is not a valid receiver");
+    public void deleteFromUser(IUserDB user) {
+        try {
+            VagaValidation.validateUserAsVagaOwner(vagaDTO, user);
+            repository.delete(vagaDTO);
         }
+        catch (UnauthorizedAccessException uae) {
+            throw new UnauthorizedAccessException("User doesn't have permission to delete the job record", uae);
+        }
+    }
+
+    public IVagaDB showPrivateInfo(IUserDB user) {
+        try {
+            VagaValidation.validateUserAsVagaOwner(vagaDTO, user);
+            return vagaDTO.getPrivateProfile();
+        }
+        catch (UnauthorizedAccessException uae) {
+            throw new UnauthorizedAccessException("User doesn't have permission to see this job record private details", uae);
+        }
+    }
+
+
+    // TODO queria o trace certinho - não pode acessar pq não é criador E nem destinatário
+    public IVagaDB showPublicInfo(IUserDB user) {
+        try {
+            VagaValidation.validateUserAsVagaOwner(vagaDTO, user) ;
+            return vagaDTO.getPublicProfile();
+        }
+        catch (UnauthorizedAccessException uaeUser) {
+            try {
+                VagaValidation.validateUserAsVagaReceiver(vagaDTO, user);
+                return vagaDTO;
+            }
+            catch (UnauthorizedAccessException uaeReceiver) {
+                throw new UnauthorizedAccessException("User cannot see this job record", uaeReceiver);
+            }
+        }
+    }
+
+    private void attributeOwner(IUserDB user) {
+        vagaDTO.setOwner(user);
+    }
+
+    private void sanitizeReceiversList() {
+        List<IUserDB> invalidReceivers = VagaValidation.getInvalidReceivers(vagaDTO);
+
+        invalidReceivers.forEach(invalidReceiver -> {
+            invalidReceiversIds.add(invalidReceiver.getId());
+            vagaDTO.getReceivers().remove(invalidReceiver);
+        });
+
     }
 
 }

@@ -12,7 +12,6 @@ import static com.github.juhachmann.estagios.apirest.utils.SwaggerTags.EMPRESA;
 import static com.github.juhachmann.estagios.apirest.utils.SwaggerTags.IES;
 import static com.github.juhachmann.estagios.apirest.utils.SwaggerTags.VAGAS;
 
-import com.github.juhachmann.estagios.infrastructure.db.VagaDBEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -79,7 +78,7 @@ public class VagaController {
 			@PathVariable("id") Long vagaId
 	) {
 
-		VagaDBEntity vaga = new VagaDBEntity();
+	//	VagaDBEntity vaga = new VagaDBEntity();
 
 //		return new ResponseEntity<VagaDTO> (
 //				service.getOnePublic ( auth, vagaId ),
