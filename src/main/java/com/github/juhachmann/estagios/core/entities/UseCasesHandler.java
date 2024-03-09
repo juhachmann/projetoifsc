@@ -10,6 +10,7 @@ public class UseCasesHandler {
 
     public UseCasesHandler() { }
 
+    // teste
     public UserPrivateProfileDTO createUser(UserPrivateProfileDTO newUser) {
         var user = mapper.map(newUser, IUserDB.class);
         return mapper.map(
