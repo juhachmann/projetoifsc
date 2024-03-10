@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.ContentNegotiationConfi
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.github.juhachmann.estagios.apirest.utils.MediaTypes;
-import com.github.juhachmann.estagios.apirest.utils.Serialization.YAMLJackson2HttpMessageConverter;
+import com.github.juhachmann.estagios.apirest.utils.serialization.YAMLJackson2HttpMessageConverter;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer{

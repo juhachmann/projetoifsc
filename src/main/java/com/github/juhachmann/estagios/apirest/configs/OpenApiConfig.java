@@ -3,7 +3,7 @@ package com.github.juhachmann.estagios.apirest.configs;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.github.juhachmann.estagios.apirest.utils.SwaggerTags;
+import com.github.juhachmann.estagios.apirest.utils.swagger.SwaggerTags;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;

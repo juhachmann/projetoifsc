@@ -1,0 +1,4 @@
+ - [ ] HATEOAS
+ - [ ] Revisar endpoints
+ - [ ] Revisar Descrição endpoints
+ - [ ] Tratamento erro 500
