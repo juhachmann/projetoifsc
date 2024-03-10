@@ -119,7 +119,7 @@ public class VagaController {
 	    @ApiResponse(responseCode = "429", content = {@Content(examples= { @ExampleObject(value = TOO_MANY_REQUESTS_MSG) })} )
 	})
 	public ResponseEntity<VagaPublicProfileDTO> getPublicProfile (
-			@PathVariable("id") Long vagaId
+			@PathVariable("id") String vagaId
 	) {
 		return service.getPublicProfile(vagaId);
 	}
@@ -136,7 +136,7 @@ public class VagaController {
 			@ApiResponse(responseCode = "429", content = {@Content(examples= { @ExampleObject(value = TOO_MANY_REQUESTS_MSG) })} )
 	})
 	public ResponseEntity<VagaPrivateProfileDTO> getPrivateProfile (
-			@PathVariable("id") Long vagaId
+			@PathVariable("id") String vagaId
 	) {
 		return service.getPrivateProfile(vagaId);
 	}
