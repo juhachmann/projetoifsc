@@ -11,8 +11,8 @@
 		<version>3.2.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.github.ju-hachmann</groupId>
-	<artifactId>estagios</artifactId>
+	<groupId>com.github.projetoifsc</groupId>
+	<artifactId>pi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>estagios</name>
 	<description>Um pequeno serviço RESTful para divulgar vagas de estágio a instituições de ensino</description>
