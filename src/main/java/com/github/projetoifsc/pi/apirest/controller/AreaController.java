@@ -1,27 +1,24 @@
 package com.github.projetoifsc.pi.apirest.controller;
 
-import static com.github.projetoifsc.pi.apirest.utils.HttpErrorMessages.TOO_MANY_REQUESTS_MSG;
-import static com.github.projetoifsc.pi.apirest.utils.HttpErrorMessages.UNAUTHORIZED_MSG;
-import static com.github.projetoifsc.pi.apirest.utils.swagger.SwaggerTags.BASE_URL;
-import static com.github.projetoifsc.pi.apirest.utils.swagger.SwaggerTags.VAGAS;
-
 import com.github.projetoifsc.pi.apirest.dto.AreaDTO;
-import com.github.projetoifsc.pi.apirest.utils.mock.AreaMock;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.github.projetoifsc.pi.apirest.service.AreaService;
 import com.github.projetoifsc.pi.apirest.utils.MediaTypes;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import static com.github.projetoifsc.pi.apirest.utils.HttpErrorMessages.TOO_MANY_REQUESTS_MSG;
+import static com.github.projetoifsc.pi.apirest.utils.HttpErrorMessages.UNAUTHORIZED_MSG;
+import static com.github.projetoifsc.pi.apirest.utils.swagger.SwaggerTags.BASE_URL;
+import static com.github.projetoifsc.pi.apirest.utils.swagger.SwaggerTags.VAGAS;
 
 @RestController
 @RequestMapping(value = BASE_URL + "/areas", 
@@ -30,29 +27,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 public class AreaController {
 
-	
-	private final String AREA_CONTENT_MSG = "{\"areas\" : [ \"Educação\" , \"Tecnologia\", \"Design\" ]}";
-	
-	public final String GET_ALL_ID = "getAllAreas";
-	private final String GET_ALL_SUMMARY = "Ver todas as áreas";
-	private final String GET_ALL_DESCRIPTION = "Ver as áreas de estudo para as quais as vagas de estágio podem se direcionar.";
-	
-	public final String GET_MINE_ID = "getMyAreas";
-	private final String GET_MINE_SUMMARY = "Ver áreas criadas por você";
-	private final String GET_MINE_DESCRIPTION = "Ver as áreas que a sua instituição de ensino inseriu no banco de dados.";
+	AreaService service;
 
-	public final String POST_ID = "createAreas";
-	private final String POST_SUMMARY = "Criar áreas";
-	private final String POST_DESCRIPTION = "Disponível apenas para instituições de ensino. Se a sua instituição percebeu que há áreas de estudo que não estão presentes no banco de dados, é possível inserir novas áreas relevantes. Lembre que estas novas áreas ficarão acessíveis para outras instituições de ensino também. Evite redundâncias e erros, para colaborar com a construção de uma base de dados consistente.";
-
-	public final String PUT_ID = "updateAreas";
-	private final String PUT_SUMMARY = "Atualizar áreas";
-	private final String PUT_DESCRIPTION = "Sua instituição de ensino pode atualizar a lista de áreas criadas, para inserir novas áreas ou corrigir as existentes. Não é possível remover áreas que estejam sendo utilizadas por vagas disponíveis no sistema.";
-	
-	public final String DELETE_ID = "deleteAreas";
-	private final String DELETE_SUMMARY = "Deletar áreas";
-	private final String DELETE_DESCRIPTION = "Deletar toda a lista de áreas criada pela sua instituição de ensino. Possível apenas se nenhuma das áreas está sendo utilizada por uma vaga disponível no sistema.";
-
+	@Autowired
+	public AreaController(AreaService service) {
+		this.service = service;
+	}
 
 	@GetMapping("")
 	@Operation(summary="Áreas", description="Ver todas as áreas", tags={VAGAS}, operationId="getAllAreas")
@@ -62,10 +42,7 @@ public class AreaController {
 	    @ApiResponse(responseCode = "429", content = {@Content(examples= { @ExampleObject(value = TOO_MANY_REQUESTS_MSG) })} )
 	})
 	public ResponseEntity<Page<AreaDTO>> getAllAreas () {
-		return new ResponseEntity<>(
-				new PageImpl<>(AreaMock.getList()),
-				HttpStatus.OK
-		);
+		return service.getAll();
 	}
 
 	

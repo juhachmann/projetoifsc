@@ -2,7 +2,7 @@ package com.github.projetoifsc.pi.apirest.controller;
 
 import com.github.projetoifsc.pi.apirest.dto.VagaPrivateProfileDTO;
 import com.github.projetoifsc.pi.apirest.dto.VagaPublicProfileDTO;
-import com.github.projetoifsc.pi.apirest.utils.mock.VagaMock;
+import com.github.projetoifsc.pi.apirest.service.VagaService;
 import com.github.projetoifsc.pi.apirest.utils.MediaTypes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,10 +10,8 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +28,12 @@ import static com.github.projetoifsc.pi.apirest.utils.validation.PaginationValid
 						MediaTypes.APPLICATION_HAL, MediaTypes.APPLICATION_HAL_FORMS })
 public class VagaController {
 
-	ModelMapper mapper = new ModelMapper();
+	VagaService service;
+
+	@Autowired
+	public VagaController(VagaService service) {
+		this.service = service;
+	}
 
 	@PostMapping(value = "/vagas", consumes = { MediaTypes.APPLICATION_JSON, MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_YAML })
 	@Operation(summary="Criar Vaga", description="Criar Nova Vaga de Estágio", tags= {VAGAS}, operationId="postVaga")
@@ -43,13 +46,7 @@ public class VagaController {
 	public ResponseEntity<VagaPrivateProfileDTO> create (
 			@RequestBody VagaPrivateProfileDTO vaga
 	) {
-		vaga.setKey("123");
-		vaga.setOwnerId("2");
-		var mapped = mapper.map
-				(vaga, VagaPrivateProfileDTO.class);
-		return new ResponseEntity<VagaPrivateProfileDTO>(
-				mapped,
-				HttpStatus.CREATED );
+		return service.create(vaga);
 	}
 
 
@@ -65,23 +62,14 @@ public class VagaController {
 			@RequestParam(value = "titulo", defaultValue = "", required = false) String titulo,
 			@RequestParam(value = "areas", defaultValue = "", required = false) String areas,
 			@RequestParam(value = "niveis", defaultValue = "", required = false) @Schema(allowableValues = {"fundamental", "medio", "superior", "tecnico", "pos"}) String niveis,
-			@RequestParam(value = "remuneracao", defaultValue = "") @Schema(minContains = 0) Double remuneracao,
+			@RequestParam(value = "remuneracao", defaultValue = "0") @Schema() Double remuneracao,
 			@RequestParam(value = "periodos", defaultValue = "") @Schema(allowableValues = {"matutino", "vespertino", "noturno"}) String periodos,
 			@RequestParam(value = "sort", defaultValue = "") @Schema(allowableValues = {"periodos", "remuneracao", "data"}) String sort,
 			@RequestParam(value = "order", defaultValue = "ASC") @Schema(type = "string", allowableValues = {"ASC", "DESC"}) String order,
-			@RequestParam(value= "page", defaultValue = "0") @Schema(type = "number", minContains = 0) int page,
-			@RequestParam(value = "limit", defaultValue = "10") @Schema(type = "number", minContains = 0, maxContains = 30) int limit
+			@RequestParam(value= "page", defaultValue = "0") @Schema(type = "number") int page,
+			@RequestParam(value = "limit", defaultValue = "10") @Schema(type = "number", maxContains = 30) int limit
 	) {
-		var vagas = VagaMock.getList();
-		var vagasDto = vagas.stream().map(vaga -> mapper.map(
-				vaga,
-				VagaPublicProfileDTO.class
-		)).toList();
-
-		var pageImpl = new PageImpl<>(vagasDto);
-		return new ResponseEntity<> (
-				pageImpl,
-				HttpStatus.OK );
+		return service.search(titulo, areas, niveis, remuneracao, periodos, sort, order, page, limit);
 	}
 
 
@@ -100,14 +88,7 @@ public class VagaController {
 			@PathVariable("id") Long vagaId,
 			@RequestBody VagaPrivateProfileDTO vaga
 	) {
-		vaga.setKey("123");
-		vaga.setOwnerId("2");
-		var mapped = mapper.map(
-				vaga, VagaPrivateProfileDTO.class
-		);
-		return new ResponseEntity<VagaPrivateProfileDTO> (
-				mapped,
-				HttpStatus.OK );
+		return service.update(vagaId, vaga);
 	}
 
 
@@ -124,8 +105,7 @@ public class VagaController {
 	public ResponseEntity<VagaPrivateProfileDTO> delete(
 			@PathVariable("id") Long vagaId
 	) {
-		return new ResponseEntity<VagaPrivateProfileDTO> (
-				HttpStatus.NO_CONTENT );
+		return service.delete(vagaId);
 	}
 
 	@GetMapping("/vagas/{id}")
@@ -141,16 +121,7 @@ public class VagaController {
 	public ResponseEntity<VagaPublicProfileDTO> getPublicProfile (
 			@PathVariable("id") Long vagaId
 	) {
-		var vaga = VagaMock.getOne();
-		var mapped = mapper.map(
-				vaga,
-				VagaPublicProfileDTO.class
-		);
-		return new ResponseEntity<>(
-			mapped,
-			HttpStatus.OK
-		);
-
+		return service.getPublicProfile(vagaId);
 	}
 
 
@@ -167,14 +138,7 @@ public class VagaController {
 	public ResponseEntity<VagaPrivateProfileDTO> getPrivateProfile (
 			@PathVariable("id") Long vagaId
 	) {
-		var vaga = VagaMock.getOne();
-		var mapped = mapper.map(
-				vaga,
-				VagaPrivateProfileDTO.class
-		);
-		return new ResponseEntity<> (
-				mapped,
-				HttpStatus.OK );
+		return service.getPrivateProfile(vagaId);
 	}
 
 
@@ -190,17 +154,9 @@ public class VagaController {
 	})
 	public ResponseEntity<Page<VagaPublicProfileDTO>> getAllReceivedByUser (
 			@RequestParam(value= "limit", defaultValue = DEFAULT_LIMIT_VALUE) Integer limit,
-			@RequestParam(value= "page", defaultValue = DEFAULT_PAGE_VALUE) Integer page
-	) {
-		var vagas = VagaMock.getList();
-		var vagasDto = vagas.stream().map(vaga -> mapper.map(
-				vaga,
-				VagaPublicProfileDTO.class
-		)).toList();
-		var pageImpl = new PageImpl<>(vagasDto);
-		return new ResponseEntity<> (
-				pageImpl,
-				HttpStatus.OK );
+			@RequestParam(value= "page", defaultValue = DEFAULT_PAGE_VALUE) Integer page,
+			@PathVariable String id) {
+		return service.getAllReceivedByUser(id, page, limit);
 	}
 
 
@@ -216,18 +172,9 @@ public class VagaController {
 	})
 	public ResponseEntity<Page<VagaPrivateProfileDTO>> getAllCreatedByUser (
 			@RequestParam(value= "limit", defaultValue = DEFAULT_LIMIT_VALUE) Integer limit,
-			@RequestParam(value= "page", defaultValue = DEFAULT_PAGE_VALUE) Integer page
-	) {
-		var vagas = VagaMock.getList();
-		var vagasDTO = vagas.stream().map(vaga -> mapper.map(
-				vaga,
-				VagaPrivateProfileDTO.class
-		)).toList();
-		var pageImpl = new PageImpl<>(vagasDTO);
-
-		return new ResponseEntity<> (
-				pageImpl,
-				HttpStatus.OK );
+			@RequestParam(value= "page", defaultValue = DEFAULT_PAGE_VALUE) Integer page,
+			@PathVariable String id) {
+		return service.getAllCreatedByUser(id, page, limit);
 	}
 
 	
