@@ -13,11 +13,11 @@ public class AreaMock {
 
     public static List<AreaDTO> getList() {
         List<AreaDTO> list = new ArrayList<>();
-        list.add(new AreaDTO("1", "3","Engenharia Elétrica"));
-        list.add(new AreaDTO("1", "4","Educação"));
-        list.add(new AreaDTO("2", "4","Letras"));
-        list.add(new AreaDTO("3", "3","Tecnologia da Informação"));
-        list.add(new AreaDTO("5", "4","Ciências Humanas"));
+        list.add(new AreaDTO("1", UserMock.getOne(),"Engenharia Elétrica"));
+        list.add(new AreaDTO("1", UserMock.getOne(),"Educação"));
+        list.add(new AreaDTO("2", UserMock.getOne(),"Letras"));
+        list.add(new AreaDTO("3", UserMock.getOne(),"Tecnologia da Informação"));
+        list.add(new AreaDTO("5", UserMock.getOne(),"Ciências Humanas"));
         return list;
     }
 

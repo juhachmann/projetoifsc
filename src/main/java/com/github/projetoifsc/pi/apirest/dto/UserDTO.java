@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.hateoas.Links;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.validation.annotation.Validated;
 
 import java.io.Serializable;
 
 @Schema(name = "Organização", description = "Sumário da Organização")
-@JsonPropertyOrder(value = {"id", "nome", "instituicaoDeEnsino"})
+@JsonPropertyOrder(value = {"id", "nome", "instituicaoDeEnsino", "links"})
 @Validated
 public class UserDTO extends RepresentationModel<UserDTO> implements Serializable {
 
@@ -56,6 +57,13 @@ public class UserDTO extends RepresentationModel<UserDTO> implements Serializabl
 
     public void setIe(boolean ie) {
         this.ie = ie;
+    }
+
+    @Override
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Schema(hidden = true)
+    public Links getLinks() {
+        return super.getLinks();
     }
 
 

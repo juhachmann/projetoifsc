@@ -2,6 +2,7 @@ package com.github.projetoifsc.pi.apirest.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.projetoifsc.pi.apirest.dto.shared.Contato;
 import com.github.projetoifsc.pi.apirest.dto.shared.Localizacao;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,6 +15,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@JsonPropertyOrder(value = {"id", "titulo", "entidade", "descricao",
+        "linksExternos", "requisitos", "periodos", "cargaHoraria", "remuneracao",
+        "niveis", "areas", "inicio", "final", "contato",
+        "endereco", "criadoEm", "modificadoEm", "links"})
 public class VagaPublicProfileDTO extends VagaDTO {
 
     @JsonProperty(value = "descricao", required = true)
@@ -84,8 +89,9 @@ public class VagaPublicProfileDTO extends VagaDTO {
 
     public VagaPublicProfileDTO() {}
 
-    public VagaPublicProfileDTO(String key, String ownerId, String title, String description, List<@NotBlank String> requirements, List<@NotBlank String> periods, long workloadInHours, long payment, List<@NotBlank String> levels, List<@NotBlank String> areas, LocalDate startsAt, LocalDate endsAt, Contato contact, Localizacao address, List<@NotBlank String> externalLinks, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        super(key, ownerId, title);
+    public VagaPublicProfileDTO(String key, UserDTO
+            owner, String title, String description, List<@NotBlank String> requirements, List<@NotBlank String> periods, long workloadInHours, long payment, List<@NotBlank String> levels, List<@NotBlank String> areas, LocalDate startsAt, LocalDate endsAt, Contato contact, Localizacao address, List<@NotBlank String> externalLinks, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        super(key, owner, title);
         this.description = description;
         this.requirements = requirements;
         this.periods = periods;

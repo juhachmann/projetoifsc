@@ -17,7 +17,9 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 @Schema(name="Perfil Privado", description = "Perfil privado da instituição ou empresa")
-@JsonPropertyOrder(value = {"id", "username", "cnpj", "nome", "instituicaoDeEnsino", "info", "contatoPrincipal", "contatoCandidaturas", "endereco", "criadoEm", "atualizadoEm"})
+@JsonPropertyOrder(value = {"id", "username", "cnpj", "nome",
+		"instituicaoDeEnsino", "info", "contatoPrincipal", "contatoCandidaturas",
+		"endereco", "criadoEm", "atualizadoEm", "links"})
 @Validated
 public class UserPrivateProfileDTO extends UserPublicProfileDTO {
 

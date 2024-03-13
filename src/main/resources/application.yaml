@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    #    url: jdbc:mysql://localhost:3306/api_estagios_pi_ifsc?useTimezone=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/jpa_playground?useTimezone=true&serverTimezone=UTC
+    username: root
+    password: root

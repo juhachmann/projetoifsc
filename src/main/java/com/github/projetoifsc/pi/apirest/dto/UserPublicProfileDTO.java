@@ -10,7 +10,8 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
 
 @Schema(name = "Perfil Público da Organização", description = "Perfil Público da Organização")
-@JsonPropertyOrder(value = {"id", "nome", "instituicaoDeEnsino", "info", "contatoPrincipal"})
+@JsonPropertyOrder(value = {"id", "nome", "instituicaoDeEnsino",
+        "info", "contatoPrincipal", "links"})
 @Validated
 public class UserPublicProfileDTO extends UserDTO {
 

@@ -1,5 +1,6 @@
 package com.github.projetoifsc.pi.apirest.controller;
 
+import com.github.projetoifsc.pi.apirest.dto.UserDTO;
 import com.github.projetoifsc.pi.apirest.dto.VagaPrivateProfileDTO;
 import com.github.projetoifsc.pi.apirest.dto.VagaPublicProfileDTO;
 import com.github.projetoifsc.pi.apirest.service.VagaService;
@@ -12,8 +13,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 import static com.github.projetoifsc.pi.apirest.utils.HttpErrorMessages.*;
 import static com.github.projetoifsc.pi.apirest.utils.swagger.SwaggerTags.BASE_URL;
@@ -58,18 +66,31 @@ public class VagaController {
 			@ApiResponse(responseCode = "401", content = {@Content(examples= { @ExampleObject(value = UNAUTHORIZED_MSG) })} ),
 			@ApiResponse(responseCode = "429", content = {@Content(examples= { @ExampleObject(value = TOO_MANY_REQUESTS_MSG) })} )
 	})
-	public ResponseEntity<Page<VagaPublicProfileDTO>> search (
+	public ResponseEntity<PagedModel<EntityModel<VagaPublicProfileDTO>>> search (
 			@RequestParam(value = "titulo", defaultValue = "", required = false) String titulo,
 			@RequestParam(value = "areas", defaultValue = "", required = false) String areas,
 			@RequestParam(value = "niveis", defaultValue = "", required = false) @Schema(allowableValues = {"fundamental", "medio", "superior", "tecnico", "pos"}) String niveis,
-			@RequestParam(value = "remuneracao", defaultValue = "0") @Schema() Double remuneracao,
+			@RequestParam(value = "remuneracao", defaultValue = "0") @Schema(description = "Remuneração mínima") Integer remuneracao,
 			@RequestParam(value = "periodos", defaultValue = "") @Schema(allowableValues = {"matutino", "vespertino", "noturno"}) String periodos,
 			@RequestParam(value = "sort", defaultValue = "") @Schema(allowableValues = {"periodos", "remuneracao", "data"}) String sort,
 			@RequestParam(value = "order", defaultValue = "ASC") @Schema(type = "string", allowableValues = {"ASC", "DESC"}) String order,
-			@RequestParam(value= "page", defaultValue = "0") @Schema(type = "number") int page,
-			@RequestParam(value = "limit", defaultValue = "10") @Schema(type = "number", maxContains = 30) int limit
+			@RequestParam(value= "page", defaultValue = "0") @Schema(type = "number") Integer page,
+			@RequestParam(value = "limit", defaultValue = "10") @Schema(type = "number", maxContains = 30) Integer limit
 	) {
-		return service.search(titulo, areas, niveis, remuneracao, periodos, sort, order, page, limit);
+		var stringArgs = new HashMap<String, String>();
+		stringArgs.put("titulo", titulo);
+		stringArgs.put("areas", areas);
+		stringArgs.put("niveis", niveis);
+		stringArgs.put("periodos", periodos);
+		stringArgs.put("sort", sort);
+
+		var numericArgs = new HashMap<String, Integer>();
+		numericArgs.put("remuneracao", remuneracao);
+		numericArgs.put("page", page);
+		numericArgs.put("limit", limit);
+
+		return service.search(stringArgs, numericArgs);
+
 	}
 
 
@@ -85,7 +106,7 @@ public class VagaController {
 			@ApiResponse(responseCode = "429", content = {@Content(examples= { @ExampleObject(value = TOO_MANY_REQUESTS_MSG) })} )
 	})
 	public ResponseEntity<VagaPrivateProfileDTO> update(
-			@PathVariable("id") Long vagaId,
+			@PathVariable("id") String vagaId,
 			@RequestBody VagaPrivateProfileDTO vaga
 	) {
 		return service.update(vagaId, vaga);
@@ -103,7 +124,7 @@ public class VagaController {
 			@ApiResponse(responseCode = "429", content = {@Content(examples= { @ExampleObject(value = TOO_MANY_REQUESTS_MSG) })} )
 	})
 	public ResponseEntity<VagaPrivateProfileDTO> delete(
-			@PathVariable("id") Long vagaId
+			@PathVariable("id") String vagaId
 	) {
 		return service.delete(vagaId);
 	}
@@ -177,5 +198,9 @@ public class VagaController {
 		return service.getAllCreatedByUser(id, page, limit);
 	}
 
-	
+
+	public ResponseEntity<Page<UserDTO>> getVagaRecipients(
+			@PathVariable String id) {
+		return service.getVagaRecipients(id);
+	}
 }

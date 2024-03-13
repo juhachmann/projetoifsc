@@ -5,19 +5,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.hateoas.Links;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 
-@JsonPropertyOrder(value = {"id", "nome"})
+@JsonPropertyOrder(value = {"id", "nome", "links"})
 public class AreaDTO extends RepresentationModel<AreaDTO> implements Serializable  {
 
     @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
     @Schema(example = "1")
-    private String key;
+    private String id;
 
     @JsonIgnore
-    private String owner;
+    private UserDTO owner;
 
     @JsonProperty(value = "nome", required = true)
     @Schema(description = "Nome da área", example = "Educação",requiredMode = Schema.RequiredMode.REQUIRED)
@@ -25,25 +26,25 @@ public class AreaDTO extends RepresentationModel<AreaDTO> implements Serializabl
     private String name;
 
 
-    public AreaDTO(String key, String owner, String name) {
-        this.key = key;
+    public AreaDTO(String id, UserDTO owner, String name) {
+        this.id = id;
         this.owner = owner;
         this.name = name;
     }
 
-    public String getKey() {
-        return key;
+    public String getId() {
+        return id;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getOwner() {
+    public UserDTO getOwner() {
         return owner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(UserDTO owner) {
         this.owner = owner;
     }
 
@@ -54,4 +55,12 @@ public class AreaDTO extends RepresentationModel<AreaDTO> implements Serializabl
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Schema(hidden = true)
+    public Links getLinks() {
+        return super.getLinks();
+    }
+
 }
